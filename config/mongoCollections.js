@@ -20,6 +20,7 @@ NOTE: YOU WILL NEED TO CHANGE THE CODE BELOW TO HAVE THE COLLECTION(S) REQUIRED 
 module.exports = {
     messages: getCollectionFn('messages'),
     users: getCollectionFn('users'),
-    idk: getCollectionFn('idk')
+    users: getCollectionFn('users')
+
 
 };
