@@ -1,0 +1,19 @@
+{
+  "name": "datespot",
+  "version": "1.0.0",
+  "description": "CS 546 Final Project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbaldi13/CS546FinalProject.git"
+  },
+  "author": "Haydn Dotterer, John Baldi, Matthew Bayne, Michael Scoli",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jbaldi13/CS546FinalProject/issues"
+  },
+  "homepage": "https://github.com/jbaldi13/CS546FinalProject#readme"
+}
