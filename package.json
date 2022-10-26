@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/jbaldi13/CS546FinalProject/issues"
   },
-  "homepage": "https://github.com/jbaldi13/CS546FinalProject#readme"
+  "homepage": "https://github.com/jbaldi13/CS546FinalProject#readme",
+  "dependencies": {
+    "mongodb": "^4.11.0"
+  }
 }
