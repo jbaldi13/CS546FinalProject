@@ -4,16 +4,16 @@ const users = mongoCollections.users;
 const {checkId} = require("../helpers");
 
 const createUser = async (
-    password,
     firstName,
+    email,
+    password,
     location,
     dobDay,
     dobMonth,
     dobYear,
-    showGender,
     gender,
+    showGender,
     sexualOrientation,
-    email,
     proPic,
     otherPic1,
     otherPic2,
@@ -24,16 +24,16 @@ const createUser = async (
     eventSubcategories
 ) => {
     let newUser = {
-        password: password,
         firstName: firstName,
+        email: email,
+        password: password,
         location: location,
         dobDay: dobDay,
         dobMonth: dobMonth,
         dobYear: dobYear,
-        showGender: showGender,
         gender: gender,
+        showGender: showGender,
         sexualOrientation: sexualOrientation,
-        email: email,
         proPic: proPic,
         otherPic1: otherPic1,
         otherPic2: otherPic2,
@@ -87,16 +87,16 @@ const removeUser = async (userId) => {
 
 const updateUser = async (
     userId,
-    password,
     firstName,
+    email,
+    password,
     location,
     dobDay,
     dobMonth,
     dobYear,
-    showGender,
     gender,
+    showGender,
     sexualOrientation,
-    email,
     proPic,
     otherPic1,
     otherPic2,
@@ -110,16 +110,16 @@ const updateUser = async (
 
     const updatedUserData = {};
 
-    updatedUserData.password = password;
     updatedUserData.firstName = firstName;
+    updatedUserData.email = email;
+    updatedUserData.password = password;
     updatedUserData.location = location;
     updatedUserData.dobDay = dobDay;
     updatedUserData.dobMonth = dobMonth;
     updatedUserData.dobYear = dobYear;
-    updatedUserData.showGender = showGender;
     updatedUserData.gender = gender;
+    updatedUserData.showGender = showGender;
     updatedUserData.sexualOrientation = sexualOrientation;
-    updatedUserData.email = email;
     updatedUserData.proPic = proPic;
     updatedUserData.otherPic1 = otherPic1;
     updatedUserData.otherPic2 = otherPic2;
