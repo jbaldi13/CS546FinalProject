@@ -4,6 +4,7 @@
   "description": "CS 546 Final Project",
   "main": "index.js",
   "scripts": {
+    "seed": "node tasks/seed.js",
     "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
