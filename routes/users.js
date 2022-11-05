@@ -4,9 +4,15 @@ const data = require('../data');
 const usersData = data.users;
 const {createUser} = require("../data/users");
 const {checkId} = require("../helpers");
+const path = require("path");
+
+router.route("/").get(async (req, res) => {
+    //code here for GET
+    res.sendFile(path.resolve('static/homepage.html'));
+});
 
 router
-    .route('/')
+    .route('/users')
     .post(async (req, res) => {
         const userData = req.body;
         try {
@@ -64,7 +70,7 @@ router
 
     });
 router
-    .route('/:userId')
+    .route('/users/:userId')
     .get(async (req, res) => {
         try {
             req.params.userId = checkId(req.params.userId, "Id URL Param");
