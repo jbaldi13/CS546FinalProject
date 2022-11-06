@@ -61,3 +61,12 @@ nav {
             rgba(255, 221, 192, 0.3)
     ), url(https://cdn.portico.travel/i/v1.299235.png);
 }
+
+#homepage-description{
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 10%;
+    margin-left: 20%;
+    margin-right: 20%;
+}
