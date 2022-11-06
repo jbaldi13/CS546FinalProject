@@ -80,7 +80,7 @@ router
         }
         try {
             const user = await usersData.getUserById(req.params.userId);
-            res.json(user);
+            res.render('userFound', {title : "User Info", user : user});
         }
         catch (e) {
             return res.status(404).render('userNotFound', {title : "Not Found", error : e.toString()});
