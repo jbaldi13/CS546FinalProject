@@ -7,16 +7,16 @@ async function main() {
     await db.dropDatabase();
 
     const newUser1 = await users.createUser(
-        null,
         "Joe",
-        null,
+        "joeshmo@gmail.com",
+        "samplePassword",
+        "NYC",
         7,
         10,
         1997,
-        true,
         "male",
+        true,
         "heterosexual",
-        "joeshmo@gmail.com",
         "https://www.elitesingles.com/wp-content/uploads/sites/85/2020/06/2b_en_ta_teaser_sp1-350x264.png",
         null,
         null,
