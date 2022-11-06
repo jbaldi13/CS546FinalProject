@@ -55,7 +55,7 @@ router
             res.json(newUser);
         }
         catch (e) {
-            res.status(500).json({error: e.toString()});
+            res.status(500).render('error', {title : "Error", error : e.toString()});
         }
     })
     .get(async (req, res) => {
@@ -65,7 +65,7 @@ router
             res.json(userList);
         }
         catch (e) {
-            res.status(500).json({error: e.toString()});
+            res.status(500).render('error', {title : "Error", error : e.toString()});
         }
 
     });
@@ -91,21 +91,21 @@ router
             req.params.userId = checkId(req.params.userId, "Id URL Param");
         }
         catch (e) {
-            return res.status(400).json({error: e.toString()});
+            return res.status(400).render('error', {title : "Error", error : e.toString()});
         }
         try {
             const user = await usersData.getUserById(req.params.userId);
             res.json(user);
         }
         catch (e) {
-            return res.status(404).json({error: e.toString()});
+            return res.status(404).render('userNotFound', {title : "Not Found", error : e.toString()});
         }
         try {
             await usersData.removeUser(req.params.userId);
             res.status(200).json({"movieId": req.params.userId, "deleted": true});
         }
         catch (e) {
-            res.status(500).json(e);
+            res.status(500).render('error', {title : "Error", error : e.toString()});
         }
     })
     .put(async (req, res) => {
@@ -114,13 +114,13 @@ router
             req.params.userId = checkId(req.params.userId, "Id URL Param");
         }
         catch (e) {
-            return res.status(400).json({error: e.toString()});
+            return res.status(400).render('error', {title : "Error", error : e.toString()});
         }
         try {
             await usersData.getUserById(req.params.userId);
         }
         catch (e) {
-            return res.status(404).json({error: e.toString()});
+            return res.status(404).render('userNotFound', {title : "Not Found", error : e.toString()});
         }
         try {
             const updatedUser = await usersData.updateUser(
@@ -147,7 +147,7 @@ router
             res.json(updatedUser);
         }
         catch (e) {
-            res.status(500).json({error: e.toString()});
+            res.status(500).render('error', {title : "Error", error : e.toString()});
         }
     });
 
