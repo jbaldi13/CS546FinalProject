@@ -76,14 +76,14 @@ router
             req.params.userId = checkId(req.params.userId, "Id URL Param");
         }
         catch (e) {
-            return res.status(400).json({error: e.toString()});
+            return res.status(400).render('error', {title : "Error", error : e.toString()});
         }
         try {
             const user = await usersData.getUserById(req.params.userId);
             res.json(user);
         }
         catch (e) {
-            return res.status(404).json({error: e.toString()});
+            return res.status(404).render('userNotFound', {title : "Not Found", error : e.toString()});
         }
     })
     .delete(async (req, res) => {
