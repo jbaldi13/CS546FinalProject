@@ -10,7 +10,7 @@ html, body {
 h1 {
     color: white;
     margin-top: 0;
-    font-size: 50px;
+    font-size: 60px;
 }
 
 body {
@@ -31,14 +31,15 @@ nav {
     padding: 12px 30px;
     border-radius: 30px;
     /*border: none*/
-    background-color: #342822;
-    border-color: #e48083;
+    /*background-color: #342822;*/
+    border-color: white;
+    background: linear-gradient(to bottom, rgb(76, 0, 19), black);
 }
 
 
 .homepage-buttons:hover {
-    background: linear-gradient(to top, #fde014, #e48083);
-    color: #342822;
+    background: linear-gradient(to top, rgb(76, 0, 19), black);
+    color: white;
 }
 
 #login-button {
@@ -54,5 +55,9 @@ nav {
     width: 100vw;
     height: 100vh;
     position: fixed;
-    background: linear-gradient(to bottom, #342822 300px, #fde014 500px, #e48083 800px);
+    background-image: linear-gradient(
+            to bottom,
+            rgba(76, 0, 19, 0.8),
+            rgba(255, 221, 192, 0.3)
+    ), url(https://cdn.portico.travel/i/v1.299235.png);
 }
