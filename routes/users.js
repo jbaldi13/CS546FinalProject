@@ -14,19 +14,39 @@ router
     .route('/users')
     .post(async (req, res) => {
         const userData = req.body;
-        try {
-            helpers.checkFirstName(userData.firstName)
-            helpers.checkEmail(userData.email)
-            helpers.checkLocation(userData.location)
-            helpers.checkBDay(userData.dobDay)
-            helpers.checkBMon(userData.dobMonth)
-            helpers.checkBYear(userData.dobYear)
-            helpers.checkGender(userData.gender)
-            helpers.checkOrientation(userData.sexualOrientation)
+        let errors = []
+        
+        if(!userData.firstName){
+            errors.push('No first name provided.')
         }
-        catch(e){
-            return res.status(400).render('error', {title : "Error", error : e.toString()}); 
+        if(!userData.email){
+            errors.push('No email provided.')
         }
+        if(!userData.location){
+            errors.push('No location provided.')
+        }
+        if(!userData.dobDay){
+            errors.push('No day provided.')
+        }
+        if(!userData.dobMonth){
+            errors.push('No month provided.')
+        }
+        if(!userData.dobYear){
+            errors.push('No year provided.')
+        }
+        if(!userData.gender){
+            errors.push('No gender provided.')
+        }
+        if(!userData.sexualOrientation){
+            errors.push('No orientation provided.')
+        }
+        
+        if (errors.length > 0) {
+            res.render('onboarding', {errors: errors, hasErrors: true, userData : userData, title: "Create an Account"})
+            return;
+        }
+         
+    
         
         try{
             const {firstName,
