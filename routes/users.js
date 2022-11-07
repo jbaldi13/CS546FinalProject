@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const usersData = data.users;
-const {createUser} = require("../data/users");
-const {checkId} = require("../helpers");
+const helpers = require("../helpers");
 const path = require("path");
 
 router.route("/").get(async (req, res) => {
@@ -15,7 +14,41 @@ router
     .route('/users')
     .post(async (req, res) => {
         const userData = req.body;
-        try {
+        let errors = []
+        
+        if(!userData.firstName){
+            errors.push('No first name provided.')
+        }
+        if(!userData.email){
+            errors.push('No email provided.')
+        }
+        if(!userData.location){
+            errors.push('No location provided.')
+        }
+        if(!userData.dobDay){
+            errors.push('No day provided.')
+        }
+        if(!userData.dobMonth){
+            errors.push('No month provided.')
+        }
+        if(!userData.dobYear){
+            errors.push('No year provided.')
+        }
+        if(!userData.gender){
+            errors.push('No gender provided.')
+        }
+        if(!userData.sexualOrientation){
+            errors.push('No orientation provided.')
+        }
+        
+        if (errors.length > 0) {
+            res.render('onboarding', {errors: errors, hasErrors: true, userData : userData, title: "Create an Account"})
+            return;
+        }
+         
+    
+        
+        try{
             const {firstName,
                 email,
                 password,
@@ -34,7 +67,7 @@ router
                 matches,
                 placeSubcategories,
                 eventSubcategories} = userData;
-            const newUser = await createUser(firstName,
+            const newUser = await usersData.createUser(firstName,
                 email,
                 password,
                 location,
@@ -52,11 +85,18 @@ router
                 matches,
                 placeSubcategories,
                 eventSubcategories);
-            res.json(newUser);
+        }
+        catch (e) {
+            return res.status(500).render('error', {title : "Error", error : e.toString()});
+        }
+        try {
+            const userList = await usersData.getAllUsers();
+            res.render('allUsers', {title : "All Users", users : userList});
         }
         catch (e) {
             res.status(500).render('error', {title : "Error", error : e.toString()});
         }
+
     })
     .get(async (req, res) => {
         try {
@@ -73,7 +113,7 @@ router
     .route('/users/:userId')
     .get(async (req, res) => {
         try {
-            req.params.userId = checkId(req.params.userId, "Id URL Param");
+            req.params.userId = helpers.checkId(req.params.userId, "Id URL Param");
         }
         catch (e) {
             return res.status(400).render('error', {title : "Error", error : e.toString()});
@@ -88,7 +128,7 @@ router
     })
     .delete(async (req, res) => {
         try {
-            req.params.userId = checkId(req.params.userId, "Id URL Param");
+            req.params.userId = helpers.checkId(req.params.userId, "Id URL Param");
         }
         catch (e) {
             return res.status(400).render('error', {title : "Error", error : e.toString()});
@@ -111,7 +151,7 @@ router
     .put(async (req, res) => {
         const updatedUserData = req.body;
         try {
-            req.params.userId = checkId(req.params.userId, "Id URL Param");
+            req.params.userId = helpers.checkId(req.params.userId, "Id URL Param");
         }
         catch (e) {
             return res.status(400).render('error', {title : "Error", error : e.toString()});
@@ -150,7 +190,18 @@ router
             res.status(500).render('error', {title : "Error", error : e.toString()});
         }
     });
-
+    
+router
+    .route('/onboarding')
+    .get(async (req, res) => {
+        try {
+            res.render('onboarding', {title : "Create an Account"});
+        }
+        catch(e){
+            res.status(500).render('error', {title : "Error", error : e.toString()});
+        }
+    });
+    
 
 
 module.exports = router;
