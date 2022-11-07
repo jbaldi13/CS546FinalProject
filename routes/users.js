@@ -62,7 +62,7 @@ router
         try {
             const userList = await usersData.getAllUsers();
 
-            res.json(userList);
+            res.render('allUsers', {title : "All Users", users : userList});
         }
         catch (e) {
             res.status(500).render('error', {title : "Error", error : e.toString()});
