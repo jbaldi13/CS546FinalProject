@@ -1,0 +1,54 @@
+    <article>
+        <h1 id="onBH1">Create an Account</h1>
+        <form action="/users" method="POST">
+          <label>
+            First Name
+            <input type="text" name="firstName" placeholder="First Name" value="{{userData.firstName}}"/>
+          </label>
+
+          <label>
+            Email
+            <input type="email" name="email" placeholder="Email" value="{{userData.email}}"/>
+          </label>
+
+          <label>
+            Location
+            <input type="text" name="location" placeholder="City" value="{{userData.location}}"/>
+          </label>
+
+          <label>
+            Birthday
+            <input type="text" name="dobDay" placeholder="Day" value="{{userData.dobDay}}"/>
+            <input type="text" name="dobMonth" placeholder="Month" value="{{userData.dobMonth}}"/>
+            <input type="text" name="dobYear" placeholder="Year" value="{{userData.dobYear}}"/>
+          </label>
+
+          <label>
+            Gender
+            <input type="text" name="gender" placeholder="Gender" value="{{userData.gender}}"/>
+          </label>
+
+          <label>
+            Show Gender on Profile
+            <input type="radio" name="showGender" value="Yes" /> Yes
+          </label>
+          <label>
+            <input type="radio" name="showGender" value="No" /> No
+          </label>
+
+          <label>
+            Sexual Orientation
+            <input type="text" name="sexualOrientation" placeholder="Sexual Orientation" value="{{userData.sexualOrientation}}"/>
+          </label>
+           
+          <label for="about">
+            About You
+          </label>
+          <textarea id="about" name="about" rows="4" placeholder="Tell us about yourself">{{post.about}}</textarea>
+      
+          
+          <button type="submit">Create New Account</button>
+          <button type="reset">Clear Fields</button>
+        </form>
+
+      </article>

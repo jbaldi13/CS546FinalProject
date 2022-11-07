@@ -2,8 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const usersData = data.users;
-const {createUser} = require("../data/users");
-const {checkId} = require("../helpers");
+const helpers = require("../helpers");
 const path = require("path");
 
 router.route("/").get(async (req, res) => {
@@ -16,6 +15,20 @@ router
     .post(async (req, res) => {
         const userData = req.body;
         try {
+            helpers.checkFirstName(userData.firstName)
+            helpers.checkEmail(userData.email)
+            helpers.checkLocation(userData.location)
+            helpers.checkBDay(userData.dobDay)
+            helpers.checkBMon(userData.dobMonth)
+            helpers.checkBYear(userData.dobYear)
+            helpers.checkGender(userData.gender)
+            helpers.checkOrientation(userData.sexualOrientation)
+        }
+        catch(e){
+            return res.status(400).render('error', {title : "Error", error : e.toString()}); 
+        }
+        
+        try{
             const {firstName,
                 email,
                 password,
@@ -34,7 +47,7 @@ router
                 matches,
                 placeSubcategories,
                 eventSubcategories} = userData;
-            const newUser = await createUser(firstName,
+            const newUser = await usersData.createUser(firstName,
                 email,
                 password,
                 location,
@@ -52,11 +65,18 @@ router
                 matches,
                 placeSubcategories,
                 eventSubcategories);
-            res.json(newUser);
+        }
+        catch (e) {
+            return res.status(500).render('error', {title : "Error", error : e.toString()});
+        }
+        try {
+            const userList = await usersData.getAllUsers();
+            res.render('allUsers', {title : "All Users", users : userList});
         }
         catch (e) {
             res.status(500).render('error', {title : "Error", error : e.toString()});
         }
+
     })
     .get(async (req, res) => {
         try {
@@ -73,7 +93,7 @@ router
     .route('/users/:userId')
     .get(async (req, res) => {
         try {
-            req.params.userId = checkId(req.params.userId, "Id URL Param");
+            req.params.userId = helpers.checkId(req.params.userId, "Id URL Param");
         }
         catch (e) {
             return res.status(400).render('error', {title : "Error", error : e.toString()});
@@ -88,7 +108,7 @@ router
     })
     .delete(async (req, res) => {
         try {
-            req.params.userId = checkId(req.params.userId, "Id URL Param");
+            req.params.userId = helpers.checkId(req.params.userId, "Id URL Param");
         }
         catch (e) {
             return res.status(400).render('error', {title : "Error", error : e.toString()});
@@ -111,7 +131,7 @@ router
     .put(async (req, res) => {
         const updatedUserData = req.body;
         try {
-            req.params.userId = checkId(req.params.userId, "Id URL Param");
+            req.params.userId = helpers.checkId(req.params.userId, "Id URL Param");
         }
         catch (e) {
             return res.status(400).render('error', {title : "Error", error : e.toString()});
@@ -150,7 +170,18 @@ router
             res.status(500).render('error', {title : "Error", error : e.toString()});
         }
     });
-
+    
+router
+    .route('/onboarding')
+    .get(async (req, res) => {
+        try {
+            res.render('onboarding', {title : "Create an Account"});
+        }
+        catch(e){
+            res.status(500).render('error', {title : "Error", error : e.toString()});
+        }
+    });
+    
 
 
 module.exports = router;
