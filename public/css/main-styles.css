@@ -13,6 +13,63 @@ h1 {
     font-size: 60px;
 }
 
+.neon {
+    color: #fff;
+    text-shadow:
+            0 0 7px #fff,
+            0 0 10px #fff,
+            0 0 21px #fff,
+            0 0 42px #f09,
+            0 0 82px #f09,
+            0 0 92px #f09,
+            0 0 102px #f09,
+            0 0 151px #f09;
+    animation: pulsate 0.11s ease-in-out infinite alternate;
+}
+
+label {
+    color: #fff;
+    text-shadow:
+            0 0 7px #fff,
+            0 0 10px #fff,
+            0 0 21px #fff,
+            0 0 42px #f09,
+            0 0 82px #f09,
+            0 0 92px #f09,
+            0 0 102px #f09,
+            0 0 151px #f09;
+    animation: pulsate 0.11s ease-in-out infinite alternate;
+}
+
+@keyframes pulsate {
+
+    100% {
+
+        text-shadow: 0 0 4px #fff,
+        0 0 11px #fff,
+        0 0 19px #fff,
+        0 0 40px #f09,
+        0 0 80px #f09,
+        0 0 90px #f09,
+        0 0 100px #f09,
+        0 0 150px #f09;
+
+    }
+
+    0% {
+
+        text-shadow: 0 0 4px #fff,
+        0 0 10px #fff,
+        0 0 18px #fff,
+        0 0 38px #f09,
+        0 0 73px #f09,
+        0 0 80px #f09,
+        0 0 94px #f09,
+        0 0 140px #f09;
+
+    }
+}
+
 body {
     text-align: center;
 }
@@ -69,6 +126,3 @@ nav {
     margin-right: 20%;
 }
 
-#onBH1{
-    color:black;
-}
