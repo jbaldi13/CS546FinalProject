@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Exo+2:200i);
+
 html, body {
     margin: 0;
     padding: 0;
@@ -114,5 +116,6 @@ nav {
     margin-top: 10%;
     margin-left: 20%;
     margin-right: 20%;
+    font-family: "Exo 2", serif;
 }
 
