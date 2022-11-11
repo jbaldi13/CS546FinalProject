@@ -1,0 +1,64 @@
+<div class="onboarding">
+    <h2 class="neon">CREATE ACCOUNT</h2>
+    <form action="/users/onboarding" method="POST">
+        <section>
+            <label for="firstName">
+                First Name
+                <input id="firstName" type="text" name="firstName" placeholder="First Name"
+                       value="{{userData.firstName}}" required/>
+            </label>
+
+            <label for="bDay">
+                Birthday (mm/dd/yyyy)
+                <input id="bDay" type="text" name="bDay" placeholder="mm/dd/yyyy" value="{{userData.dobDay}}" required/>
+            </label>
+
+            <label>Gender</label>
+            <div class="multipleInputContainer">
+                <input id="genderMan" type="radio" name="gender" value="man"/>
+                <label for="genderMan">Man</label>
+                <input id="genderWoman" type="radio" name="gender" value="woman"/>
+                <label for="genderWoman">Woman</label>
+                <input id="genderOther" type="radio" name="gender" value="other"/>
+                <label for="genderOther">Other</label>
+            </div>
+
+            <label for="showGender">Show gender on my profile</label>
+            <input id="showGender" type="checkbox" name="showGender">
+
+            <label>Sexual Orientation</label>
+            <div class="multipleInputContainer">
+                <input id="heteroSexual" type="radio" name="sexualOrientation" value="Heterosexual"/>
+                <label for="heteroSexual">Heterosexual</label>
+                <input id="homSexual" type="radio" name="sexualOrientation" value="Homosexual"/>
+                <label for="homoSexual">Homosexual</label>
+                <input id="biSexual" type="radio" name="sexualOrientation" value="Bisexual"/>
+                <label for="biSexual">Bisexual</label>
+            </div>
+
+            <label for="location">
+                Location
+                <input id="location" type="text" name="location" placeholder="City" value="{{userData.location}}"
+                       required/>
+            </label>
+
+            <label for="about">
+                About me
+                <input id="about" type="text" name="about" placeholder="I am family-oriented..." required value="">
+            </label>
+            <input type="submit">
+        </section>
+        <section>
+            <label for="photo">Profile Picture</label>
+            <input type="url" name="url" id="url" required>
+            <div class="photoContainer">
+
+            </div>
+
+        </section>
+
+        <!--          <button type="submit">Create New Account</button>-->
+        <!--          <button type="reset">Clear Fields</button>-->
+    </form>
+</div>
+
