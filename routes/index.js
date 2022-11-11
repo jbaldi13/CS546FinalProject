@@ -1,11 +1,16 @@
-const usersRoutes = require("./users");
+const userRoutes = require("./users");
+const path = require("path");
 
 const constructorMethod = (app) => {
-    //app.use('/users', usersRoutes);
-    app.use('/', usersRoutes);
+    // Get homepage
+    app.get('/', (req, res) => {
+        res.sendFile(path.resolve('static/homepage.html'));
+    });
+
+    app.use('/users', userRoutes);
 
     app.use('*', (req, res) => {
-        res.status(404).render('pageNotFound', {title : "Not Found", error : "Page Not Found"});
+        res.status(404).render('errors/pageNotFound', {title : "Not Found", error : "Page Not Found"});
     });
 };
 

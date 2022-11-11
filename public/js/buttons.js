@@ -1,3 +1,3 @@
 function goToOnboarding(){
-    window.location.href = "../onboarding";
+    window.location.href = "/users/onboarding";
 }

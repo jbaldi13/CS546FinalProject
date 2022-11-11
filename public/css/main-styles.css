@@ -29,9 +29,6 @@ h1 {
     animation: pulsate 0.11s ease-in-out infinite alternate;
 }
 
-label {
-    color: white;
-}
 
 @keyframes pulsate {
 
@@ -105,7 +102,7 @@ nav {
     background-image: linear-gradient(
             to bottom,
             rgba(76, 0, 19, 0.8),
-            rgba(255, 221, 192, 0.3)
+            rgba(0, 0, 0, 0.6)
     ), url(https://cdn.portico.travel/i/v1.299235.png);
 }
 
@@ -118,4 +115,64 @@ nav {
     margin-right: 20%;
     font-family: "Exo 2", serif;
 }
+
+/* Onboarding Page */
+
+
+.onboarding form {
+    display: flex;
+    justify-content: center;
+}
+
+
+.onboarding form section {
+    display: flex;
+    flex-direction: column;
+    vertical-align: middle;
+    padding: 20px;
+    width: 35%;
+}
+
+.onboarding label {
+    color: white;
+    display: block;
+    text-align: -webkit-center;
+    margin-top: 15px;
+    font-size: larger;
+
+}
+
+.onboarding form input {
+    border: solid 1px black;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin: 10px 0;
+    font-size: 15px;
+    display: block;
+    /*width: max-content;*/
+
+}
+
+
+.onboarding form .multipleInputContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.onboarding form .multipleInputContainer input {
+    margin-right: 10px;
+}
+
+.onboarding form .multipleInputContainer label {
+    /*padding: 10px;*/
+    border-radius: 10px;
+    transition: all 0.3s;
+    margin-right: 5px;
+    font-size: initial;
+}
+
+
+
+
 
