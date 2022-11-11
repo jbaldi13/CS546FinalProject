@@ -1,7 +1,7 @@
 const mongoCollections = require('../config/mongoCollections');
 const {ObjectId} = require("mongodb");
 const users = mongoCollections.users;
-const {checkId} = require("../helpers");
+const helpers = require("../helpers");
 
 const createUser = async (
     firstName,
@@ -23,6 +23,16 @@ const createUser = async (
     placeSubcategories,
     eventSubcategories
 ) => {
+    //input error checking (NOT COMPLETE)
+    helpers.checkFirstName(firstName);
+    helpers.checkEmail(email);
+    helpers.checkLocation(location);
+    helpers.checkBDay(dobDay);
+    helpers.checkBMon(dobMonth);
+    helpers.checkBYear(dobYear);
+    helpers.checkGender(gender);
+    helpers.checkOrientation(sexualOrientation);
+
     let newUser = {
         firstName: firstName,
         email: email,
@@ -54,7 +64,7 @@ const createUser = async (
 };
 
 const getUserById = async (userId) => {
-    userId = checkId(userId, "userId");
+    userId = helpers.checkId(userId, "userId");
     const userCollection = await users();
     const user = await userCollection.findOne({_id: ObjectId(userId)});
     if (user === null) throw "Error: No user with that id";
@@ -75,7 +85,7 @@ const getAllUsers = async () => {
 };
 
 const removeUser = async (userId) => {
-    userId = checkId(userId, "userId");
+    userId = helpers.checkId(userId, "userId");
     const userCollection = await users();
     const deletionInfo = await userCollection.deleteOne({_id: ObjectId(userId)});
     if (deletionInfo.deletedCount === 0) {
@@ -106,7 +116,7 @@ const updateUser = async (
     placeSubcategories,
     eventSubcategories
 ) => {
-    userId = checkId(userId, "userId");
+    userId = helpers.checkId(userId, "userId");
 
     const updatedUserData = {};
 
