@@ -1,6 +1,6 @@
 <div class="onboarding">
     <h2 class="neon">CREATE ACCOUNT</h2>
-    <form action="/users/onboarding" method="POST">
+    <form id="onboardingForm"  method="post">
         <section>
             <label for="firstName">
                 First Name
@@ -23,10 +23,10 @@
                 <label for="genderOther">Other</label>
             </div>
 
-            <label for="showGender">Show gender on my profile</label>
+            <label for="showGender" id="showGenderLabel">Show gender on my profile</label>
             <input id="showGender" type="checkbox" name="showGender">
 
-            <label>Sexual Orientation</label>
+            <label id="sexualOrientationLabel">Sexual Orientation</label>
             <div class="multipleInputContainer">
                 <input id="heteroSexual" type="radio" name="sexualOrientation" value="Heterosexual"/>
                 <label for="heteroSexual">Heterosexual</label>
@@ -46,7 +46,13 @@
                 About me
                 <input id="about" type="text" name="about" placeholder="I am family-oriented..." required value="">
             </label>
-            <input type="submit">
+            <div class="form-group hidden" id="error-container">
+                <div class="alert alert-danger text-goes-here">
+                </div>
+            </div>
+            <div>
+                <button id="onboardingButton" type="submit" class="homepage-buttons">Submit</button>
+            </div>
         </section>
         <section>
             <label for="photo">Profile Picture</label>
@@ -54,11 +60,9 @@
             <div class="photoContainer">
 
             </div>
-
         </section>
-
-        <!--          <button type="submit">Create New Account</button>-->
         <!--          <button type="reset">Clear Fields</button>-->
     </form>
 </div>
+
 
