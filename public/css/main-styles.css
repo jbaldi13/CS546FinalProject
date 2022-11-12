@@ -130,15 +130,18 @@ nav {
     flex-direction: column;
     vertical-align: middle;
     padding: 20px;
-    width: 35%;
+    margin: 20px;
+    width: 40%;
 }
 
 .onboarding label {
     color: white;
     display: block;
     text-align: -webkit-center;
-    margin-top: 15px;
-    font-size: larger;
+    margin-top: 5px;
+    margin-bottom: 0;
+    font-size: 20px;
+    /*width: max-content;*/
 
 }
 
@@ -149,28 +152,51 @@ nav {
     margin: 10px 0;
     font-size: 15px;
     display: block;
-    /*width: max-content;*/
+    width: 100%;
+    color: black;
 
 }
-
 
 .onboarding form .multipleInputContainer {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin-bottom: inherit;
 }
 
 .onboarding form .multipleInputContainer input {
-    margin-right: 10px;
+    margin-right: 0;
 }
 
 .onboarding form .multipleInputContainer label {
-    /*padding: 10px;*/
+    padding: 5px;
     border-radius: 10px;
-    transition: all 0.3s;
-    margin-right: 5px;
-    font-size: initial;
+    margin-right: 10px;
+    font-size: 14px;
 }
+
+#showGenderLabel{
+    margin-top: inherit;
+}
+
+#sexualOrientationLabel {
+    margin-top: inherit;
+}
+
+#onboardingButton {
+    margin-top: 10px;
+}
+
+
+/*#showGender {*/
+/*    !*margin-top: 0;*!*/
+/*    margin-bottom: 0;*/
+/*}*/
+
+
+
+
+
 
 
 
