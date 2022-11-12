@@ -118,6 +118,10 @@ nav {
 
 /* Onboarding Page */
 
+h2 {
+    color: white;
+}
+
 
 .onboarding form {
     display: flex;
@@ -134,7 +138,7 @@ nav {
     width: 40%;
 }
 
-.onboarding label {
+.onboarding label, legend {
     color: white;
     display: block;
     text-align: -webkit-center;
@@ -184,14 +188,33 @@ nav {
 }
 
 #onboardingButton {
+    margin-top: 15px;
+}
+
+#genderLabel {
+    margin-top: 7px;
+}
+
+#showGenderLabel {
+    margin-top: 4px;
+}
+
+
+#showGender {
+    /*margin-top: 0;*/
+    margin-bottom: 0;
+}
+
+#category1 {
+    outline: none;
+    border: none;
+}
+
+.multi-select-container {
     margin-top: 10px;
 }
 
 
-/*#showGender {*/
-/*    !*margin-top: 0;*!*/
-/*    margin-bottom: 0;*/
-/*}*/
 
 
 

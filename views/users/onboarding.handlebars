@@ -1,5 +1,5 @@
-<div class="onboarding">
-    <h2 class="neon">CREATE ACCOUNT</h2>
+<<div class="onboarding">>
+    <h2>CREATE ACCOUNT</h2>
     <form id="onboardingForm"  method="post">
         <section>
             <label for="firstName">
@@ -13,7 +13,7 @@
                 <input id="bDay" type="text" name="bDay" placeholder="mm/dd/yyyy" value="{{userData.dobDay}}" required/>
             </label>
 
-            <label>Gender</label>
+            <label id="genderLabel">Gender</label>
             <div class="multipleInputContainer">
                 <input id="genderMan" type="radio" name="gender" value="man"/>
                 <label for="genderMan">Man</label>
@@ -26,14 +26,14 @@
             <label for="showGender" id="showGenderLabel">Show gender on my profile</label>
             <input id="showGender" type="checkbox" name="showGender">
 
-            <label id="sexualOrientationLabel">Sexual Orientation</label>
+            <label id="sexualOrientationLabel">Who are you interested in?</label>
             <div class="multipleInputContainer">
-                <input id="heteroSexual" type="radio" name="sexualOrientation" value="Heterosexual"/>
-                <label for="heteroSexual">Heterosexual</label>
-                <input id="homSexual" type="radio" name="sexualOrientation" value="Homosexual"/>
-                <label for="homoSexual">Homosexual</label>
-                <input id="biSexual" type="radio" name="sexualOrientation" value="Bisexual"/>
-                <label for="biSexual">Bisexual</label>
+                <input id="likeMen" type="radio" name="sexualOrientation" value="Men"/>
+                <label for="likeMen">Men</label>
+                <input id="likeWomen" type="radio" name="sexualOrientation" value="Women"/>
+                <label for="likeWomen">Women</label>
+                <input id="likeEveryone" type="radio" name="sexualOrientation" value="Everyone"/>
+                <label for="likeEveryone">Everyone</label>
             </div>
 
             <label for="location">
@@ -51,18 +51,106 @@
                 </div>
             </div>
             <div>
-                <button id="onboardingButton" type="submit" class="homepage-buttons">Submit</button>
+                <button id="onboardingButton" type="submit" class="homepage-buttons" onsubmit="errorCheckForm();">Submit</button>
             </div>
         </section>
         <section>
-            <label for="photo">Profile Picture</label>
+            <label for="url">Profile Picture</label>
             <input type="url" name="url" id="url" required>
             <div class="photoContainer">
-
+            </div>
+            <div class="multi-select-container">
+                <fieldset>
+                    <legend>Interests<br>(Select up to 10 total)</legend>
+                <select class="form-control" id="activeLife" name="activeLife" multiple>
+                    <option disabled selected>Active Life</option>
+                    <option value="amusementparks">Amusement Parks</option>
+                    <option value="aquariums">Aquariums</option>
+                    <option value="beaches">Beaches</option>
+                    <option value="bowling">Bowling</option>
+                    <option value="escapegames">Escape Games</option>
+                    <option value="gokarts">Go Karts</option>
+                    <option value="hiking">Hiking</option>
+                    <option value="horsebackriding">Horseback Riding</option>
+                    <option value="lakes">Lakes</option>
+                    <option value="lasertag">Laser Tag</option>
+                    <option value="rock_climbing">Rock Climbing</option>
+                    <option value="skatingrinks">Skating Rinks</option>
+                    <option value="tennis">Tennis</option>
+                    <option value="trampoline">Trampoline Parks</option>
+                    <option value="waterparks">Water Parks</option>
+                    <option value="zoos">Zoos</option>
+                </select>
+                <select multiple class="form-control" id="arts" name="arts">
+                    <option disabled selected>Arts & Entertainment</option>
+                    <option value="arcades">Arcades</option>
+                    <option value="galleries">Art Galleries</option>
+                    <option value="gardens">Botanical Gardens</option>
+                    <option value="movietheaters">Cinema</option>
+                    <option value="festivals">Festivals</option>
+                    <option value="hauntedhouses">Haunted Houses</option>
+                    <option value="museums">Museums</option>
+                    <option value="musicvenues">Music Venues</option>
+                    <option value="paintandsip">Paint & Sip</option>
+                    <option value="theater">Performing Arts</option>
+                    <option value="sportsteams">Professional Sports</option>
+                    <option value="psychic_astrology">Supernatural Readings</option>
+                    <option value="virtualrealitycenters">Virtual Reality Centers</option>
+                </select>
+                <select multiple class="form-control" id="food" name="food">
+                    <option disabled selected>Food</option>
+                    <option value="acaibowls">Acai Bowls</option>
+                    <option value="bagels">Bagels</option>
+                    <option value="bubbletea">Bubble Tea</option>
+                    <option value="coffee">Coffee & Tea</option>
+                    <option value="farmersmarket">Farmers Market</option>
+                    <option value="foodtrucks">Food Trucks</option>
+                    <option value="icecream">Ice Cream & Frozen Yogurt</option>
+                    <option value="juicebars">Juice Bars & Smoothies</option>
+                    <option value="shavedice">Shaved Ice</option>
+                </select>
+                <select multiple class="form-control" id="restaurants" name="restaurants">
+                    <option disabled selected>Restaurants</option>
+                    <option value="tradamerican">American</option>
+                    <option value="asianfusion">Asian Fusion</option>
+                    <option value="bbq">Barbeque</option>
+                    <option value="brazilian">Brazilian</option>
+                    <option value="breakfast_brunch">Breakfast & Brunch</option>
+                    <option value="burgers">Burgers</option>
+                    <option value="fondue">Fondue</option>
+                    <option value="french">French</option>
+                    <option value="greek">Greek</option>
+                    <option value="indpak">Indian</option>
+                    <option value="italian">Italian</option>
+                    <option value="japanese">Japanese</option>
+                    <option value="korean">Korean</option>
+                    <option value="mexican">Mexican</option>
+                    <option value="pizza">Pizza</option>
+                    <option value="sandwiches">Sandwiches</option>
+                    <option value="seafood">Seafood</option>
+                    <option value="sushi">Sushi</option>
+                    <option value="tapasmallplates">Tapas/Small Plates</option>
+                </select>
+                <select multiple class="form-control" id="nightlife" name="nightlife">
+                    <option disabled selected>Nightlife</option>
+                    <option value="bars">Bars</option>
+                    <option value="beergardens">Beer Gardens</option>
+                    <option value="comedyclubs">Comedy Clubs</option>
+                    <option value="danceclubs">Dance Clubs</option>
+                    <option value="jazzandblues">Jazz & Blues</option>
+                    <option value="karaoke">Karaoke</option>
+                    <option value="musicvenues">Music Venues</option>
+                    <option value="pianobars">Piano Bars</option>
+                    <option value="poolhalls">Pool Halls</option>
+                </select>
+                </fieldset>
             </div>
         </section>
-        <!--          <button type="reset">Clear Fields</button>-->
+
     </form>
+    <script src="/public/js/onboarding.js"></script>
 </div>
+
+
 
 
