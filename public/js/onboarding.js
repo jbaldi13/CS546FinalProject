@@ -2,8 +2,20 @@ const {checkFirstName} = require("../../helpers");
 
 
 
-function formErrorCheck() {
-    const staticForm = document.getElementById('onboardingForm');
+let expanded = false;
+function showCheckboxes() {
+    let checkboxes = document.getElementById("checkboxes");
+    if (!expanded) {
+        checkboxes.style.display = "block";
+        checkboxes.style.display = "none";
+        expanded = false;
+    }
+}
+
+function errorCheckForm() {
+    let staticForm = document.getElementById('onboardingForm');
+
+
 
     if (staticForm) {
         let firstName = document.getElementById('firstName').value;
@@ -16,8 +28,8 @@ function formErrorCheck() {
 
         staticForm.addEventListener('submit', (event) => {
             event.preventDefault();
-
             try {
+
                 // hide error container
                 errorContainer.classList.add('hidden');
 
@@ -25,6 +37,7 @@ function formErrorCheck() {
                 let li = document.createElement('li');
                 li.innerHTML = firstName;
                 staticForm.appendChild(li);
+                staticForm.reset();
             }
             catch (e) {
                 const message = typeof e === 'string' ? e : e.message;
@@ -33,9 +46,8 @@ function formErrorCheck() {
                 staticForm.reset();
             }
         });
-
     }
 }
 
-formErrorCheck();
+
 
