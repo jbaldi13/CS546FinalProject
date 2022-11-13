@@ -1,0 +1,22 @@
+<div class="onboarding">
+    <h2 class="neon">CREATE ACCOUNT</h2>
+    <form id="signupForm" action="/users/onboarding" method="post">
+        <section>
+            <label for="email">
+                Email
+                <input id="email" type="email" name="userEmail" placeholder="Email" value="" required/>
+            </label>
+
+            <label for="password">
+                Password
+                <input id="password" type="password" name="userPassword" placeholder="Password" value="{{userPassword}}" required/>
+            </label>
+
+            <label for="confirmPassword">
+                Password
+                <input id="confirmPassword" type="password" name="conUserPassword" placeholder="Confirm Password" value="{{conUserPassword}}" required/>
+            </label>
+        </section>
+        <button id="signupButton" type="submit" class="homepage-buttons">Submit</button>
+    </form>
+</div>

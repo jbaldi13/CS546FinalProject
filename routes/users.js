@@ -10,10 +10,16 @@ const helpers = require("../helpers");
 //   // TODO...
 // });
 //
-// // Get signup page
-// router.get('/signup', async (req, res) => {
-//     // TODO...
-// });
+// Get signup page
+router.get('/signup', async (req, res) => {
+    try {
+        res.render('users/signup', {title : "Create an Account"});
+
+    }
+    catch(e){
+        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+    }
+});
 
 // get onboarding page
 router.get('/onboarding', async (req, res) => {
