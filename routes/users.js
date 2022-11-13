@@ -35,7 +35,11 @@ router.get('/onboarding', async (req, res) => {
 
 router.put('/onboarding', async (req, res) => {
     try {
+       
+        //need to get user ID from recently created user that has only email and password
+        //update that user with the information provided on onboarding page
 
+        /*console.log("here")
         let firstName = req.body.firstName;
         let birthday = req.body.bDay;
         let gender = req.body.gender;
@@ -48,7 +52,7 @@ router.put('/onboarding', async (req, res) => {
         const updatedUser = await userData.updateUser(firstName)
 
 
-        res.json(updatedUser);
+        res.json(updatedUser);*/
 
     }
     catch(e){
@@ -58,7 +62,7 @@ router.put('/onboarding', async (req, res) => {
 
 router.post('/onboarding', async (req, res) => {
     try {
-
+        //need to check if email already exists and redirect to log in page
         let firstName = null
         let email = req.body.userEmail;
         let password = req.body.userPassword;
