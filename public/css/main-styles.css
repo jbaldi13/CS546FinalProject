@@ -193,7 +193,7 @@ h2 {
     margin-top: inherit;
 }
 
-#sexualOrientationLabel {
+#genderInterestLabel {
     margin-top: inherit;
 }
 
@@ -214,6 +214,8 @@ h2 {
     /*margin-top: 0;*/
     margin-bottom: 0;
 }
+
+
 
 #category1 {
     outline: none;
