@@ -1,11 +1,10 @@
-<<div class="onboarding">>
+<div class="onboarding">
     <h2>CREATE ACCOUNT</h2>
     <form id="onboardingForm"  method="post">
         <section>
             <label for="firstName">
                 First Name
-                <input id="firstName" type="text" name="firstName" placeholder="First Name"
-                       value="{{userData.firstName}}" required/>
+                <input id="firstName" type="text" name="firstName" placeholder="First Name" required/>
             </label>
 
             <label for="bDay">
@@ -51,7 +50,7 @@
                 </div>
             </div>
             <div>
-                <button id="onboardingButton" type="submit" class="homepage-buttons" onsubmit="errorCheckForm();">Submit</button>
+                <button id="onboardingButton" type="submit" class="homepage-buttons">Submit</button>
             </div>
         </section>
         <section>
@@ -148,7 +147,11 @@
         </section>
 
     </form>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
     <script src="/public/js/onboarding.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
 </div>
 
 
