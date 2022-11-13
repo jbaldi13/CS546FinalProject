@@ -1,22 +1,22 @@
 <div class="onboarding">
     <h2>CREATE ACCOUNT</h2>
-    <form id="onboardingForm"  method="post">
+    <form id="onboardingForm" action="/users/onboarding" method="post">
         <section>
             <label for="firstName">
                 First Name
-                <input id="firstName" type="text" name="firstName" placeholder="First Name" required/>
+                <input id="firstName" type="text" name="firstName" placeholder="First Name" value="" required/>
             </label>
 
             <label for="bDay">
                 Birthday (mm/dd/yyyy)
-                <input id="bDay" type="text" name="bDay" placeholder="mm/dd/yyyy" value="{{userData.dobDay}}" required/>
+                <input id="bDay" type="text" name="bDay" placeholder="mm/dd/yyyy" value="{{bDay}}" required/>
             </label>
 
             <label id="genderLabel">Gender</label>
             <div class="multipleInputContainer">
                 <input id="genderMan" type="radio" name="gender" value="man"/>
                 <label for="genderMan">Man</label>
-                <input id="genderWoman" type="radio" name="gender" value="woman"/>
+                <input id="genderWoman" type="radio" name="gender" value="woman" required/>
                 <label for="genderWoman">Woman</label>
                 <input id="genderOther" type="radio" name="gender" value="other"/>
                 <label for="genderOther">Other</label>
@@ -29,7 +29,7 @@
             <div class="multipleInputContainer">
                 <input id="likeMen" type="radio" name="sexualOrientation" value="Men"/>
                 <label for="likeMen">Men</label>
-                <input id="likeWomen" type="radio" name="sexualOrientation" value="Women"/>
+                <input id="likeWomen" type="radio" name="sexualOrientation" value="Women" required/>
                 <label for="likeWomen">Women</label>
                 <input id="likeEveryone" type="radio" name="sexualOrientation" value="Everyone"/>
                 <label for="likeEveryone">Everyone</label>
@@ -37,13 +37,13 @@
 
             <label for="location">
                 Location
-                <input id="location" type="text" name="location" placeholder="City" value="{{userData.location}}"
+                <input id="location" type="text" name="location" placeholder="City"
                        required/>
             </label>
 
             <label for="about">
                 About me
-                <input id="about" type="text" name="about" placeholder="I am family-oriented..." required value="">
+                <input id="about" type="text" name="about" placeholder="I am family-oriented...">
             </label>
             <div class="form-group hidden" id="error-container">
                 <div class="alert alert-danger text-goes-here">
@@ -55,7 +55,7 @@
         </section>
         <section>
             <label for="url">Profile Picture</label>
-            <input type="url" name="url" id="url" required>
+            <input type="url" name="proPic" id="proPic" required>
             <div class="photoContainer">
             </div>
             <div class="multi-select-container">

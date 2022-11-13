@@ -188,7 +188,7 @@ h2 {
 }
 
 #onboardingButton {
-    margin-top: 15px;
+    margin-top: 12px;
 }
 
 #genderLabel {
@@ -212,6 +212,10 @@ h2 {
 
 .multi-select-container {
     margin-top: 10px;
+}
+
+.alert {
+    margin-bottom: 0;
 }
 
 
