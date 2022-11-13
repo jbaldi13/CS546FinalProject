@@ -61,86 +61,92 @@
             <div class="multi-select-container">
                 <label for="interests">Interests<br>(Select up to 10 total)</label>
                 <select id="interests" name="interests" multiple size="25" required>
-                    <option disabled selected>Active Life</option>
-                    <option value="amusementparks">Amusement Parks</option>
-                    <option value="aquariums">Aquariums</option>
-                    <option value="beaches">Beaches</option>
-                    <option value="bowling">Bowling</option>
-                    <option value="escapegames">Escape Games</option>
-                    <option value="gokarts">Go Karts</option>
-                    <option value="hiking">Hiking</option>
-                    <option value="horsebackriding">Horseback Riding</option>
-                    <option value="lakes">Lakes</option>
-                    <option value="lasertag">Laser Tag</option>
-                    <option value="rock_climbing">Rock Climbing</option>
-                    <option value="skatingrinks">Skating Rinks</option>
-                    <option value="tennis">Tennis</option>
-                    <option value="trampoline">Trampoline Parks</option>
-                    <option value="waterparks">Water Parks</option>
-                    <option value="zoos">Zoos</option>
-                    <option disabled selected>Arts & Entertainment</option>
-                    <option value="arcades">Arcades</option>
-                    <option value="galleries">Art Galleries</option>
-                    <option value="gardens">Botanical Gardens</option>
-                    <option value="movietheaters">Cinema</option>
-                    <option value="festivals">Festivals</option>
-                    <option value="hauntedhouses">Haunted Houses</option>
-                    <option value="museums">Museums</option>
-                    <option value="musicvenues">Music Venues</option>
-                    <option value="paintandsip">Paint & Sip</option>
-                    <option value="theater">Performing Arts</option>
-                    <option value="sportsteams">Professional Sports</option>
-                    <option value="psychic_astrology">Supernatural Readings</option>
-                    <option value="virtualrealitycenters">Virtual Reality Centers</option>
-                    <option disabled selected>Food</option>
-                    <option value="acaibowls">Acai Bowls</option>
-                    <option value="bagels">Bagels</option>
-                    <option value="bubbletea">Bubble Tea</option>
-                    <option value="coffee">Coffee & Tea</option>
-                    <option value="farmersmarket">Farmers Market</option>
-                    <option value="foodtrucks">Food Trucks</option>
-                    <option value="icecream">Ice Cream & Frozen Yogurt</option>
-                    <option value="juicebars">Juice Bars & Smoothies</option>
-                    <option value="shavedice">Shaved Ice</option>
-                    <option disabled selected>Restaurants</option>
-                    <option value="tradamerican">American</option>
-                    <option value="asianfusion">Asian Fusion</option>
-                    <option value="bbq">Barbeque</option>
-                    <option value="brazilian">Brazilian</option>
-                    <option value="breakfast_brunch">Breakfast & Brunch</option>
-                    <option value="burgers">Burgers</option>
-                    <option value="fondue">Fondue</option>
-                    <option value="french">French</option>
-                    <option value="greek">Greek</option>
-                    <option value="indpak">Indian</option>
-                    <option value="italian">Italian</option>
-                    <option value="japanese">Japanese</option>
-                    <option value="korean">Korean</option>
-                    <option value="mexican">Mexican</option>
-                    <option value="pizza">Pizza</option>
-                    <option value="sandwiches">Sandwiches</option>
-                    <option value="seafood">Seafood</option>
-                    <option value="sushi">Sushi</option>
-                    <option value="tapasmallplates">Tapas/Small Plates</option>
-                    <option disabled selected>Nightlife</option>
-                    <option value="bars">Bars</option>
-                    <option value="beergardens">Beer Gardens</option>
-                    <option value="comedyclubs">Comedy Clubs</option>
-                    <option value="danceclubs">Dance Clubs</option>
-                    <option value="jazzandblues">Jazz & Blues</option>
-                    <option value="karaoke">Karaoke</option>
-                    <option value="musicvenues">Music Venues</option>
-                    <option value="pianobars">Piano Bars</option>
-                    <option value="poolhalls">Pool Halls</option>
+                    <optgroup label="Active Life">
+                        <option value="amusementparks">Amusement Parks</option>
+                        <option value="aquariums">Aquariums</option>
+                        <option value="beaches">Beaches</option>
+                        <option value="bowling">Bowling</option>
+                        <option value="escapegames">Escape Games</option>
+                        <option value="gokarts">Go Karts</option>
+                        <option value="hiking">Hiking</option>
+                        <option value="horsebackriding">Horseback Riding</option>
+                        <option value="lakes">Lakes</option>
+                        <option value="lasertag">Laser Tag</option>
+                        <option value="rock_climbing">Rock Climbing</option>
+                        <option value="skatingrinks">Skating Rinks</option>
+                        <option value="tennis">Tennis</option>
+                        <option value="trampoline">Trampoline Parks</option>
+                        <option value="waterparks">Water Parks</option>
+                        <option value="zoos">Zoos</option>
+                    </optgroup>
+                    <optgroup label="Arts & Entertainment">
+                        <option value="arcades">Arcades</option>
+                        <option value="galleries">Art Galleries</option>
+                        <option value="gardens">Botanical Gardens</option>
+                        <option value="movietheaters">Cinema</option>
+                        <option value="festivals">Festivals</option>
+                        <option value="hauntedhouses">Haunted Houses</option>
+                        <option value="museums">Museums</option>
+                        <option value="musicvenues">Music Venues</option>
+                        <option value="paintandsip">Paint & Sip</option>
+                        <option value="theater">Performing Arts</option>
+                        <option value="sportsteams">Professional Sports</option>
+                        <option value="psychic_astrology">Supernatural Readings</option>
+                        <option value="virtualrealitycenters">Virtual Reality Centers</option>
+                    </optgroup>
+                    <optgroup label="Food">
+                        <option value="acaibowls">Acai Bowls</option>
+                        <option value="bagels">Bagels</option>
+                        <option value="bubbletea">Bubble Tea</option>
+                        <option value="coffee">Coffee & Tea</option>
+                        <option value="farmersmarket">Farmers Market</option>
+                        <option value="foodtrucks">Food Trucks</option>
+                        <option value="icecream">Ice Cream & Frozen Yogurt</option>
+                        <option value="juicebars">Juice Bars & Smoothies</option>
+                        <option value="shavedice">Shaved Ice</option>
+                    </optgroup>
+                    <optgroup label="Restaurants">
+                        <option value="tradamerican">American</option>
+                        <option value="asianfusion">Asian Fusion</option>
+                        <option value="bbq">Barbeque</option>
+                        <option value="brazilian">Brazilian</option>
+                        <option value="breakfast_brunch">Breakfast & Brunch</option>
+                        <option value="burgers">Burgers</option>
+                        <option value="fondue">Fondue</option>
+                        <option value="french">French</option>
+                        <option value="greek">Greek</option>
+                        <option value="indpak">Indian</option>
+                        <option value="italian">Italian</option>
+                        <option value="japanese">Japanese</option>
+                        <option value="korean">Korean</option>
+                        <option value="mexican">Mexican</option>
+                        <option value="pizza">Pizza</option>
+                        <option value="sandwiches">Sandwiches</option>
+                        <option value="seafood">Seafood</option>
+                        <option value="sushi">Sushi</option>
+                        <option value="tapasmallplates">Tapas/Small Plates</option>
+                    </optgroup>
+                    <optgroup label="Nightlife">
+                        <option value="bars">Bars</option>
+                        <option value="beergardens">Beer Gardens</option>
+                        <option value="comedyclubs">Comedy Clubs</option>
+                        <option value="danceclubs">Dance Clubs</option>
+                        <option value="jazzandblues">Jazz & Blues</option>
+                        <option value="karaoke">Karaoke</option>
+                        <option value="musicvenues">Music Venues</option>
+                        <option value="pianobars">Piano Bars</option>
+                        <option value="poolhalls">Pool Halls</option>
+                    </optgroup>
                 </select>
             </div>
         </section>
-
     </form>
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
             crossorigin="anonymous"></script>
     <script src="/public/js/onboarding.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
             crossorigin="anonymous"></script>
 </div>
 
