@@ -25,8 +25,6 @@ console.log(staticForm);
 
 
 if (staticForm) {
-    let firstName = document.getElementById('firstName');
-    let birthday = document.getElementById('bDay').value;
 
     const errorContainer = document.getElementById('error-container');
     const errorTextElement = errorContainer.getElementsByClassName(
@@ -36,6 +34,8 @@ if (staticForm) {
     staticForm.addEventListener('submit', (event) => {
         event.preventDefault();
         try {
+            let firstName = document.getElementById('firstName');
+            let birthday = document.getElementById('bDay').value;
 
             // hide error container
             errorContainer.classList.add('hidden');
@@ -43,13 +43,13 @@ if (staticForm) {
             firstName = firstName.value;
             firstName = checkFirstName(firstName);
 
-            staticForm.reset();
+            staticForm.submit();
         }
         catch (e) {
             const message = typeof e === 'string' ? e : e.message;
             errorTextElement.textContent = `Error: ${message}`;
             errorContainer.classList.remove('hidden');
-            staticForm.reset();
+
         }
     });
 }

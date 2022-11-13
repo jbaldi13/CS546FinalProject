@@ -26,6 +26,34 @@ router.get('/onboarding', async (req, res) => {
     }
 });
 
+router.post('/onboarding', async (req, res) => {
+    try {
+        let firstName = req.body.firstName;
+        let birthday = req.body.bDay;
+        let gender = req.body.gender;
+        let showGender = req.body.showGender;
+        let interestedIn = req.body.sexualOrientation;
+        let aboutMe = req.body.about;
+        let profilePic = req.body.proPic;
+        let activeLifeInterests = req.body.activeLife;
+        let artsInterests = req.body.arts;
+        let foodInterests = req.body.food;
+        let restaurantsInterests = req.body.restaurants;
+        let nightlifeInterests = req.body.nightlife;
+
+
+
+        res.json({firstName: firstName, birthday: birthday, gender: gender,
+        showGender: showGender, interestedIn: interestedIn, aboutMe: aboutMe, profilePic: profilePic,
+        activeLifeInterests: activeLifeInterests, artsInterests: artsInterests, foodInterests: foodInterests,
+        restaurantsInterests: restaurantsInterests, nightlifeInterests: nightlifeInterests});
+
+    }
+    catch(e){
+
+    }
+});
+
 // router.get('/logout', async(req,res) =>{
 //     req.session.destroy();
 //     res.redirect('/');
@@ -37,90 +65,90 @@ router.get('/onboarding', async (req, res) => {
 // });
 
 // Update user after signup to have all onboarding/dating preference info
-router.put('/onboarding', async (req, res) => {
-    const userData = req.body;
-    let errors = [];
-
-    if(!userData.firstName){
-        errors.push('No first name provided.');
-    }
-    if(!userData.email){
-        errors.push('No email provided.');
-    }
-    if(!userData.location){
-        errors.push('No location provided.');
-    }
-    if(!userData.dobDay){
-        errors.push('No day provided.');
-    }
-    if(!userData.dobMonth){
-        errors.push('No month provided.');
-    }
-    if(!userData.dobYear){
-        errors.push('No year provided.');
-    }
-    if(!userData.gender){
-        errors.push('No gender provided.');
-    }
-    if(!userData.sexualOrientation){
-        errors.push('No orientation provided.');
-    }
-
-    if (errors.length > 0) {
-        res.render('onboarding', {errors: errors, hasErrors: true, userData : userData, title: "Create an Account"});
-        return;
-    }
-
-    try{
-        const {firstName,
-            email,
-            password,
-            location,
-            dobDay,
-            dobMonth,
-            dobYear,
-            gender,
-            showGender,
-            sexualOrientation,
-            proPic,
-            otherPic1,
-            otherPic2,
-            otherPic3,
-            about,
-            matches,
-            placeSubcategories,
-            eventSubcategories} = userData;
-        const newUser = await userData.createUser(firstName,
-            email,
-            password,
-            location,
-            dobDay,
-            dobMonth,
-            dobYear,
-            gender,
-            showGender,
-            sexualOrientation,
-            proPic,
-            otherPic1,
-            otherPic2,
-            otherPic3,
-            about,
-            matches,
-            placeSubcategories,
-            eventSubcategories);
-    }
-    catch (e) {
-        return res.status(500).render('error', {title : "Error", error : e.toString()});
-    }
-    try {
-        const userList = await userData.getAllUsers();
-        res.render('allUsers', {title : "All Users", users : userList});
-    }
-    catch (e) {
-        res.status().render('error', {title : "Error", error : e.toString()});
-    }
-
-});
+// router.put('/onboarding', async (req, res) => {
+//     const userData = req.body;
+//     let errors = [];
+//
+//     if(!userData.firstName){
+//         errors.push('No first name provided.');
+//     }
+//     if(!userData.email){
+//         errors.push('No email provided.');
+//     }
+//     if(!userData.location){
+//         errors.push('No location provided.');
+//     }
+//     if(!userData.dobDay){
+//         errors.push('No day provided.');
+//     }
+//     if(!userData.dobMonth){
+//         errors.push('No month provided.');
+//     }
+//     if(!userData.dobYear){
+//         errors.push('No year provided.');
+//     }
+//     if(!userData.gender){
+//         errors.push('No gender provided.');
+//     }
+//     if(!userData.sexualOrientation){
+//         errors.push('No orientation provided.');
+//     }
+//
+//     if (errors.length > 0) {
+//         res.render('onboarding', {errors: errors, hasErrors: true, userData : userData, title: "Create an Account"});
+//         return;
+//     }
+//
+//     try{
+//         const {firstName,
+//             email,
+//             password,
+//             location,
+//             dobDay,
+//             dobMonth,
+//             dobYear,
+//             gender,
+//             showGender,
+//             sexualOrientation,
+//             proPic,
+//             otherPic1,
+//             otherPic2,
+//             otherPic3,
+//             about,
+//             matches,
+//             placeSubcategories,
+//             eventSubcategories} = userData;
+//         const newUser = await userData.createUser(firstName,
+//             email,
+//             password,
+//             location,
+//             dobDay,
+//             dobMonth,
+//             dobYear,
+//             gender,
+//             showGender,
+//             sexualOrientation,
+//             proPic,
+//             otherPic1,
+//             otherPic2,
+//             otherPic3,
+//             about,
+//             matches,
+//             placeSubcategories,
+//             eventSubcategories);
+//     }
+//     catch (e) {
+//         return res.status(500).render('error', {title : "Error", error : e.toString()});
+//     }
+//     try {
+//         const userList = await userData.getAllUsers();
+//         res.render('allUsers', {title : "All Users", users : userList});
+//     }
+//     catch (e) {
+//         res.status().render('error', {title : "Error", error : e.toString()});
+//     }
+//
+// });
 
 // // Get all users
 // router.get('/', async (req, res) => {
