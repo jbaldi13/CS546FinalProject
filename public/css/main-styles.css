@@ -6,13 +6,27 @@ html, body {
 }
 
 * {
-    /*font-family: Georgia, Cambria, "Times New Roman", Times, serif;*/
+    font-family: "Exo 2", serif
 }
 
 h1 {
     color: white;
     margin-top: 0;
     font-size: 60px;
+}
+
+#homepageH1 {
+    color: #fff;
+    text-shadow:
+            0 0 7px #fff,
+            0 0 10px #fff,
+            0 0 21px #fff,
+            0 0 42px #f09,
+            0 0 82px #f09,
+            0 0 92px #f09,
+            0 0 102px #f09,
+            0 0 151px #f09;
+    animation: pulsate 0.11s ease-in-out infinite alternate;
 }
 
 .neon {
@@ -26,7 +40,6 @@ h1 {
             0 0 92px #f09,
             0 0 102px #f09,
             0 0 151px #f09;
-    animation: pulsate 0.11s ease-in-out infinite alternate;
 }
 
 
@@ -113,7 +126,6 @@ nav {
     margin-top: 10%;
     margin-left: 20%;
     margin-right: 20%;
-    font-family: "Exo 2", serif;
 }
 
 /* Onboarding Page */
@@ -138,15 +150,13 @@ h2 {
     width: 40%;
 }
 
-.onboarding label, legend {
+.onboarding label{
     color: white;
     display: block;
     text-align: -webkit-center;
     margin-top: 5px;
     margin-bottom: 0;
     font-size: 20px;
-    /*width: max-content;*/
-
 }
 
 .onboarding form input {
