@@ -32,21 +32,14 @@ router.post('/onboarding', async (req, res) => {
         let birthday = req.body.bDay;
         let gender = req.body.gender;
         let showGender = req.body.showGender;
-        let interestedIn = req.body.sexualOrientation;
+        let genderInterest = req.body.genderInterest;
         let aboutMe = req.body.about;
         let profilePic = req.body.proPic;
-        let activeLifeInterests = req.body.activeLife;
-        let artsInterests = req.body.arts;
-        let foodInterests = req.body.food;
-        let restaurantsInterests = req.body.restaurants;
-        let nightlifeInterests = req.body.nightlife;
-
-
+        let interests = req.body.interests;
 
         res.json({firstName: firstName, birthday: birthday, gender: gender,
-        showGender: showGender, interestedIn: interestedIn, aboutMe: aboutMe, profilePic: profilePic,
-        activeLifeInterests: activeLifeInterests, artsInterests: artsInterests, foodInterests: foodInterests,
-        restaurantsInterests: restaurantsInterests, nightlifeInterests: nightlifeInterests});
+        showGender: showGender, genderInterest: genderInterest, aboutMe: aboutMe, profilePic: profilePic,
+            interests: interests});
 
     }
     catch(e){
