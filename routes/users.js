@@ -5,6 +5,7 @@ const userData = data.users;
 const helpers = require("../helpers");
 
 
+
 // // Get login page
 // router.get('/login', async (req, res) => {
 //   // TODO...
@@ -32,8 +33,9 @@ router.get('/onboarding', async (req, res) => {
     }
 });
 
-router.post('/onboarding', async (req, res) => {
+router.put('/onboarding', async (req, res) => {
     try {
+
         let firstName = req.body.firstName;
         let birthday = req.body.bDay;
         let gender = req.body.gender;
@@ -43,13 +45,62 @@ router.post('/onboarding', async (req, res) => {
         let profilePic = req.body.proPic;
         let interests = req.body.interests;
 
-        res.json({firstName: firstName, birthday: birthday, gender: gender,
-        showGender: showGender, genderInterest: genderInterest, aboutMe: aboutMe, profilePic: profilePic,
-            interests: interests});
+        const updatedUser = await userData.updateUser(firstName)
+
+
+        res.json(updatedUser);
 
     }
     catch(e){
+        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+    }
+});
 
+router.post('/onboarding', async (req, res) => {
+    try {
+
+        let firstName = null
+        let email = req.body.userEmail;
+        let password = req.body.userPassword;
+        location = null
+        dobDay = null
+        dobMonth = null
+        dobYear = null
+        gender = null
+        showGender = null
+        sexualOrientation = null
+        proPic = null
+        otherPic1 = null
+        otherPic2 = null
+        otherPic3 = null
+        about = null
+        matches = null
+        placeSubcategories = null
+        eventSubcategories = null
+        
+        const newUser = await userData.createUser(firstName,
+        email,
+        password,
+        location,
+        dobDay,
+        dobMonth,
+        dobYear,
+        gender,
+        showGender,
+        sexualOrientation,
+        proPic,
+        otherPic1,
+        otherPic2,
+        otherPic3,
+        about,
+        matches,
+        placeSubcategories,
+        eventSubcategories);
+
+        res.render('users/onboarding', {title : "Create an Account"});
+    }
+    catch(e){
+        return res.status(500).render('errors/error', {title : "Error", error : e.toString()});
     }
 });
 
