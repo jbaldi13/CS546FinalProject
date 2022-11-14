@@ -1,3 +1,3 @@
-function goToOnboarding(){
-    window.location.href = "/users/onboarding";
+function goToSignUp(){
+    window.location.href = "/users/signup";
 }

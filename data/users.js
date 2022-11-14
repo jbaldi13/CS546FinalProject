@@ -24,14 +24,14 @@ const createUser = async (
     eventSubcategories
 ) => {
     //input error checking (NOT COMPLETE)
-    helpers.checkFirstName(firstName);
+    /*helpers.checkFirstName(firstName);
     helpers.checkEmail(email);
     helpers.checkLocation(location);
     helpers.checkBDay(dobDay);
     helpers.checkBMon(dobMonth);
     helpers.checkBYear(dobYear);
     helpers.checkGender(gender);
-    helpers.checkOrientation(sexualOrientation);
+    helpers.checkOrientation(sexualOrientation);*/
 
     let newUser = {
         firstName: firstName,
