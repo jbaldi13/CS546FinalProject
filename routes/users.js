@@ -33,7 +33,7 @@ router.get('/onboarding', async (req, res) => {
     }
 });
 
-router.put('/onboarding', async (req, res) => {
+router.put('/onboarding/:id', async (req, res) => {
     try {
        
         //need to get user ID from recently created user that has only email and password
@@ -255,51 +255,6 @@ router.post('/onboarding', async (req, res) => {
 //     }
 // });
 //
-router.put('/onboarding/:id', async (req, res) => {
-    const updatedUserData = req.body;
-    try {
-        req.params.userId = helpers.checkId(req.params.userId, "Id URL Param");
-    }
-    catch (e) {
-        return res.status(400).render('error', {title : "Error", error : e.toString()});
-    }
-    try {
-        await userData.getUserById(req.params.userId);
-    }
-    catch (e) {
-        return res.status(404).render('userNotFound', {title : "Not Found", error : e.toString()});
-    }
-    try {
-        const updatedUser = await userData.updateUser(
-            req.params.userId,
-            updatedUserData.firstName,
-            updatedUserData.email,
-            updatedUserData.password,
-            updatedUserData.location,
-            updatedUserData.dobDay,
-            updatedUserData.dobMonth,
-            updatedUserData.dobYear,
-            updatedUserData.gender,
-            updatedUserData.showGender,
-            updatedUserData.sexualOrientation,
-            updatedUserData.proPic,
-            updatedUserData.otherPic1,
-            updatedUserData.otherPic2,
-            updatedUserData.otherPic3,
-            updatedUserData.about,
-            updatedUserData.matches,
-            updatedUserData.placeSubcategories,
-            updatedUserData.eventSubcategories
-        );
-        res.json(updatedUser);
-    }
-    catch (e) {
-        res.status(500).render('error', {title : "Error", error : e.toString()});
-    }
-});
-
-
-    
 
 
 module.exports = router;
