@@ -128,6 +128,12 @@ nav {
     margin-right: 20%;
 }
 
+/* Signup Page */
+#signupButton {
+    margin-top: 10px;
+}
+
+
 /* Onboarding Page */
 
 h2 {
@@ -189,7 +195,7 @@ h2 {
     font-size: 14px;
 }
 
-.buttonInput {
+.borderInput {
     border: white 1px solid;
     border-radius: 10px;
     margin: 10px;
