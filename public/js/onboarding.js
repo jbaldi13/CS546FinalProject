@@ -42,8 +42,6 @@ if (staticForm) {
 
             firstName = firstName.value;
             firstName = checkFirstName(firstName);
-
-            staticForm.submit();
         }
         catch (e) {
             const message = typeof e === 'string' ? e : e.message;

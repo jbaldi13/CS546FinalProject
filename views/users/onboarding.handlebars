@@ -12,27 +12,54 @@
                 <input id="bDay" type="text" name="bDay" placeholder="mm/dd/yyyy" value="{{bDay}}" required/>
             </label>
 
-            <label id="genderLabel">Gender</label>
-            <div class="multipleInputContainer">
-                <input id="genderMan" type="radio" name="gender" value="man"/>
-                <label for="genderMan">Man</label>
-                <input id="genderWoman" type="radio" name="gender" value="woman" required/>
-                <label for="genderWoman">Woman</label>
-                <input id="genderOther" type="radio" name="gender" value="other"/>
-                <label for="genderOther">Other</label>
-            </div>
+            <div id="borderContainer">
+                <div class="buttonInput">
+                    <label id="genderLabel">Gender</label>
+                    <div class="multipleInputContainer">
+                        <input id="genderMan" type="radio" name="gender" value="man"/>
+                        <label for="genderMan">Man</label>
+                        <input id="genderWoman" type="radio" name="gender" value="woman" required/>
+                        <label for="genderWoman">Woman</label>
+                        <input id="genderOther" type="radio" name="gender" value="other"/>
+                        <label for="genderOther">Other</label>
+                    </div>
+                </div>
 
-            <label for="showGender" id="showGenderLabel">Show gender on my profile</label>
-            <input id="showGender" type="checkbox" name="showGender">
+                <div class="buttonInput">
+                    <label for="showGender" id="showGenderLabel">Show gender on my profile</label>
+                    <input id="showGender" type="checkbox" name="showGender">
+                </div>
 
-            <label id="genderInterestLabel">Who are you interested in?</label>
-            <div class="multipleInputContainer">
-                <input id="likeMen" type="radio" name="genderInterest" value="Men"/>
-                <label for="likeMen">Men</label>
-                <input id="likeWomen" type="radio" name="genderInterest" value="Women" required/>
-                <label for="likeWomen">Women</label>
-                <input id="likeEveryone" type="radio" name="genderInterest" value="Everyone"/>
-                <label for="likeEveryone">Everyone</label>
+                <div class="buttonInput">
+                    <label id="pronounsLabel">Pronouns</label>
+                    <div class="multipleInputContainer">
+                        <input id="genderMan" type="radio" name="gender" value="man"/>
+                        <label for="genderMan">He/Him</label>
+                        <input id="genderWoman" type="radio" name="gender" value="woman" required/>
+                        <label for="genderWoman">She/Her</label>
+                        <input id="genderOther" type="radio" name="gender" value="other"/>
+                        <label for="genderOther">Other</label>
+                    </div>
+                </div>
+
+                <div class="buttonInput">
+                    <div class="showPronouns">
+                        <label for="showPronouns" id="showPronounsLabel">Show pronouns on my profile</label>
+                        <input id="showPronouns" type="checkbox" name="showPronouns">
+                    </div>
+                </div>
+
+                <div class="buttonInput">
+                    <label id="genderInterestLabel">Who are you interested in?</label>
+                    <div class="multipleInputContainer">
+                        <input id="likeMen" type="radio" name="genderInterest" value="Men"/>
+                        <label for="likeMen">Men</label>
+                        <input id="likeWomen" type="radio" name="genderInterest" value="Women" required/>
+                        <label for="likeWomen">Women</label>
+                        <input id="likeEveryone" type="radio" name="genderInterest" value="Everyone"/>
+                        <label for="likeEveryone">Everyone</label>
+                    </div>
+                </div>
             </div>
 
             <label for="location">
@@ -43,14 +70,11 @@
 
             <label for="about">
                 About me
-                <input id="about" type="text" name="about" placeholder="I am family-oriented...">
+                <input id="about" type="text" name="about" placeholder="Just a guy looking for love...">
             </label>
             <div class="form-group hidden" id="error-container">
                 <div class="alert alert-danger text-goes-here">
                 </div>
-            </div>
-            <div>
-                <button id="onboardingButton" type="submit" class="homepage-buttons">Submit</button>
             </div>
         </section>
         <section>
@@ -138,6 +162,9 @@
                         <option value="poolhalls">Pool Halls</option>
                     </optgroup>
                 </select>
+            </div>
+            <div>
+                <button id="onboardingButton" type="submit" class="homepage-buttons">Submit</button>
             </div>
         </section>
     </form>
