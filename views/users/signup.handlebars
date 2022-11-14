@@ -6,19 +6,28 @@
                 Email
                 <input id="email" type="email" name="userEmail" placeholder="Email" value="" required/>
             </label>
-
             <label for="password">
                 Password
                 <input id="password" type="password" name="userPassword" placeholder="Password" value="{{userPassword}}" required/>
             </label>
-
             <label for="confirmPassword">
                 Confirm Password
                 <input id="confirmPassword" type="password" name="conUserPassword" placeholder="Confirm Password" value="{{conUserPassword}}" required/>
             </label>
+            <div class="form-group hidden" id="error-container">
+                <div class="alert alert-danger text-goes-here">
+                </div>
+            </div>
             <div>
                 <button id="signupButton" type="submit" class="homepage-buttons">Submit</button>
             </div>
         </section>
     </form>
 </div>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+<script src="/public/js/signup.js.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
