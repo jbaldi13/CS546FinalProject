@@ -16,14 +16,12 @@ if (staticForm) {
             let email = document.getElementById('userEmail');
             let password = document.getElementById('userPassword').value;
 
-            console.log(email)
-            console.log(password)
+            console.log(email);
+            console.log(password);
 
             // hide error container
             errorContainer.classList.add('hidden');
 
-            firstName = firstName.value;
-            firstName = checkFirstName(firstName);
 
             staticForm.submit();
         }
@@ -31,7 +29,6 @@ if (staticForm) {
             const message = typeof e === 'string' ? e : e.message;
             errorTextElement.textContent = `Error: ${message}`;
             errorContainer.classList.remove('hidden');
-
         }
     });
 }
