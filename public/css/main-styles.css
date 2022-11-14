@@ -189,8 +189,10 @@ h2 {
     font-size: 14px;
 }
 
-#showGenderLabel{
-    margin-top: inherit;
+.buttonInput {
+    border: white 1px solid;
+    border-radius: 10px;
+    margin: 10px;
 }
 
 #genderInterestLabel {
@@ -198,28 +200,7 @@ h2 {
 }
 
 #onboardingButton {
-    margin-top: 12px;
-}
-
-#genderLabel {
-    margin-top: 7px;
-}
-
-#showGenderLabel {
-    margin-top: 4px;
-}
-
-
-#showGender {
-    /*margin-top: 0;*/
-    margin-bottom: 0;
-}
-
-
-
-#category1 {
-    outline: none;
-    border: none;
+    margin-top: 5rem;
 }
 
 .multi-select-container {
@@ -228,6 +209,10 @@ h2 {
 
 .alert {
     margin-bottom: 0;
+}
+
+#borderContainer {
+    margin: 10px;
 }
 
 
