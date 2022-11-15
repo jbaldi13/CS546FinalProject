@@ -35,13 +35,14 @@ if (staticForm) {
         event.preventDefault();
         try {
             let firstName = document.getElementById('firstName');
-            let birthday = document.getElementById('bDay').value;
+            let birthday = document.getElementById('birthday');
 
             // hide error container
             errorContainer.classList.add('hidden');
 
             firstName = firstName.value;
             firstName = checkFirstName(firstName);
+            staticForm.submit();
         }
         catch (e) {
             const message = typeof e === 'string' ? e : e.message;
