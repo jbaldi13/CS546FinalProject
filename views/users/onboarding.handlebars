@@ -1,6 +1,6 @@
 <div class="onboarding">
     <h2 class="neon">CREATE ACCOUNT</h2>
-    <form id="onboardingForm" action="/users/onboarding" method="put">
+    <form id="onboardingForm" action="/users/onboarding/{{id}}" method="post">
         <section>
             <label for="firstName">
                 First Name
@@ -9,7 +9,7 @@
 
             <label for="bDay">
                 Birthday (mm/dd/yyyy)
-                <input id="bDay" type="text" name="bDay" placeholder="mm/dd/yyyy" value="{{bDay}}" required/>
+                <input id="birthday" type="text" name="birthday" placeholder="mm/dd/yyyy" value="{{bDay}}" required/>
             </label>
 
             <div id="borderContainer">
@@ -61,12 +61,6 @@
                     </div>
                 </div>
             </div>
-
-            <label for="location">
-                Location
-                <input id="location" type="text" name="location" placeholder="City"
-                       required/>
-            </label>
 
             <label for="about">
                 About me
@@ -167,6 +161,7 @@
                 <button id="onboardingButton" type="submit" class="homepage-buttons">Submit</button>
             </div>
         </section>
+        <input name= '_method' value="PUT" type="hidden"/>
     </form>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
             integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="

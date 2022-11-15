@@ -4,54 +4,39 @@ const users = mongoCollections.users;
 const helpers = require("../helpers");
 
 const createUser = async (
-    firstName,
     email,
     password,
-    location,
-    dobDay,
-    dobMonth,
-    dobYear,
+    firstName,
+    birthday,
     gender,
     showGender,
-    sexualOrientation,
-    proPic,
-    otherPic1,
-    otherPic2,
-    otherPic3,
+    pronouns,
+    showPronouns,
+    genderInterest,
+    location,
     about,
-    matches,
-    placeSubcategories,
-    eventSubcategories
+    images,
+    interests,
+    matches
 ) => {
-    //input error checking (NOT COMPLETE)
-    /*helpers.checkFirstName(firstName);
-    helpers.checkEmail(email);
-    helpers.checkLocation(location);
-    helpers.checkBDay(dobDay);
-    helpers.checkBMon(dobMonth);
-    helpers.checkBYear(dobYear);
-    helpers.checkGender(gender);
-    helpers.checkOrientation(sexualOrientation);*/
+    //input error checking (TODO...)
+
 
     let newUser = {
-        firstName: firstName,
         email: email,
         password: password,
-        location: location,
-        dobDay: dobDay,
-        dobMonth: dobMonth,
-        dobYear: dobYear,
+        firstName: firstName,
+        birthday: birthday,
         gender: gender,
         showGender: showGender,
-        sexualOrientation: sexualOrientation,
-        proPic: proPic,
-        otherPic1: otherPic1,
-        otherPic2: otherPic2,
-        otherPic3: otherPic3,
+        pronouns: pronouns,
+        showPronouns: showPronouns,
+        genderInterest: genderInterest,
+        location: location,
         about: about,
+        images: images,
+        interests: interests,
         matches: matches,
-        placeSubcategories: placeSubcategories,
-        eventSubcategories: eventSubcategories
     };
 
     const usersCollection = await users();

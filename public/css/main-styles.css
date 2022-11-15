@@ -9,6 +9,12 @@ html, body {
     font-family: "Exo 2", serif
 }
 
+p {
+    color: white;
+    font-size: 17px;
+
+}
+
 h1 {
     color: white;
     margin-top: 0;
@@ -220,6 +226,30 @@ h2 {
 #borderContainer {
     margin: 10px;
 }
+
+/* Location Page */
+.location-img {
+    width: 175px;
+    border-radius: 50%;
+    margin-top: 20px;
+}
+
+.locationH3 {
+    color: white;
+}
+
+#locationButton {
+    text-transform: revert;
+    margin-top: 10px;
+    font-size: 20px;
+}
+
+#locationContainer {
+    margin-top: 30px;
+}
+
+
+
 
 
 

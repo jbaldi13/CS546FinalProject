@@ -23,10 +23,10 @@ router.get('/signup', async (req, res) => {
     }
 });
 
-// get onboarding page
-router.get('/onboarding', async (req, res) => {
+// get main onboarding page
+router.get('/onboarding/:id', async (req, res) => {
     try {
-        res.render('users/onboarding', {title : "Create an Account"});
+        res.render('users/onboarding', {title : "Create an Account", id: req.params.id});
 
     }
     catch(e){
@@ -34,27 +34,10 @@ router.get('/onboarding', async (req, res) => {
     }
 });
 
-// Update user after they onboard
-router.put('/onboarding/:id', async (req, res) => {
+// get onboarding/location page
+router.get('/onboarding/location/:id', async (req, res) => {
     try {
-       
-        //need to get user ID from recently created user that has only email and password
-        //update that user with the information provided on onboarding page
-
-        /*console.log("here")
-        let firstName = req.body.firstName;
-        let birthday = req.body.bDay;
-        let gender = req.body.gender;
-        let showGender = req.body.showGender;
-        let genderInterest = req.body.genderInterest;
-        let aboutMe = req.body.about;
-        let profilePic = req.body.proPic;
-        let interests = req.body.interests;
-
-        const updatedUser = await userData.updateUser(firstName)
-
-
-        res.json(updatedUser);*/
+        res.render('users/location', {title : "Location"});
 
     }
     catch(e){
@@ -66,50 +49,76 @@ router.put('/onboarding/:id', async (req, res) => {
 router.post('/signup', async (req, res) => {
     try {
         //need to check if email already exists and redirect to log in page
-        let firstName = null;
         let email = req.body.userEmail;
         let password = req.body.userPassword;
-        location = null;
-        dobDay = null;
-        dobMonth = null;
-        dobYear = null;
-        gender = null;
-        showGender = null;
-        sexualOrientation = null;
-        proPic = null;
-        otherPic1 = null;
-        otherPic2 = null;
-        otherPic3 = null;
-        about = null;
-        matches = null;
-        placeSubcategories = null;
-        eventSubcategories = null;
-        
-        const newUser = await userData.createUser(firstName,
-        email,
-        password,
-        location,
-        dobDay,
-        dobMonth,
-        dobYear,
-        gender,
-        showGender,
-        sexualOrientation,
-        proPic,
-        otherPic1,
-        otherPic2,
-        otherPic3,
-        about,
-        matches,
-        placeSubcategories,
-        eventSubcategories);
+        let firstName = null;
+        let birthday = null;
+        let gender = null;
+        let showGender = null;
+        let pronouns = null;
+        let showPronouns = null;
+        let genderInterest = null;
+        let location = {latitude: null, longitude: null, locality: null, principalSubdiv: null};
+        let about = null;
+        let images = {profilePic: null, otherPics: []};
+        let interests = [];
+        let matches = [];
 
-        res.render('users/onboarding', {title : "Create an Account"});
+
+
+        const newUser = await userData.createUser(
+            email,
+            password,
+            firstName,
+            birthday,
+            gender,
+            showGender,
+            pronouns,
+            showPronouns,
+            genderInterest,
+            location,
+            about,
+            images,
+            interests,
+            matches);
+
+        const userId = newUser._id;
+
+        res.redirect(`/users/onboarding/${userId}`);
     }
     catch(e){
         return res.status(500).render('errors/error', {title : "Error", error : e.toString()});
     }
 });
+
+// Update user after they onboard
+router.put('/onboarding/:id', async (req, res) => {
+    try {
+       
+        // //need to get user ID from recently created user that has only email and password
+        // //update that user with the information provided on onboarding page
+        //
+        // let firstName = req.body.firstName;
+        // let birthday = req.body.birthday;
+        // let gender = req.body.gender;
+        // let showGender = req.body.showGender;
+        // let genderInterest = req.body.genderInterest;
+        // let aboutMe = req.body.about;
+        // let profilePic = req.body.proPic;
+        // let interests = req.body.interests;
+        //
+        // const updatedUser = await userData.updateUser(firstName);
+        //
+        //
+        // res.json(updatedUser);
+        res.redirect(`/users/onboarding/location/${req.params.id}`);
+
+    }
+    catch(e){
+        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+    }
+});
+
 
 // router.get('/logout', async(req,res) =>{
 //     req.session.destroy();
