@@ -1,0 +1,48 @@
+<div>
+    <form id="onboardingForm" action="/users/onboarding/filters/{{id}}" method="post">
+        <h2 class="neon">CREATE ACCOUNT</h2>
+        <div id="locationContainer">
+            <h2>Filters</h2>
+            <div id="filtersBorder" class="slideContainer">
+                <div id="genderInterestBorder">
+                    <label id="genderInterestLabel">Who are you interested in?</label>
+                    <div class="multipleInputContainer">
+                        <select id="genderInterest" name="genderInterest" required>
+                            <option disabled="disabled" selected="selected">Select Gender</option>
+                            <option value="men">Men</option>
+                            <option value="women">Women</option>
+                            <option value="aquariums">Everyone</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="slideContainer">
+                <label for="minAge">Min Age: </label>
+                <label id="minAgeLabel" for="minAge"></label>
+                <input type="range" min="18" max="60" value="21" class="slider" id="minAge">
+            </div>
+            <div class="slideContainer">
+                <label for="maxAge">Max Age: </label>
+                <label id="maxAgeLabel" for="maxRange"></label>
+                <input type="range" min="18" max="60" value="50" class="slider" id="maxAge">
+            </div>
+            <div class="slideContainer">
+                <label for="maxDistance">Max Distance: </label>
+                <label id="maxDistanceLabel" for="maxDistance"></label>
+                <input type="range" min="1" max="100" value="15" class="slider" id="maxDistance">
+            </div>
+            <div class="form-group hidden" id="error-container">
+                <div class="alert alert-danger text-goes-here">
+                </div>
+            </div>
+            <button type="submit" class="homepage-buttons">Submit</button>
+        </div>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+        crossorigin="anonymous"></script>
+<script src="/public/js/filters.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+        integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+        crossorigin="anonymous"></script>
