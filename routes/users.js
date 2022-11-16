@@ -45,6 +45,17 @@ router.get('/onboarding/location/:id', async (req, res) => {
     }
 });
 
+// get onboarding/filters page
+router.get('/onboarding/filters/:id', async (req, res) => {
+    try {
+        res.render('users/filters', {title : "Filters"});
+
+    }
+    catch(e){
+        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+    }
+});
+
 // Create user after they sign up
 router.post('/signup', async (req, res) => {
     try {
