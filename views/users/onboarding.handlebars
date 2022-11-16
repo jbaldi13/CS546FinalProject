@@ -4,12 +4,12 @@
         <section>
             <label for="firstName">
                 First Name
-                <input id="firstName" type="text" name="firstName" placeholder="First Name" value="" required/>
+                <input id="firstName" type="text" name="firstName" placeholder="First Name" required/>
             </label>
 
             <label for="bDay">
                 Birthday (mm/dd/yyyy)
-                <input id="birthday" type="text" name="birthday" placeholder="mm/dd/yyyy" value="{{bDay}}" required/>
+                <input id="birthday" type="text" name="birthday" placeholder="mm/dd/yyyy" required/>
             </label>
 
             <div id="borderContainer">
@@ -33,12 +33,12 @@
                 <div class="borderInput">
                     <label id="pronounsLabel">Pronouns</label>
                     <div class="multipleInputContainer">
-                        <input id="genderMan" type="radio" name="gender" value="man"/>
-                        <label for="genderMan">He/Him</label>
-                        <input id="genderWoman" type="radio" name="gender" value="woman" required/>
-                        <label for="genderWoman">She/Her</label>
-                        <input id="genderOther" type="radio" name="gender" value="other"/>
-                        <label for="genderOther">Other</label>
+                        <input id="pronounsMan" type="radio" name="pronouns" value="he/him"/>
+                        <label for="pronounsMan">He/Him</label>
+                        <input id="pronounsWoman" type="radio" name="pronouns" value="she/her" required/>
+                        <label for="pronounsWoman">She/Her</label>
+                        <input id="pronounsOther" type="radio" name="pronouns" value="other"/>
+                        <label for="pronounsOther">Other</label>
                     </div>
                 </div>
 
@@ -149,7 +149,7 @@
                 <button id="onboardingButton" type="submit" class="homepage-buttons">Submit</button>
             </div>
         </section>
-        <input name= '_method' value="PUT" type="hidden"/>
+        <input name= '_method' value="patch" type="hidden"/>
     </form>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
             integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="

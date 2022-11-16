@@ -8,7 +8,7 @@ let distanceOutput = document.getElementById("maxDistanceLabel");
 
 minAgeOutput.innerHTML = minAgeSlider.value; // Display the default slider value
 maxAgeOutput.innerHTML = maxAgeSlider.value;
-distanceOutput.innerHTML = distanceSlider.value;
+distanceOutput.innerHTML = `${distanceSlider.value} miles`;
 
 // Update the current slider value (each time you drag the slider handle)
 minAgeSlider.oninput = function() {
@@ -20,7 +20,7 @@ maxAgeSlider.oninput = function() {
 };
 
 distanceSlider.oninput = function() {
-    distanceOutput.innerHTML = this.value;
+    distanceOutput.innerHTML = `${this.value} miles`;
 };
 
 

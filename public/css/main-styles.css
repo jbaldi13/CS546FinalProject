@@ -209,6 +209,7 @@ h2 {
     border: white 1px solid;
     border-radius: 10px;
     margin: 10px;
+    min-width: fit-content;
 }
 
 #genderInterestLabel {
@@ -217,7 +218,7 @@ h2 {
 
 #onboardingButton {
     margin-top: 40px;
-    font-size: 25px;
+    font-size: 17px;
     height: fit-content;
 
 }
