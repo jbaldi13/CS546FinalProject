@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const userData = data.users;
-const helpers = require("../helpers");
+const {checkId, checkFirstName, checkBirthday, checkInterests} = require("../helpers");
+const {getUserById, updateUser} = require("../data/users");
 
 
 
@@ -68,7 +69,7 @@ router.post('/signup', async (req, res) => {
         let showGender = null;
         let pronouns = null;
         let showPronouns = null;
-        let genderInterest = null;
+        let filters = {genderInterest: null, minAge: null, maxAge: null, maxDistance: null};
         let location = {latitude: null, longitude: null, locality: null, principalSubdiv: null};
         let about = null;
         let images = {profilePic: null, otherPics: []};
@@ -86,7 +87,7 @@ router.post('/signup', async (req, res) => {
             showGender,
             pronouns,
             showPronouns,
-            genderInterest,
+            filters,
             location,
             about,
             images,
@@ -103,31 +104,67 @@ router.post('/signup', async (req, res) => {
 });
 
 // Update user after they onboard
-router.put('/onboarding/:id', async (req, res) => {
+router.patch('/onboarding/:id', async (req, res) => {
+    const requestBody = req.body;
+    let updatedObject = {};
     try {
-       
-        // //need to get user ID from recently created user that has only email and password
-        // //update that user with the information provided on onboarding page
-        //
-        // let firstName = req.body.firstName;
-        // let birthday = req.body.birthday;
-        // let gender = req.body.gender;
-        // let showGender = req.body.showGender;
-        // let genderInterest = req.body.genderInterest;
-        // let aboutMe = req.body.about;
-        // let profilePic = req.body.proPic;
-        // let interests = req.body.interests;
-        //
-        // const updatedUser = await userData.updateUser(firstName);
-        //
-        //
-        // res.json(updatedUser);
-        res.redirect(`/users/onboarding/location/${req.params.id}`);
+        req.params.movieId = checkId(req.params.id, "User Id");
+
+        requestBody.firstName = checkFirstName(requestBody.firstName);
+        requestBody.birthday = checkBirthday(requestBody.birthday);
+        checkInterests(requestBody.interests);
 
     }
-    catch(e){
-        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+    catch (e) {
+        return res.status(400).render('errors/error', {title : "Error", error : e.toString()});
     }
+    try {
+        const oldUser = await getUserById(req.params.id);
+        if (requestBody.firstName && requestBody.firstName !== oldUser.firstName) {
+            updatedObject.firstName = requestBody.firstName;
+        }
+        if (requestBody.birthday && requestBody.birthday !== oldUser.birthday) {
+            updatedObject.birthday = requestBody.birthday;
+        }
+        if (requestBody.gender && requestBody.gender !== oldUser.gender) {
+            updatedObject.gender = requestBody.gender;
+        }
+        if (requestBody.showGender && requestBody.showGender !== oldUser.showGender) {
+            updatedObject.showGender = requestBody.showGender;
+        }
+        if (requestBody.pronouns && requestBody.pronouns !== oldUser.pronouns) {
+            updatedObject.pronouns = requestBody.pronouns;
+        }
+        if (requestBody.showPronouns && requestBody.showPronouns !== oldUser.showPronouns) {
+            updatedObject.showPronouns = requestBody.showPronouns;
+        }
+        if (requestBody.about && requestBody.about !== oldUser.about) {
+            updatedObject.about = requestBody.about;
+        }
+
+        if (requestBody.interests && requestBody.interests !== oldUser.interests) {
+            updatedObject.interests = requestBody.interests;
+        }
+    }
+    catch (e) {
+        return res.status(404).render('errors/error', {title : "User not Found", error : e.toString()});
+    }
+    if (Object.keys(updatedObject).length !== 0) {
+        try {
+            const updatedUser = await updateUser(
+                req.params.id,
+                updatedObject
+            );
+            res.redirect(`/users/onboarding/location/${updatedUser._id}`);
+        }
+        catch (e) {
+            return res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+        }
+    }
+    else {
+        res.status(400).render('errors/error', {title : "Error: 'No fields have been changed from their initial values, so no update has occurred"});
+    }
+
 });
 
 

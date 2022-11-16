@@ -2,6 +2,7 @@ const mongoCollections = require('../config/mongoCollections');
 const {ObjectId} = require("mongodb");
 const users = mongoCollections.users;
 const helpers = require("../helpers");
+const {checkFirstName, checkBirthday, checkInterests} = require("../helpers");
 
 const createUser = async (
     email,
@@ -12,7 +13,7 @@ const createUser = async (
     showGender,
     pronouns,
     showPronouns,
-    genderInterest,
+    filters,
     location,
     about,
     images,
@@ -31,7 +32,7 @@ const createUser = async (
         showGender: showGender,
         pronouns: pronouns,
         showPronouns: showPronouns,
-        genderInterest: genderInterest,
+        filters: filters,
         location: location,
         about: about,
         images: images,
@@ -80,59 +81,27 @@ const removeUser = async (userId) => {
     return `User with id, ${userId}, has been successfully deleted`;
 };
 
-const updateUser = async (
-    userId,
-    firstName,
-    email,
-    password,
-    location,
-    dobDay,
-    dobMonth,
-    dobYear,
-    gender,
-    showGender,
-    sexualOrientation,
-    proPic,
-    otherPic1,
-    otherPic2,
-    otherPic3,
-    about,
-    matches,
-    placeSubcategories,
-    eventSubcategories
-) => {
+const updateUser = async (userId, updatedUser) => {
     userId = helpers.checkId(userId, "userId");
 
-    const updatedUserData = {};
-
-    updatedUserData.firstName = firstName;
-    updatedUserData.email = email;
-    updatedUserData.password = password;
-    updatedUserData.location = location;
-    updatedUserData.dobDay = dobDay;
-    updatedUserData.dobMonth = dobMonth;
-    updatedUserData.dobYear = dobYear;
-    updatedUserData.gender = gender;
-    updatedUserData.showGender = showGender;
-    updatedUserData.sexualOrientation = sexualOrientation;
-    updatedUserData.proPic = proPic;
-    updatedUserData.otherPic1 = otherPic1;
-    updatedUserData.otherPic2 = otherPic2;
-    updatedUserData.otherPic3 = otherPic3;
-    updatedUserData.about = about;
-    updatedUserData.matches = matches;
-    updatedUserData.placeSubcategories = placeSubcategories;
-    updatedUserData.eventSubcategories = eventSubcategories;
-
+    if (updatedUser.firstName) {
+        updatedUser.firstName = checkFirstName(updatedUser.firstName);
+    }
+    if (updatedUser.birthday) {
+        updatedUser.birthday = checkBirthday(updatedUser.birthday);
+    }
+    if (updatedUser.interests) {
+        checkInterests(updatedUser.interests);
+    }
 
     const userCollection = await users();
     const updatedInfo = await userCollection.updateOne(
         {_id: ObjectId(userId)},
-        {$set: updatedUserData}
+        {$set: updatedUser}
     );
 
     if (updatedInfo.modifiedCount === 0) {
-        throw 'Error: Could not updated any information about the user';
+        throw 'Error: Could not update any information about the user';
     }
 
     return await getUserById(userId);
