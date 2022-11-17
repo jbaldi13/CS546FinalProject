@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const userData = data.users;
-const {checkId, checkFirstName, checkBirthday, checkInterests} = require("../helpers");
+const {checkId, checkFirstName, checkBirthday, checkInterests, checkGender, checkAbout, checkPronouns, checkShowOnProfile} = require("../helpers");
 const {getUserById, updateUser} = require("../data/users");
 
 
@@ -100,6 +100,21 @@ router.patch('/onboarding/:id', async (req, res) => {
         if (requestBody.birthday) {
             requestBody.birthday = checkBirthday(requestBody.birthday);
         }
+        if (requestBody.gender) {
+            checkGender(requestBody.gender);
+        }
+        if (requestBody.showGender) {
+            checkShowOnProfile(requestBody.showGender, "Show gender");
+        }
+        if (requestBody.pronouns) {
+            checkPronouns(requestBody.pronouns);
+        }
+        if (requestBody.showPronouns) {
+            checkShowOnProfile(requestBody.showPronouns, "Show pronouns");
+        }
+        if (requestBody.about) {
+            requestBody.about = checkAbout(requestBody.about);
+        }
         if (requestBody.interests) {
             checkInterests(requestBody.interests);
         }
@@ -118,13 +133,13 @@ router.patch('/onboarding/:id', async (req, res) => {
         if (requestBody.gender && requestBody.gender !== oldUser.gender) {
             updatedObject.gender = requestBody.gender;
         }
-        if (requestBody.showGender && requestBody.showGender !== oldUser.showGender) {
+        if (requestBody.showGender !== oldUser.showGender) {
             updatedObject.showGender = requestBody.showGender;
         }
         if (requestBody.pronouns && requestBody.pronouns !== oldUser.pronouns) {
             updatedObject.pronouns = requestBody.pronouns;
         }
-        if (requestBody.showPronouns && requestBody.showPronouns !== oldUser.showPronouns) {
+        if (requestBody.showPronouns !== oldUser.showPronouns) {
             updatedObject.showPronouns = requestBody.showPronouns;
         }
         if (requestBody.filters && requestBody.filters !== oldUser.filters) {
@@ -133,7 +148,7 @@ router.patch('/onboarding/:id', async (req, res) => {
         if (requestBody.location && requestBody.location !== oldUser.location) {
             updatedObject.location = requestBody.location;
         }
-        if (requestBody.about && requestBody.about !== oldUser.about) {
+        if (requestBody.about !== oldUser.about) {
             updatedObject.about = requestBody.about;
         }
         if (requestBody.interests && requestBody.interests !== oldUser.interests) {
