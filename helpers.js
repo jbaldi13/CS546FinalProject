@@ -100,4 +100,4 @@ function checkEmail(email){
 
 
 
-module.exports = {checkId, checkFirstName, checkEmail, checkBirthday, checkInterests};
+module.exports = {checkId, checkFirstName, checkEmail, checkBirthday, checkInterests, getAge};

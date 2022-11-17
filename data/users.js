@@ -2,42 +2,28 @@ const mongoCollections = require('../config/mongoCollections');
 const {ObjectId} = require("mongodb");
 const users = mongoCollections.users;
 const helpers = require("../helpers");
-const {checkFirstName, checkBirthday, checkInterests} = require("../helpers");
+const {checkFirstName, checkBirthday, checkInterests, getAge} = require("../helpers");
 
-const createUser = async (
-    email,
-    password,
-    firstName,
-    birthday,
-    gender,
-    showGender,
-    pronouns,
-    showPronouns,
-    filters,
-    location,
-    about,
-    images,
-    interests,
-    matches
-) => {
+const createUser = async (email, password) => {
     //input error checking (TODO...)
 
 
     let newUser = {
         email: email,
         password: password,
-        firstName: firstName,
-        birthday: birthday,
-        gender: gender,
-        showGender: showGender,
-        pronouns: pronouns,
-        showPronouns: showPronouns,
-        filters: filters,
-        location: location,
-        about: about,
-        images: images,
-        interests: interests,
-        matches: matches,
+        firstName: null,
+        birthday: null,
+        age: null,
+        gender: null,
+        showGender: null,
+        pronouns: null,
+        showPronouns: null,
+        filters: {genderInterest: null, minAge: null, maxAge: null, maxDistance: null},
+        location: {latitude: null, longitude: null, locality: null, principalSubdiv: null},
+        about: null,
+        images: {profilePic: null, otherPics: []},
+        interests: [],
+        matches: [],
     };
 
     const usersCollection = await users();
@@ -89,6 +75,7 @@ const updateUser = async (userId, updatedUser) => {
     }
     if (updatedUser.birthday) {
         updatedUser.birthday = checkBirthday(updatedUser.birthday);
+        updatedUser.age = getAge(updatedUser.birthday);
     }
     if (updatedUser.interests) {
         checkInterests(updatedUser.interests);
