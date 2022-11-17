@@ -2,7 +2,12 @@ const mongoCollections = require('../config/mongoCollections');
 const {ObjectId} = require("mongodb");
 const users = mongoCollections.users;
 const helpers = require("../helpers");
-const {checkFirstName, checkBirthday, checkInterests, getAge} = require("../helpers");
+const {checkFirstName, checkBirthday, checkInterests, getAge,
+    checkGender,
+    checkShowOnProfile,
+    checkPronouns,
+    checkAbout
+} = require("../helpers");
 
 const createUser = async (email, password) => {
     //input error checking (TODO...)
@@ -76,6 +81,22 @@ const updateUser = async (userId, updatedUser) => {
     if (updatedUser.birthday) {
         updatedUser.birthday = checkBirthday(updatedUser.birthday);
         updatedUser.age = getAge(updatedUser.birthday);
+    }
+
+    if (updatedUser.gender) {
+        checkGender(updatedUser.gender);
+    }
+    if (updatedUser.showGender) {
+        checkShowOnProfile(updatedUser.showGender, "Show gender");
+    }
+    if (updatedUser.pronouns) {
+        checkPronouns(updatedUser.pronouns);
+    }
+    if (updatedUser.showPronouns) {
+        checkShowOnProfile(updatedUser.showPronouns, "Show pronouns");
+    }
+    if (updatedUser.about) {
+        updatedUser.about = checkAbout(updatedUser.about);
     }
     if (updatedUser.interests) {
         checkInterests(updatedUser.interests);

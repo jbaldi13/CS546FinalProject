@@ -87,6 +87,28 @@ function getAge(bDay) {
     return age;
 }
 
+function checkGender(gender) {
+    checkStringErrors(gender, 'Gender');
+}
+
+function checkPronouns(pronouns) {
+    checkStringErrors(pronouns, 'Pronouns');
+}
+
+function checkShowOnProfile(arg, argName) {
+    if (arg.value) {
+        if (arg.value !== 'on') throw `\"${argName}\" checkbox malfunction`;
+    }
+}
+
+function checkAbout(about) {
+
+    if (about.trim() === "") throw "\'About me\' can't contain only spaces";
+
+    about = about.trim();
+    return about;
+}
+
 function checkInterests(interests) {
     if (Array.isArray(interests)) {
         if (interests.length > 10) throw "You must only select up to 10 interests";
@@ -100,4 +122,4 @@ function checkEmail(email){
 
 
 
-module.exports = {checkId, checkFirstName, checkEmail, checkBirthday, checkInterests, getAge};
+module.exports = {checkShowOnProfile, checkId, checkFirstName, checkBirthday, checkGender, checkPronouns, checkAbout, checkEmail, checkInterests, getAge};

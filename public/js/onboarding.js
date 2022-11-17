@@ -1,8 +1,8 @@
 function checkStringErrors(arg, argName) {
-    if (typeof arg === 'undefined') throw `The ${argName} was not provided`;
-    if (typeof arg !== "string") throw `The ${argName} is of the ${typeof arg} type; it should be of the string type`;
-    if (arg === "") throw `The ${argName} is an empty string`;
-    if (arg.trim() === '') throw `The ${argName} is a string that only contains spaces`;
+    if (typeof arg === 'undefined') throw `\"${argName}\" was not provided`;
+    if (typeof arg !== "string") throw `\"${argName}\" is of the ${typeof arg} type; it should be of the string type`;
+    if (arg === "") throw `\"${argName}\" is an empty string`;
+    if (arg.trim() === '') throw `\"${argName}\" is a string that only contains spaces`;
 
     arg = arg.trim();
     return arg;
@@ -73,8 +73,34 @@ function getAge(bDay) {
     return age;
 }
 
+function checkGender(gender) {
+    checkStringErrors(gender, 'Gender');
+}
+
+function checkShowOnProfile(arg, argName) {
+    if (arg.value) {
+        if (arg.value !== 'on') throw `\"${argName}\" checkbox malfunction`;
+    }
+}
+
+function checkPronouns(pronouns) {
+    checkStringErrors(pronouns, 'Pronouns');
+}
+
+function checkAbout(about) {
+    // if (about.trim() === "") throw "\'About me\' can't contain only spaces";
+}
+
 function checkInterests(interests) {
    if (interests.length > 10) throw "You must only select up to 10 interests";
+}
+
+function getRadioValue(name) {
+    for (let i = 0; i < name.length; i++) {
+        if (name[i].checked) {
+            return name[i].value;
+        }
+    }
 }
 
 const staticForm = document.getElementById('onboardingForm');
@@ -89,6 +115,11 @@ if (staticForm) {
 
     let firstName = document.getElementById('firstName');
     let birthday = document.getElementById('birthday');
+    let gender = document.getElementsByName('gender');
+    let showGender = document.getElementById('showGender');
+    let pronouns = document.getElementsByName('pronouns');
+    let showPronouns = document.getElementById('showPronouns');
+    let about = document.getElementById('about');
     let interests = document.getElementById('interests');
 
     staticForm.addEventListener('submit', (event) => {
@@ -119,6 +150,66 @@ if (staticForm) {
             errorContainer.classList.remove('hidden');
             birthday.focus();
             birthday.value = birthday.defaultValue;
+            return;
+        }
+        try {
+            gender.value = getRadioValue(gender);
+            let genderValue = gender.value;
+            // console.log(genderValue);
+            checkGender(genderValue);
+        }
+        catch (e) {
+            const message = typeof e === 'string' ? e : e.message;
+            errorTextElement.textContent = `Error: ${message}`;
+            errorContainer.classList.remove('hidden');
+            return;
+        }
+        try {
+            let showGenderValue = showGender.value;
+            checkShowOnProfile(showGenderValue, "Show gender");
+        }
+        catch (e) {
+            const message = typeof e === 'string' ? e : e.message;
+            errorTextElement.textContent = `Error: ${message}`;
+            errorContainer.classList.remove('hidden');
+            showGender.value = showGender.defaultValue;
+            return;
+        }
+        try {
+            pronouns.value = getRadioValue(pronouns);
+            let pronounsValue = pronouns.value;
+            // console.log(pronounsValue);
+            checkPronouns(pronounsValue);
+        }
+        catch (e) {
+            const message = typeof e === 'string' ? e : e.message;
+            errorTextElement.textContent = `Error: ${message}`;
+            errorContainer.classList.remove('hidden');
+            pronouns.focus();
+            return;
+        }
+        try {
+            let showPronounsValue = showPronouns.value;
+            checkShowOnProfile(showPronounsValue, "Show pronouns");
+        }
+        catch (e) {
+            const message = typeof e === 'string' ? e : e.message;
+            errorTextElement.textContent = `Error: ${message}`;
+            errorContainer.classList.remove('hidden');
+            showPronouns.value = showPronouns.defaultValue;
+            return;
+        }
+        try {
+            let aboutValue = about.value;
+            console.log(aboutValue);
+            checkAbout(aboutValue);
+        }
+        catch (e) {
+            const message = typeof e === 'string' ? e : e.message;
+            errorTextElement.textContent = `Error: ${message}`;
+            errorContainer.classList.remove('hidden');
+            about.focus();
+            about.value = about.defaultValue;
             return;
         }
         try {
