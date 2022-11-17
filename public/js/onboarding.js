@@ -78,8 +78,6 @@ function checkInterests(interests) {
 }
 
 const staticForm = document.getElementById('onboardingForm');
-console.log(staticForm);
-
 
 
 if (staticForm) {

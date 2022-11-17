@@ -1,6 +1,6 @@
-// const axios = require("axios");
+const userId = document.getElementById("id").innerText;
 
- function getLocation() {
+async function getLocation() {
     const errorContainer = document.getElementById('error-container');
     const errorTextElement = errorContainer.getElementsByClassName(
         'text-goes-here'
@@ -19,8 +19,12 @@
 
         let locality = locationData.locality;
         let principalSubdiv = locationData.principalSubdivision;
-        // const res = await axios.patch('/users/onboarding', {latitude: latitude, longitude: longitude,
-        //     locality: locality, principalSubDiv:principalSubdiv});
+        const newData = {
+            location: {latitude: latitude, longitude: longitude, locality: locality, principalSubdiv: principalSubdiv}
+        };
+
+        const res = await axios.patch(`/users/onboarding/${userId}`, newData);
+        window.location.href = `/users/onboarding/filters/${userId}`;
 
     };
 

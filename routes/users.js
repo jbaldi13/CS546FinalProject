@@ -38,7 +38,7 @@ router.get('/onboarding/:id', async (req, res) => {
 // get onboarding/location page
 router.get('/onboarding/location/:id', async (req, res) => {
     try {
-        res.render('users/location', {title : "Location"});
+        res.render('users/location', {title : "Location", id: req.params.id});
 
     }
     catch(e){
@@ -57,42 +57,25 @@ router.get('/onboarding/filters/:id', async (req, res) => {
     }
 });
 
+// get onboarding/images page
+router.get('/onboarding/images/:id', async (req, res) => {
+    try {
+        res.render('users/images', {title : "Images"});
+
+    }
+    catch(e){
+        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+    }
+});
+
 // Create user after they sign up
 router.post('/signup', async (req, res) => {
     try {
         //need to check if email already exists and redirect to log in page
         let email = req.body.userEmail;
         let password = req.body.userPassword;
-        let firstName = null;
-        let birthday = null;
-        let gender = null;
-        let showGender = null;
-        let pronouns = null;
-        let showPronouns = null;
-        let filters = {genderInterest: null, minAge: null, maxAge: null, maxDistance: null};
-        let location = {latitude: null, longitude: null, locality: null, principalSubdiv: null};
-        let about = null;
-        let images = {profilePic: null, otherPics: []};
-        let interests = [];
-        let matches = [];
 
-
-
-        const newUser = await userData.createUser(
-            email,
-            password,
-            firstName,
-            birthday,
-            gender,
-            showGender,
-            pronouns,
-            showPronouns,
-            filters,
-            location,
-            about,
-            images,
-            interests,
-            matches);
+        const newUser = await userData.createUser(email, password);
 
         const userId = newUser._id;
 
@@ -110,10 +93,15 @@ router.patch('/onboarding/:id', async (req, res) => {
     try {
         req.params.movieId = checkId(req.params.id, "User Id");
 
-        requestBody.firstName = checkFirstName(requestBody.firstName);
-        requestBody.birthday = checkBirthday(requestBody.birthday);
-        checkInterests(requestBody.interests);
-
+        if (requestBody.firstName) {
+            requestBody.firstName = checkFirstName(requestBody.firstName);
+        }
+        if (requestBody.birthday) {
+            requestBody.birthday = checkBirthday(requestBody.birthday);
+        }
+        if (requestBody.interests) {
+            checkInterests(requestBody.interests);
+        }
     }
     catch (e) {
         return res.status(400).render('errors/error', {title : "Error", error : e.toString()});
@@ -141,9 +129,11 @@ router.patch('/onboarding/:id', async (req, res) => {
         if (requestBody.about && requestBody.about !== oldUser.about) {
             updatedObject.about = requestBody.about;
         }
-
         if (requestBody.interests && requestBody.interests !== oldUser.interests) {
             updatedObject.interests = requestBody.interests;
+        }
+        if (requestBody.location && requestBody.location !== oldUser.location) {
+            updatedObject.location = requestBody.location;
         }
     }
     catch (e) {
@@ -155,7 +145,11 @@ router.patch('/onboarding/:id', async (req, res) => {
                 req.params.id,
                 updatedObject
             );
-            res.redirect(`/users/onboarding/location/${updatedUser._id}`);
+            console.log(updatedUser.location.latitude);
+            if (updatedUser.location.latitude === null) {
+                res.redirect(`/users/onboarding/location/${updatedUser._id}`);
+            }
+
         }
         catch (e) {
             return res.status(500).render('errors/error', {title : "Error", error : e.toString()});

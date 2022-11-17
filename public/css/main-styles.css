@@ -21,6 +21,10 @@ h1 {
     font-size: 60px;
 }
 
+h3 {
+    color: white;
+}
+
 label {
     color: white;
 }
@@ -242,10 +246,6 @@ h2 {
     margin-top: 20px;
 }
 
-.locationH3 {
-    color: white;
-}
-
 #locationButton {
     text-transform: revert;
     margin-top: 10px;
@@ -319,6 +319,53 @@ h2 {
 
 #filtersBorder {
     margin-top: 50px;
+}
+
+/* Images Page */
+
+/*#image {*/
+/*    max-width: 100%;*/
+/*    max-height: 100%;*/
+/*}*/
+
+.container {
+    /*display: grid;*/
+    /*height: 100%;*/
+    /*place-items: center;*/
+    /*text-align: center;*/
+    margin: 20px auto;
+    height: 350px;
+    width: 430px;
+}
+
+.container div {
+    color: white;
+    font-size: 20px;
+}
+
+.container .wrapper {
+    height: 300px;
+    width: 100%;
+    border: 2px dashed black;
+    background: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.wrapper .image {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.wrapper .image img {
+    height: 100%;
+    width: 100%;
 }
 
 
