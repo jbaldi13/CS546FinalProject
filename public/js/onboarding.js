@@ -93,10 +93,10 @@ if (staticForm) {
 
     staticForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        try {
-            // hide error container
-            errorContainer.classList.add('hidden');
 
+        // hide error container
+        errorContainer.classList.add('hidden');
+        try {
             let firstNameValue = firstName.value;
             checkFirstName(firstNameValue);
         }

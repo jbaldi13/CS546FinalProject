@@ -49,7 +49,7 @@ router.get('/onboarding/location/:id', async (req, res) => {
 // get onboarding/filters page
 router.get('/onboarding/filters/:id', async (req, res) => {
     try {
-        res.render('users/filters', {title : "Filters"});
+        res.render('users/filters', {title : "Filters", id: req.params.id});
 
     }
     catch(e){
@@ -126,15 +126,19 @@ router.patch('/onboarding/:id', async (req, res) => {
         if (requestBody.showPronouns && requestBody.showPronouns !== oldUser.showPronouns) {
             updatedObject.showPronouns = requestBody.showPronouns;
         }
+        if (requestBody.filters && requestBody.filters !== oldUser.filters) {
+            updatedObject.filters = requestBody.filters;
+        }
+        if (requestBody.location && requestBody.location !== oldUser.location) {
+            updatedObject.location = requestBody.location;
+        }
         if (requestBody.about && requestBody.about !== oldUser.about) {
             updatedObject.about = requestBody.about;
         }
         if (requestBody.interests && requestBody.interests !== oldUser.interests) {
             updatedObject.interests = requestBody.interests;
         }
-        if (requestBody.location && requestBody.location !== oldUser.location) {
-            updatedObject.location = requestBody.location;
-        }
+
     }
     catch (e) {
         return res.status(404).render('errors/error', {title : "User not Found", error : e.toString()});
@@ -145,7 +149,7 @@ router.patch('/onboarding/:id', async (req, res) => {
                 req.params.id,
                 updatedObject
             );
-            console.log(updatedUser.location.latitude);
+
             if (updatedUser.location.latitude === null) {
                 res.redirect(`/users/onboarding/location/${updatedUser._id}`);
             }

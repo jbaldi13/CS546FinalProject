@@ -1,5 +1,5 @@
 <div>
-    <form id="onboardingForm" action="/users/onboarding/filters/{{id}}" method="post">
+    <form id="filtersForm" method="post">
         <h2 class="neon">CREATE ACCOUNT</h2>
         <div id="locationContainer">
             <h2>Filters</h2>
@@ -11,7 +11,7 @@
                             <option disabled="disabled" selected="selected">Select Gender</option>
                             <option value="men">Men</option>
                             <option value="women">Women</option>
-                            <option value="aquariums">Everyone</option>
+                            <option value="everyone">Everyone</option>
                         </select>
                     </div>
                 </div>
@@ -37,8 +37,11 @@
             </div>
             <button type="submit" class="homepage-buttons">Submit</button>
         </div>
+        <input name= '_method' value="patch" type="hidden"/>
     </form>
 </div>
+<p hidden id="id">{{id}}</p>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
         crossorigin="anonymous"></script>

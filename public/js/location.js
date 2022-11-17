@@ -1,13 +1,27 @@
 const userId = document.getElementById("id").innerText;
+const errorContainer = document.getElementById('error-container');
+const errorTextElement = errorContainer.getElementsByClassName(
+    'text-goes-here'
+)[0];
+
+const loader = document.getElementById('loader');
+loader.hidden = true;
+
+window.addEventListener( "pageshow", function ( event ) {
+    let historyTraversal = event.persisted ||
+        ( typeof window.performance != "undefined" &&
+            window.performance.navigation.type === 2 );
+    if ( historyTraversal ) {
+        // Handle page restore.
+        window.location.reload();
+    }
+});
 
 async function getLocation() {
-    const errorContainer = document.getElementById('error-container');
-    const errorTextElement = errorContainer.getElementsByClassName(
-        'text-goes-here'
-    )[0];
+    loader.hidden = false;
 
     const success = async (position) => {
-        console.log(position);
+
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
@@ -23,18 +37,15 @@ async function getLocation() {
             location: {latitude: latitude, longitude: longitude, locality: locality, principalSubdiv: principalSubdiv}
         };
 
-        const res = await axios.patch(`/users/onboarding/${userId}`, newData);
         window.location.href = `/users/onboarding/filters/${userId}`;
-
+        const res = await axios.patch(`/users/onboarding/${userId}`, newData);
     };
 
     const error = () => {
+        loader.hidden = true;
         errorTextElement.textContent = `Error: Unable to retrieve your location`;
         errorContainer.classList.remove('hidden');
     };
 
     navigator.geolocation.getCurrentPosition(success, error);
-
 }
-
-document.querySelector('#locationButton').addEventListener('click', getLocation);
