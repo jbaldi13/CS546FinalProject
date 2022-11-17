@@ -89,6 +89,7 @@ router.post('/signup', async (req, res) => {
 // Update user after they onboard
 router.patch('/onboarding/:id', async (req, res) => {
     const requestBody = req.body;
+    console.log(requestBody);
     let updatedObject = {};
     try {
         req.params.movieId = checkId(req.params.id, "User Id");
@@ -150,7 +151,7 @@ router.patch('/onboarding/:id', async (req, res) => {
                 updatedObject
             );
 
-            if (updatedUser.location.latitude === null) {
+            if (requestBody.firstName) {
                 res.redirect(`/users/onboarding/location/${updatedUser._id}`);
             }
 
