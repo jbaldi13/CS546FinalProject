@@ -9,7 +9,8 @@
             <div class="alert alert-danger text-goes-here">
             </div>
         </div>
-        <button  id="locationButton" type="submit" class="homepage-buttons">Allow location access</button>
+        <div id="loader" hidden></div>
+        <button  id="locationButton" type="button" class="homepage-buttons" onclick="getLocation();">Allow location access</button>
     </div>
 </div>
 <p hidden id="id">{{id}}</p>
