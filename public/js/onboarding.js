@@ -88,7 +88,9 @@ function checkPronouns(pronouns) {
 }
 
 function checkAbout(about) {
-    // if (about.trim() === "") throw "\'About me\' can't contain only spaces";
+    if (about !== "") {
+        if (about.trim() === "") throw "\'About me\' can't contain only spaces";
+    }
 }
 
 function checkInterests(interests) {

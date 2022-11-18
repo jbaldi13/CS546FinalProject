@@ -53,13 +53,6 @@ if (staticForm) {
         errorContainer.classList.add('hidden');
         try {
             checkAgeRange(minAge.value, maxAge.value);
-            checkGenderInterest(genderInterest.value);
-            window.location.href = `/users/onboarding/images/${userId}`;
-            const newData = {
-                filters: {genderInterest: genderInterest.value, minAge: minAge.value, maxAge: maxAge.value, maxDistance: maxDistance.value}
-            };
-            const res = await axios.patch(`/users/onboarding/${userId}`, newData);
-
 
         } catch (e) {
             const message = typeof e === 'string' ? e : e.message;
@@ -70,8 +63,31 @@ if (staticForm) {
             minAgeLabel.innerHTML = minAge.value;
             maxAge.value = maxAge.defaultValue;
             maxAgeLabel.innerHTML = maxAge.value;
+            return;
+        }
+        try {
+            checkGenderInterest(genderInterest.value);
+
+        } catch (e) {
+            const message = typeof e === 'string' ? e : e.message;
+            errorTextElement.textContent = `Error: ${message}`;
+            errorContainer.classList.remove('hidden');
+            return;
+        }
+        try {
+            window.location.href = `/users/onboarding/images/${userId}`;
+            const newData = {
+                filters: {genderInterest: genderInterest.value, minAge: minAge.value, maxAge: maxAge.value, maxDistance: maxDistance.value}
+            };
+            const res = await axios.patch(`/users/onboarding/${userId}`, newData);
+        }
+        catch (e) {
+            const message = typeof e === 'string' ? e : e.message;
+            errorTextElement.textContent = `Error: ${message}`;
+            errorContainer.classList.remove('hidden');
         }
     });
+
 }
 
 

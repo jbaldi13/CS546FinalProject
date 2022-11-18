@@ -6,7 +6,7 @@ const {checkFirstName, checkBirthday, checkInterests, getAge,
     checkGender,
     checkShowOnProfile,
     checkPronouns,
-    checkAbout
+    checkAbout, checkLocation, checkFilters
 } = require("../helpers");
 
 const createUser = async (email, password) => {
@@ -95,12 +95,13 @@ const updateUser = async (userId, updatedUser) => {
     if (updatedUser.showPronouns) {
         checkShowOnProfile(updatedUser.showPronouns, "Show pronouns");
     }
-    if (updatedUser.about) {
+    if (updatedUser.about !== undefined) {
         updatedUser.about = checkAbout(updatedUser.about);
     }
     if (updatedUser.interests) {
         checkInterests(updatedUser.interests);
     }
+
 
     const userCollection = await users();
     const updatedInfo = await userCollection.updateOne(

@@ -13,10 +13,10 @@ function checkId(arg, argName) {
 }
 
 function checkStringErrors(arg, argName) {
-    if (typeof arg === 'undefined') throw `Error: The ${argName} argument was not provided`;
-    if (typeof arg !== "string") throw `Error: The ${argName} argument is of the ${typeof arg} type; it should be of the string type`;
-    if (arg === "") throw `Error: The ${argName} argument is an empty string`;
-    if (arg.trim() === '') throw `Error: The ${argName} argument is a string that only contains spaces`;
+    if (typeof arg === 'undefined') throw `\"${argName}\" was not provided`;
+    if (typeof arg !== "string") throw `\"${argName}\" is of the ${typeof arg} type; it should be of the string type`;
+    if (arg === "") throw `\"${argName}\" is an empty string`;
+    if (arg.trim() === '') throw `\"${argName}\" is a string that only contains spaces`;
 
     arg = arg.trim();
     return arg;
@@ -102,8 +102,9 @@ function checkShowOnProfile(arg, argName) {
 }
 
 function checkAbout(about) {
-
-    if (about.trim() === "") throw "\'About me\' can't contain only spaces";
+    if (about !== "") {
+        if (about.trim() === "") throw "\'About me\' can't contain only spaces";
+    }
 
     about = about.trim();
     return about;
@@ -116,10 +117,27 @@ function checkInterests(interests) {
 }
 
 function checkEmail(email){
-    if(!email) throw "Error: You must provide an email.";
+    if(!email) throw "You must provide an email.";
+}
+
+function checkLocation(location) {
+    if (!location.latitude || !location.longitude ||
+        !location.locality || !location.principalSubdiv) throw "Could not get user location";
+}
+
+function checkFilters(filters) {
+    checkStringErrors(filters.genderInterest, "Gender Interest");
+    if (filters.genderInterest === "Select Gender") throw `You must select what gender you're interested in`;
+    checkStringErrors(filters.minAge, "Min Age");
+    checkStringErrors(filters.maxAge, "Max Age");
+    checkStringErrors(filters.maxDistance, "Max Distance");
+    filters.minAge = parseInt(filters.minAge);
+    filters.maxAge = parseInt(filters.maxAge);
+    if (filters.maxAge < filters.minAge) throw 'The Max Age must be greater than or equal to the Min Age';
+    filters.maxDistance = parseInt(filters.maxDistance);
+    return filters;
 }
 
 
 
-
-module.exports = {checkShowOnProfile, checkId, checkFirstName, checkBirthday, checkGender, checkPronouns, checkAbout, checkEmail, checkInterests, getAge};
+module.exports = {checkFilters, checkLocation, checkShowOnProfile, checkId, checkFirstName, checkBirthday, checkGender, checkPronouns, checkAbout, checkEmail, checkInterests, getAge};
