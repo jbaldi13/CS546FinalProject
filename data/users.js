@@ -46,11 +46,41 @@ const createUser = async (email, password) => {
 
     const usersCollection = await users();
     const INSERT_INFO = await usersCollection.insertOne(newUser);
-    if (!INSERT_INFO.acknowledged || !INSERT_INFO.insertedId)
+    if (!INSERT_INFO.acknowledged || !INSERT_INFO.insertedId){
         throw 'Could not add user';
-
+    }
+    
     const NEW_ID = INSERT_INFO.insertedId.toString();
     return await getUserById(NEW_ID);
+
+    
+};
+
+const checkUser = async (email, password) => { 
+    //need to work on this
+    //check inputs for errors and convert email to lowercase
+    //email = helpers.checkEmail(email)
+    password = helpers.checkPassword(password)
+  
+    //check if email exists in database
+    const userCollection = await users()
+    const userInDB = await userCollection.findOne({email: email});
+    
+    //if the username exists, compare the passwords
+    if (userInDB != null){
+      let comparePasswords = false
+      comparePasswords = await bcrypt.compare(password, userInDB.password);
+  
+      if(comparePasswords){
+        return {authenticatedUser: true}
+      }
+      else{
+        throw "Error: Either the username or password is invalid."
+      }
+    }
+    else{
+      throw "Error: Either the username or password is invalid."
+    }
 };
 
 const getUserById = async (userId) => {
@@ -129,4 +159,4 @@ const updateUser = async (userId, updatedUser) => {
     return await getUserById(userId);
 };
 
-module.exports = {createUser, getUserById, getAllUsers, removeUser, updateUser};
+module.exports = {createUser, checkUser, getUserById, getAllUsers, removeUser, updateUser};
