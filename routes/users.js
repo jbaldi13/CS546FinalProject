@@ -214,8 +214,12 @@ router.patch('/onboarding/:id', async (req, res) => {
 router
   .route('/login')
   .get(async (req, res) => { 
-    //need to check for req.session.user and redirect as they should never see this page
-    res.render('users/login', {title: "Login", header: "Login"});
+    if(!req.session.user){
+        res.render('users/login', {title: "Login", header: "Login"});
+    }
+    else{
+        res.redirect("/dashboard")
+    }
   })
   .post(async (req, res) => {
     try{
