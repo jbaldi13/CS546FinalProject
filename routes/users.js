@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const userData = data.users;
+const helpers = require("../helpers")
 const {checkId, checkFirstName, checkBirthday, checkInterests, checkGender, checkAbout, checkPronouns, checkShowOnProfile,
     checkLocation,
     checkFilters
@@ -75,19 +76,21 @@ router.get('/onboarding/images/:id', async (req, res) => {
 router.post('/signup', async (req, res) => {
     try {
         let email = req.body.userEmail;
-        let password = req.body.userPassword;
-        let conPassword = req.body.conUserPassword;
+        let password = helpers.checkPassword(req.body.userPassword);
+        let conPassword = helpers.checkPassword(req.body.conUserPassword);
 
         if(password != conPassword){
             throw "Error: your passwords do not match"
         }
+
         const newUser = await userData.createUser(email, password);
         if(newUser != null){
             const userId = newUser._id;
+            req.session.user = {email: email}
             res.redirect(`/users/onboarding/${userId}`);
         }
         else{
-            return res.status(500).send('Internal Server Error')
+            return res.status(500).render('errors/error', {title : "Error", error : e.toString()});
         } 
     }
     catch(e){
@@ -207,10 +210,29 @@ router.patch('/onboarding/:id', async (req, res) => {
 //     res.redirect('/');
 // });
 
-// // Post login
-// router.post('/login', async (req, res) => {
-//     // TODO...
-// });
+// get and post login
+router
+  .route('/login')
+  .get(async (req, res) => { 
+    res.render('users/login', {title: "Login", header: "Login"})
+  })
+  .post(async (req, res) => {
+    try{
+        let email = req.body.userEmail
+        let password = helpers.checkPassword(req.body.userPassword)
+        let response = await userData.checkUser(email, password)
+        if(response.authenticatedUser == true){
+          //req.session.user = {email: email}
+          res.redirect("/dashboard")
+        }
+        else{
+          return res.status(400).render("users/login", {title: "Login", error: e})
+        }
+      }
+      catch(e){
+        res.status(400).render("users/login", {title: "Login", error: e})
+      }
+  });
 
 
 

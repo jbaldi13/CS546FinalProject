@@ -56,6 +56,32 @@ const createUser = async (email, password) => {
     
 };
 
+const checkUser = async (email, password) => { 
+    //check inputs for errors and convert email to lowercase
+    //email = helpers.checkEmail(email)
+    password = helpers.checkPassword(password)
+  
+    //check if email exists in database
+    const userCollection = await users()
+    const userInDB = await userCollection.findOne({email: email});
+    
+    //if the username exists, compare the passwords
+    if (userInDB != null){
+      let comparePasswords = false
+      comparePasswords = await bcrypt.compare(password, userInDB.password);
+  
+      if(comparePasswords){
+        return {authenticatedUser: true}
+      }
+      else{
+        throw "Error: Either the username or password is invalid."
+      }
+    }
+    else{
+      throw "Error: Either the username or password is invalid."
+    }
+};
+
 const getUserById = async (userId) => {
     userId = helpers.checkId(userId, "userId");
     const userCollection = await users();
@@ -132,4 +158,4 @@ const updateUser = async (userId, updatedUser) => {
     return await getUserById(userId);
 };
 
-module.exports = {createUser, getUserById, getAllUsers, removeUser, updateUser};
+module.exports = {createUser, checkUser, getUserById, getAllUsers, removeUser, updateUser};
