@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const userData = data.users;
-const helpers = require("../helpers")
+const helpers = require("../helpers");
 const {checkId, checkFirstName, checkBirthday, checkInterests, checkGender, checkAbout, checkPronouns, checkShowOnProfile,
     checkLocation,
     checkFilters
@@ -80,13 +80,13 @@ router.post('/signup', async (req, res) => {
         let conPassword = helpers.checkPassword(req.body.conUserPassword);
 
         if(password != conPassword){
-            throw "Error: your passwords do not match"
+            throw "Error: your passwords do not match";
         }
 
         const newUser = await userData.createUser(email, password);
         if(newUser != null){
             const userId = newUser._id;
-            req.session.user = {email: email}
+            req.session.user = {email: email};
             res.redirect(`/users/onboarding/${userId}`);
         }
         else{
@@ -101,31 +101,31 @@ router.post('/signup', async (req, res) => {
 // Update user after they onboard
 router.patch('/onboarding/:id', async (req, res) => {
     const requestBody = req.body;
-    console.log(requestBody);
+    // console.log(requestBody);
     let updatedObject = {};
     try {
         req.params.movieId = checkId(req.params.id, "User Id");
 
         if (requestBody.firstName) {
-            requestBody.firstName = checkFirstName(requestBody.firstName);
+            checkFirstName(requestBody.firstName);
         }
         if (requestBody.birthday) {
-            requestBody.birthday = checkBirthday(requestBody.birthday);
+            checkBirthday(requestBody.birthday);
         }
         if (requestBody.gender) {
             checkGender(requestBody.gender);
         }
         if (requestBody.showGender) {
-            checkShowOnProfile(requestBody.showGender, "Show gender");
+            requestBody.showGender = checkShowOnProfile(requestBody.showGender, "Show gender");
         }
         if (requestBody.pronouns) {
             checkPronouns(requestBody.pronouns);
         }
         if (requestBody.showPronouns) {
-            checkShowOnProfile(requestBody.showPronouns, "Show pronouns");
+            requestBody.showPronouns = checkShowOnProfile(requestBody.showPronouns, "Show pronouns");
         }
         if (requestBody.about) {
-            requestBody.about = checkAbout(requestBody.about);
+            checkAbout(requestBody.about);
         }
         if (requestBody.interests) {
             checkInterests(requestBody.interests);
@@ -134,7 +134,7 @@ router.patch('/onboarding/:id', async (req, res) => {
             checkLocation(requestBody.location);
         }
         if (requestBody.filters) {
-            requestBody.filters = checkFilters(requestBody.filters);
+            checkFilters(requestBody.filters);
         }
     }
     catch (e) {
@@ -166,13 +166,13 @@ router.patch('/onboarding/:id', async (req, res) => {
         if (requestBody.about !== undefined && requestBody.about !== oldUser.about) {
             updatedObject.about = requestBody.about;
         }
-        if (requestBody.interests && requestBody.interests !== oldUser.interests) {
+        if (requestBody.interests && JSON.stringify(requestBody.interests) !== JSON.stringify(oldUser.interests)) {
             updatedObject.interests = requestBody.interests;
         }
-        if (requestBody.location && requestBody.location !== oldUser.location) {
+        if (requestBody.location) {
             updatedObject.location = requestBody.location;
         }
-        if (requestBody.filters && JSON.stringify(requestBody.filters) !== JSON.stringify(oldUser.filters) ) {
+        if (requestBody.filters && JSON.stringify(requestBody.filters) !== JSON.stringify(oldUser.filters)) {
             updatedObject.filters = requestBody.filters;
         }
 
@@ -180,7 +180,7 @@ router.patch('/onboarding/:id', async (req, res) => {
     catch (e) {
         return res.status(404).render('errors/error', {title : "User not Found", error : e.toString()});
     }
-    console.log(updatedObject);
+    // console.log(updatedObject);
     if (Object.keys(updatedObject).length !== 0) {
         try {
             const updatedUser = await updateUser(
@@ -188,7 +188,8 @@ router.patch('/onboarding/:id', async (req, res) => {
                 updatedObject
             );
 
-            if (requestBody.firstName) {
+            if (requestBody.firstName || requestBody.birthday || requestBody.gender ||
+            requestBody.showPronouns || requestBody.pronouns || requestBody.showPronouns || requestBody.about || requestBody.interests) {
                 res.redirect(`/users/onboarding/location/${updatedUser._id}`);
             }
 
@@ -198,8 +199,8 @@ router.patch('/onboarding/:id', async (req, res) => {
         }
     }
     else {
-        // res.status(400).render('errors/error', {title : "Error: 'No fields have been changed from their initial values, so no update has occurred"});
-        res.json('TODO... error page');
+        let errorMessage = "Error: 'No fields have been changed from their initial values, so no update has occurred";
+        res.status(400).render('errors/error', {title : "Error", error: errorMessage});
     }
 
 });
@@ -214,23 +215,23 @@ router.patch('/onboarding/:id', async (req, res) => {
 router
   .route('/login')
   .get(async (req, res) => { 
-    res.render('users/login', {title: "Login", header: "Login"})
+    res.render('users/login', {title: "Login", header: "Login"});
   })
   .post(async (req, res) => {
     try{
-        let email = req.body.userEmail
-        let password = helpers.checkPassword(req.body.userPassword)
-        let response = await userData.checkUser(email, password)
-        if(response.authenticatedUser == true){
+        let email = req.body.userEmail;
+        let password = helpers.checkPassword(req.body.userPassword);
+        let response = await userData.checkUser(email, password);
+        if(response.authenticatedUser === true){
           //req.session.user = {email: email}
-          res.redirect("/dashboard")
+          res.redirect("/dashboard");
         }
         else{
-          return res.status(400).render("users/login", {title: "Login", error: e})
+          return res.status(400).render("users/login", {title: "Login", error: e});
         }
       }
       catch(e){
-        res.status(400).render("users/login", {title: "Login", error: e})
+        res.status(400).render("users/login", {title: "Login", error: e});
       }
   });
 

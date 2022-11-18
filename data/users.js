@@ -4,23 +4,22 @@ const users = mongoCollections.users;
 const helpers = require("../helpers");
 const {checkFirstName, checkBirthday, checkInterests, getAge,
     checkGender,
-    checkShowOnProfile,
     checkPronouns,
-    checkAbout, checkLocation, checkFilters
+    checkAbout, checkLocation, checkFilters, checkShowOnProfile
 } = require("../helpers");
-const bcrypt = require("bcryptjs")
-const saltRounds = 16
+const bcrypt = require("bcryptjs");
+const saltRounds = 16;
 
 const createUser = async (email, password) => {
     //input error checking (TODO...)
     //email = helpers.checkEmail(email) make sure to convert to lowercase
-    password = helpers.checkPassword(password)
+    password = helpers.checkPassword(password);
 
     //check if email already exists in database
-    const userCollection = await users()
+    const userCollection = await users();
     const userInDB = await userCollection.findOne({email: email});
     if (userInDB != null){
-        throw "Error: a user already exists with the email "+email
+        throw "Error: a user already exists with the email "+email;
     }
 
     //hash the password
@@ -60,26 +59,26 @@ const checkUser = async (email, password) => {
     //need to work on this
     //check inputs for errors and convert email to lowercase
     //email = helpers.checkEmail(email)
-    password = helpers.checkPassword(password)
+    password = helpers.checkPassword(password);
   
     //check if email exists in database
-    const userCollection = await users()
+    const userCollection = await users();
     const userInDB = await userCollection.findOne({email: email});
     
     //if the username exists, compare the passwords
     if (userInDB != null){
-      let comparePasswords = false
+      let comparePasswords = false;
       comparePasswords = await bcrypt.compare(password, userInDB.password);
   
       if(comparePasswords){
-        return {authenticatedUser: true}
+        return {authenticatedUser: true};
       }
       else{
-        throw "Error: Either the username or password is invalid."
+        throw "Error: Either the username or password is invalid.";
       }
     }
     else{
-      throw "Error: Either the username or password is invalid."
+      throw "Error: Either the username or password is invalid.";
     }
 };
 
@@ -119,10 +118,10 @@ const updateUser = async (userId, updatedUser) => {
     userId = helpers.checkId(userId, "userId");
 
     if (updatedUser.firstName) {
-        updatedUser.firstName = checkFirstName(updatedUser.firstName);
+        checkFirstName(updatedUser.firstName);
     }
     if (updatedUser.birthday) {
-        updatedUser.birthday = checkBirthday(updatedUser.birthday);
+        checkBirthday(updatedUser.birthday);
         updatedUser.age = getAge(updatedUser.birthday);
     }
 
@@ -139,10 +138,13 @@ const updateUser = async (userId, updatedUser) => {
         checkShowOnProfile(updatedUser.showPronouns, "Show pronouns");
     }
     if (updatedUser.about !== undefined) {
-        updatedUser.about = checkAbout(updatedUser.about);
+        checkAbout(updatedUser.about);
     }
     if (updatedUser.interests) {
         checkInterests(updatedUser.interests);
+    }
+    if (updatedUser.filters) {
+        checkFilters(updatedUser.filters);
     }
 
 
@@ -151,6 +153,7 @@ const updateUser = async (userId, updatedUser) => {
         {_id: ObjectId(userId)},
         {$set: updatedUser}
     );
+
 
     if (updatedInfo.modifiedCount === 0) {
         throw 'Error: Could not update any information about the user';
