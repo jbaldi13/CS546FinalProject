@@ -74,18 +74,19 @@ router.get('/onboarding/images/:id', async (req, res) => {
 // Create user after they sign up
 router.post('/signup', async (req, res) => {
     try {
-        //need to check if email already exists and redirect to log in page
         let email = req.body.userEmail;
         let password = req.body.userPassword;
-
         const newUser = await userData.createUser(email, password);
-
-        const userId = newUser._id;
-
-        res.redirect(`/users/onboarding/${userId}`);
+        if(newUser != null){
+            const userId = newUser._id;
+            res.redirect(`/users/onboarding/${userId}`);
+        }
+        else{
+            return res.status(500).send('Internal Server Error')
+        } 
     }
     catch(e){
-        return res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+        return res.render('users/signup', {title : "Create an Account", error: e});
     }
 });
 

@@ -46,11 +46,14 @@ const createUser = async (email, password) => {
 
     const usersCollection = await users();
     const INSERT_INFO = await usersCollection.insertOne(newUser);
-    if (!INSERT_INFO.acknowledged || !INSERT_INFO.insertedId)
+    if (!INSERT_INFO.acknowledged || !INSERT_INFO.insertedId){
         throw 'Could not add user';
-
+    }
+    
     const NEW_ID = INSERT_INFO.insertedId.toString();
     return await getUserById(NEW_ID);
+
+    
 };
 
 const getUserById = async (userId) => {
