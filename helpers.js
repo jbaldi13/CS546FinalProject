@@ -118,6 +118,12 @@ function checkInterests(interests) {
 
 function checkEmail(email){
     if(!email) throw "You must provide an email.";
+    email = String(email).toLowerCase()
+    const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(!res.test(email)){
+        throw "Error: you must enter a valid email address."
+    }
+    return email
 }
 
 function checkLocation(location) {

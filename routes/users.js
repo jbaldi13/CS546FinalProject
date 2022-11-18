@@ -214,23 +214,29 @@ router.patch('/onboarding/:id', async (req, res) => {
 router
   .route('/login')
   .get(async (req, res) => { 
-    res.render('users/login', {title: "Login", header: "Login"})
+    //need to check for req.session.user and redirect as they should never see this page
+    res.render('users/login', {title: "Login", header: "Login"});
   })
   .post(async (req, res) => {
     try{
-        let email = req.body.userEmail
-        let password = helpers.checkPassword(req.body.userPassword)
-        let response = await userData.checkUser(email, password)
+        //shouldnt do input error checking on log in for security reasons
+        //let email = helpers.checkEmail(req.body.userEmail) 
+        //let password = helpers.checkPassword(req.body.userPassword)
+
+        let email = req.body.userEmail.toLowerCase();
+        let password = req.body.userPassword;
+        let response = await userData.checkUser(email, password);
         if(response.authenticatedUser == true){
-          //req.session.user = {email: email}
-          res.redirect("/dashboard")
+          req.session.user = {email: email}
+          console.log(req.session.user)
+          res.redirect("/dashboard");
         }
         else{
-          return res.status(400).render("users/login", {title: "Login", error: e})
+          return res.status(400).render("users/login", {title: "Login", error: e});
         }
       }
       catch(e){
-        res.status(400).render("users/login", {title: "Login", error: e})
+        res.status(400).render("users/login", {title: "Login", error: e});
       }
   });
 

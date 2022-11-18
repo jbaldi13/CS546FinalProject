@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const app = express();
 const static = express.static(__dirname + '/public');
 const configRoutes = require('./routes');
@@ -35,6 +36,13 @@ app.use('/public', static);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(rewriteUnsupportedBrowserMethods);
+
+app.use(session({
+    name: 'AuthCookie',
+    secret: 'some secret string!',
+    resave: false,
+    saveUninitialized: true
+}))
 
 app.engine('handlebars', handlebarsInstance.engine);
 app.set('view engine', 'handlebars');
