@@ -8,14 +8,27 @@ const {checkFirstName, checkBirthday, checkInterests, getAge,
     checkPronouns,
     checkAbout, checkLocation, checkFilters
 } = require("../helpers");
+const bcrypt = require("bcryptjs")
+const saltRounds = 16
 
 const createUser = async (email, password) => {
     //input error checking (TODO...)
+    //email = helpers.checkEmail(email) make sure to convert to lowercase
+    password = helpers.checkPassword(password)
 
+    //check if email already exists in database
+    const userCollection = await users()
+    const userInDB = await userCollection.findOne({email: email});
+    if (userInDB != null){
+        throw "Error: a user already exists with the email "+email
+    }
+
+    //hash the password
+    const hashedPass = await bcrypt.hash(password, saltRounds);
 
     let newUser = {
         email: email,
-        password: password,
+        password: hashedPass,
         firstName: null,
         birthday: null,
         age: null,

@@ -138,6 +138,82 @@ function checkFilters(filters) {
     return filters;
 }
 
+function checkPassword(password){
+    //check if password is provided
+    if(!password){
+        throw "Error: you must provide a password."
+    }
+    
+    //trim password and check length if length is atleast 6
+    if(password.trim().length < 6){
+        throw "Error: password must be atleast 6 characters long."
+    }
+
+    //check if password has any spaces
+    var checkpass = password.replace(/\s/g,"")
+    if(checkpass != password){
+        throw "Error: password cannot have any spaces."
+    }
+
+    //check if password has atleast one uppercase character
+    if(!checkForUpperCaseLetter(password)){
+        throw "Error: password must contain atleast one uppercase letter."
+    }
+
+    //check if password has atleast one number
+    if(!checkForNumber(password)){
+        throw "Error: password must contain atleast one number."
+    }
+
+    //check if password has atleast one special character
+    if(!checkForSpecialChar(password)){
+        throw "Error: password must contain atleast one special character."
+    }
+
+    //return password as inputted
+    return password
+}
+
+function checkForUpperCaseLetter(string){
+    for (i = 0; i < string.length; i++){
+        if (string.charAt(i) == string.charAt(i).toUpperCase() && string.charAt(i).match(/[a-zA-Z]/i)){
+          return true;
+        }
+    }
+    return false;
+}
+
+function checkForNumber(string){
+    for (i = 0; i < string.length; i++){
+        if (string.charAt(i).match(/[0-9]/i)){
+          return true;
+        }
+    }
+    return false;
+}
+
+function checkForSpecialChar(string){
+    var regex = /[!.,?`~@#$%^&*()_|+\-=;:<>\{\}\[\]\\\/]/i
+    for (i = 0; i < string.length; i++){
+        if (string.charAt(i).match(regex)){
+          return true;
+        }
+    }
+    return false;
+}
 
 
-module.exports = {checkFilters, checkLocation, checkShowOnProfile, checkId, checkFirstName, checkBirthday, checkGender, checkPronouns, checkAbout, checkEmail, checkInterests, getAge};
+
+module.exports = {checkFilters, 
+    checkLocation, 
+    checkShowOnProfile, 
+    checkId, 
+    checkFirstName, 
+    checkBirthday, 
+    checkGender, 
+    checkPronouns, 
+    checkAbout, 
+    checkEmail, 
+    checkInterests,
+    checkPassword, 
+    getAge};
