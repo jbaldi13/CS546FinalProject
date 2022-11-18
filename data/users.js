@@ -4,9 +4,8 @@ const users = mongoCollections.users;
 const helpers = require("../helpers");
 const {checkFirstName, checkBirthday, checkInterests, getAge,
     checkGender,
-    checkShowOnProfile,
     checkPronouns,
-    checkAbout, checkLocation, checkFilters
+    checkAbout, checkLocation, checkFilters, checkShowOnProfile
 } = require("../helpers");
 
 const createUser = async (email, password) => {
@@ -76,10 +75,10 @@ const updateUser = async (userId, updatedUser) => {
     userId = helpers.checkId(userId, "userId");
 
     if (updatedUser.firstName) {
-        updatedUser.firstName = checkFirstName(updatedUser.firstName);
+        checkFirstName(updatedUser.firstName);
     }
     if (updatedUser.birthday) {
-        updatedUser.birthday = checkBirthday(updatedUser.birthday);
+        checkBirthday(updatedUser.birthday);
         updatedUser.age = getAge(updatedUser.birthday);
     }
 
@@ -96,10 +95,13 @@ const updateUser = async (userId, updatedUser) => {
         checkShowOnProfile(updatedUser.showPronouns, "Show pronouns");
     }
     if (updatedUser.about !== undefined) {
-        updatedUser.about = checkAbout(updatedUser.about);
+        checkAbout(updatedUser.about);
     }
     if (updatedUser.interests) {
         checkInterests(updatedUser.interests);
+    }
+    if (updatedUser.filters) {
+        checkFilters(updatedUser.filters);
     }
 
 
@@ -108,6 +110,7 @@ const updateUser = async (userId, updatedUser) => {
         {_id: ObjectId(userId)},
         {$set: updatedUser}
     );
+
 
     if (updatedInfo.modifiedCount === 0) {
         throw 'Error: Could not update any information about the user';

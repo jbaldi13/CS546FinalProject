@@ -28,8 +28,6 @@ function checkFirstName(firstName){
     for (let i = 0; i < firstName.length; i++) {
         if (!(/^[A-Za-z'-]/g.test(firstName[i]))) throw `The first name must only contain letters a-z or A-Z, an apostrophe, or a hyphen`;
     }
-
-    return firstName;
 }
 
 function checkBirthday(bDay) {
@@ -71,7 +69,6 @@ function checkBirthday(bDay) {
     if (bDay[2] !== '/' || bDay[5] !== '/') throw "Birthday must be in the form: mm/dd/yyyy";
     if (day > daysInEachMonth[month]) throw `Regarding the birthday input, there are not ${day} days in ${monthNames[month]}`;
     if (month < 1 || month > 12) throw `Regarding the birthday input, ${month} is not a valid month`;
-    return bDay;
 }
 
 function getAge(bDay) {
@@ -96,18 +93,17 @@ function checkPronouns(pronouns) {
 }
 
 function checkShowOnProfile(arg, argName) {
-    if (arg.value) {
-        if (arg.value !== 'on') throw `\"${argName}\" checkbox malfunction`;
+    if (Array.isArray(arg)) return arg[1];
+    else {
+        if (!arg) throw `\"${argName}\" checkbox malfunction`;
     }
+    return arg;
 }
 
 function checkAbout(about) {
     if (about !== "") {
         if (about.trim() === "") throw "\'About me\' can't contain only spaces";
     }
-
-    about = about.trim();
-    return about;
 }
 
 function checkInterests(interests) {
@@ -123,19 +119,13 @@ function checkEmail(email){
 function checkLocation(location) {
     if (!location.latitude || !location.longitude ||
         !location.locality || !location.principalSubdiv) throw "Could not get user location";
+
 }
 
 function checkFilters(filters) {
     checkStringErrors(filters.genderInterest, "Gender Interest");
     if (filters.genderInterest === "Select Gender") throw `You must select what gender you're interested in`;
-    checkStringErrors(filters.minAge, "Min Age");
-    checkStringErrors(filters.maxAge, "Max Age");
-    checkStringErrors(filters.maxDistance, "Max Distance");
-    filters.minAge = parseInt(filters.minAge);
-    filters.maxAge = parseInt(filters.maxAge);
     if (filters.maxAge < filters.minAge) throw 'The Max Age must be greater than or equal to the Min Age';
-    filters.maxDistance = parseInt(filters.maxDistance);
-    return filters;
 }
 
 

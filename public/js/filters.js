@@ -27,8 +27,6 @@ maxDistance.oninput = function() {
 };
 
 function checkAgeRange(minAge, maxAge) {
-    minAge = parseInt(minAge);
-    maxAge = parseInt(maxAge);
     if (maxAge < minAge) throw 'The Max Age must be greater than or equal to the Min Age';
 }
 
@@ -51,8 +49,26 @@ if (staticForm) {
 
         // hide error container
         errorContainer.classList.add('hidden');
+
+        const newData = {filters: {}};
         try {
+            checkGenderInterest(genderInterest.value);
+            newData.filters.genderInterest = genderInterest.value;
+
+        } catch (e) {
+            const message = typeof e === 'string' ? e : e.message;
+            errorTextElement.textContent = `Error: ${message}`;
+            errorContainer.classList.remove('hidden');
+            return;
+        }
+        try {
+            let minAgeValue = parseInt(minAge.value);
+            let maxAgeValue = parseInt(maxAge.value);
+            let maxDistanceValue = parseInt(maxDistance.value);
             checkAgeRange(minAge.value, maxAge.value);
+            newData.filters.minAge = minAgeValue;
+            newData.filters.maxAge = maxAgeValue;
+            newData.filters.maxDistance = maxDistanceValue;
 
         } catch (e) {
             const message = typeof e === 'string' ? e : e.message;
@@ -66,24 +82,11 @@ if (staticForm) {
             return;
         }
         try {
-            checkGenderInterest(genderInterest.value);
-
-        } catch (e) {
-            const message = typeof e === 'string' ? e : e.message;
-            errorTextElement.textContent = `Error: ${message}`;
-            errorContainer.classList.remove('hidden');
-            return;
-        }
-        try {
             window.location.href = `/users/onboarding/images/${userId}`;
-            const newData = {
-                filters: {genderInterest: genderInterest.value, minAge: minAge.value, maxAge: maxAge.value, maxDistance: maxDistance.value}
-            };
-            const res = await axios.patch(`/users/onboarding/${userId}`, newData);
+            let res = await axios.patch(`/users/onboarding/${userId}`, newData);
         }
         catch (e) {
-            const message = typeof e === 'string' ? e : e.message;
-            errorTextElement.textContent = `Error: ${message}`;
+            errorTextElement.textContent = `Error: No fields have been changed from their initial values, so no update has occurred`;
             errorContainer.classList.remove('hidden');
         }
     });

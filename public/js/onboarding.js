@@ -14,8 +14,6 @@ function checkFirstName(firstName){
     for (let i = 0; i < firstName.length; i++) {
         if (!(/^[A-Za-z'-]/g.test(firstName[i]))) throw `The first name must only contain letters a-z or A-Z, an apostrophe, or a hyphen`;
     }
-
-    return firstName;
 }
 
 function checkBirthday(bDay) {
@@ -78,9 +76,7 @@ function checkGender(gender) {
 }
 
 function checkShowOnProfile(arg, argName) {
-    if (arg.value) {
-        if (arg.value !== 'on') throw `\"${argName}\" checkbox malfunction`;
-    }
+    if (!arg) throw `\"${argName}\" checkbox malfunction`;
 }
 
 function checkPronouns(pronouns) {
@@ -91,6 +87,8 @@ function checkAbout(about) {
     if (about !== "") {
         if (about.trim() === "") throw "\'About me\' can't contain only spaces";
     }
+    about = about.trim();
+    return about;
 }
 
 function checkInterests(interests) {
@@ -130,8 +128,7 @@ if (staticForm) {
         // hide error container
         errorContainer.classList.add('hidden');
         try {
-            let firstNameValue = firstName.value;
-            checkFirstName(firstNameValue);
+            checkFirstName(firstName.value);
         }
         catch (e) {
             const message = typeof e === 'string' ? e : e.message;
@@ -142,9 +139,8 @@ if (staticForm) {
             return;
         }
         try {
-            let birthdayValue = birthday.value;
-            birthdayValue = checkBirthday(birthdayValue);
-            getAge(birthdayValue);
+            birthday.value = checkBirthday(birthday.value);
+            getAge(birthday.value);
         }
         catch (e) {
             const message = typeof e === 'string' ? e : e.message;
@@ -156,9 +152,7 @@ if (staticForm) {
         }
         try {
             gender.value = getRadioValue(gender);
-            let genderValue = gender.value;
-            // console.log(genderValue);
-            checkGender(genderValue);
+            checkGender(gender.value);
         }
         catch (e) {
             const message = typeof e === 'string' ? e : e.message;
@@ -167,8 +161,7 @@ if (staticForm) {
             return;
         }
         try {
-            let showGenderValue = showGender.value;
-            checkShowOnProfile(showGenderValue, "Show gender");
+            checkShowOnProfile(showGender.value, "Show gender");
         }
         catch (e) {
             const message = typeof e === 'string' ? e : e.message;
@@ -179,20 +172,16 @@ if (staticForm) {
         }
         try {
             pronouns.value = getRadioValue(pronouns);
-            let pronounsValue = pronouns.value;
-            // console.log(pronounsValue);
-            checkPronouns(pronounsValue);
+            checkPronouns(pronouns.value);
         }
         catch (e) {
             const message = typeof e === 'string' ? e : e.message;
             errorTextElement.textContent = `Error: ${message}`;
             errorContainer.classList.remove('hidden');
-            pronouns.focus();
             return;
         }
         try {
-            let showPronounsValue = showPronouns.value;
-            checkShowOnProfile(showPronounsValue, "Show pronouns");
+            checkShowOnProfile(showPronouns.value, "Show pronouns");
         }
         catch (e) {
             const message = typeof e === 'string' ? e : e.message;
@@ -202,9 +191,7 @@ if (staticForm) {
             return;
         }
         try {
-            let aboutValue = about.value;
-            console.log(aboutValue);
-            checkAbout(aboutValue);
+            about.value = checkAbout(about.value);
         }
         catch (e) {
             const message = typeof e === 'string' ? e : e.message;

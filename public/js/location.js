@@ -13,12 +13,13 @@ window.addEventListener( "pageshow", function ( event ) {
             window.performance.navigation.type === 2 );
     if ( historyTraversal ) {
         // Handle page restore.
-        window.location.reload();
+        loader.hidden = true;
     }
 });
 
 async function getLocation() {
     loader.hidden = false;
+    errorContainer.classList.add('hidden');
 
     const success = async (position) => {
 
@@ -37,8 +38,17 @@ async function getLocation() {
             location: {latitude: latitude, longitude: longitude, locality: locality, principalSubdiv: principalSubdiv}
         };
 
-        window.location.href = `/users/onboarding/filters/${userId}`;
-        const res = await axios.patch(`/users/onboarding/${userId}`, newData);
+        try {
+            window.location.href = `/users/onboarding/filters/${userId}`;
+            const res = await axios.patch(`/users/onboarding/${userId}`, newData);
+            console.log(res);
+        }
+        catch (e) {
+            loader.hidden = true;
+            errorTextElement.textContent = `Error: Could not get user location`;
+            errorContainer.classList.remove('hidden');
+        }
+
     };
 
     const error = () => {
