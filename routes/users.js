@@ -20,8 +20,12 @@ const {getUserById, updateUser} = require("../data/users");
 // Get signup page
 router.get('/signup', async (req, res) => {
     try {
-        res.render('users/signup', {title : "Create an Account"});
-
+        if(!req.session.user){
+            res.render('users/signup', {title : "Create an Account"});
+        }
+        else{
+            res.redirect("/dashboard")
+        }
     }
     catch(e){
         res.status(500).render('errors/error', {title : "Error", error : e.toString()});
