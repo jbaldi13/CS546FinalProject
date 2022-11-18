@@ -2,7 +2,10 @@ const express = require('express');
 const router = express.Router();
 const data = require('../data');
 const userData = data.users;
-const {checkId, checkFirstName, checkBirthday, checkInterests, checkGender, checkAbout, checkPronouns, checkShowOnProfile} = require("../helpers");
+const {checkId, checkFirstName, checkBirthday, checkInterests, checkGender, checkAbout, checkPronouns, checkShowOnProfile,
+    checkLocation,
+    checkFilters
+} = require("../helpers");
 const {getUserById, updateUser} = require("../data/users");
 
 
@@ -118,6 +121,12 @@ router.patch('/onboarding/:id', async (req, res) => {
         if (requestBody.interests) {
             checkInterests(requestBody.interests);
         }
+        if (requestBody.location) {
+            checkLocation(requestBody.location);
+        }
+        if (requestBody.filters) {
+            requestBody.filters = checkFilters(requestBody.filters);
+        }
     }
     catch (e) {
         return res.status(400).render('errors/error', {title : "Error", error : e.toString()});
@@ -142,17 +151,17 @@ router.patch('/onboarding/:id', async (req, res) => {
         if (requestBody.showPronouns !== oldUser.showPronouns) {
             updatedObject.showPronouns = requestBody.showPronouns;
         }
-        if (requestBody.filters && requestBody.filters !== oldUser.filters) {
-            updatedObject.filters = requestBody.filters;
-        }
-        if (requestBody.location && requestBody.location !== oldUser.location) {
-            updatedObject.location = requestBody.location;
-        }
-        if (requestBody.about !== oldUser.about) {
+        if (requestBody.about !== undefined && requestBody.about !== oldUser.about) {
             updatedObject.about = requestBody.about;
         }
         if (requestBody.interests && requestBody.interests !== oldUser.interests) {
             updatedObject.interests = requestBody.interests;
+        }
+        if (requestBody.location && requestBody.location !== oldUser.location) {
+            updatedObject.location = requestBody.location;
+        }
+        if (requestBody.filters && JSON.stringify(requestBody.filters) !== JSON.stringify(oldUser.filters)) {
+            updatedObject.filters = requestBody.filters;
         }
 
     }
