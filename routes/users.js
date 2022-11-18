@@ -11,14 +11,44 @@ const {getUserById, updateUser} = require("../data/users");
 
 
 
-// // Get login page
-// router.get('/login', async (req, res) => {
-//   // TODO...
-// });
-//
+// Get and post login page
+router
+  .route('/login')
+  .get(async (req, res) => { 
+    if(!req.session.user){
+        res.render('users/login', {title: "Login", header: "Login"});
+    }
+    else{
+        res.redirect("/dashboard")
+    }
+  })
+  .post(async (req, res) => {
+    try{
+        //shouldnt do input error checking on log in for security reasons
+        //let email = helpers.checkEmail(req.body.userEmail) 
+        //let password = helpers.checkPassword(req.body.userPassword)
 
-// Get signup page
-router.get('/signup', async (req, res) => {
+        let email = req.body.userEmail.toLowerCase();
+        let password = req.body.userPassword;
+        let response = await userData.checkUser(email, password);
+        if(response.authenticatedUser == true){
+          req.session.user = {email: email}
+          console.log(req.session.user)
+          res.redirect("/dashboard");
+        }
+        else{
+          return res.status(400).render("users/login", {title: "Login", error: e});
+        }
+      }
+      catch(e){
+        res.status(400).render("users/login", {title: "Login", error: e});
+      }
+  });
+
+// Get and post signup page
+router
+  .route('/signup')
+  .get(async (req, res) => {
     try {
         if(!req.session.user){
             res.render('users/signup', {title : "Create an Account"});
@@ -30,10 +60,37 @@ router.get('/signup', async (req, res) => {
     catch(e){
         res.status(500).render('errors/error', {title : "Error", error : e.toString()});
     }
-});
+  })
+  // Create user after they sign up
+  .post(async (req, res) => {
+      try {
+          let email = req.body.userEmail;
+          let password = helpers.checkPassword(req.body.userPassword);
+          let conPassword = helpers.checkPassword(req.body.conUserPassword);
+  
+          if(password != conPassword){
+              throw "Error: your passwords do not match"
+          }
+  
+          const newUser = await userData.createUser(email, password);
+          if(newUser != null){
+              const userId = newUser._id;
+              req.session.user = {email: email}
+              res.redirect(`/users/onboarding/${userId}`);
+          }
+          else{
+              return res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+          } 
+      }
+      catch(e){
+          return res.render('users/signup', {title : "Create an Account", error: e});
+      }
+  });
 
-// get main onboarding page
-router.get('/onboarding/:id', async (req, res) => {
+// get and patch main onboarding page
+router
+  .route('/onboarding/:id')
+  .get(async (req, res) => {
     try {
         res.render('users/onboarding', {title : "Create an Account", id: req.params.id});
 
@@ -41,69 +98,8 @@ router.get('/onboarding/:id', async (req, res) => {
     catch(e){
         res.status(500).render('errors/error', {title : "Error", error : e.toString()});
     }
-});
-
-// get onboarding/location page
-router.get('/onboarding/location/:id', async (req, res) => {
-    try {
-        res.render('users/location', {title : "Location", id: req.params.id});
-
-    }
-    catch(e){
-        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
-    }
-});
-
-// get onboarding/filters page
-router.get('/onboarding/filters/:id', async (req, res) => {
-    try {
-        res.render('users/filters', {title : "Filters", id: req.params.id});
-
-    }
-    catch(e){
-        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
-    }
-});
-
-// get onboarding/images page
-router.get('/onboarding/images/:id', async (req, res) => {
-    try {
-        res.render('users/images', {title : "Images"});
-
-    }
-    catch(e){
-        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
-    }
-});
-
-// Create user after they sign up
-router.post('/signup', async (req, res) => {
-    try {
-        let email = req.body.userEmail;
-        let password = helpers.checkPassword(req.body.userPassword);
-        let conPassword = helpers.checkPassword(req.body.conUserPassword);
-
-        if(password != conPassword){
-            throw "Error: your passwords do not match"
-        }
-
-        const newUser = await userData.createUser(email, password);
-        if(newUser != null){
-            const userId = newUser._id;
-            req.session.user = {email: email}
-            res.redirect(`/users/onboarding/${userId}`);
-        }
-        else{
-            return res.status(500).render('errors/error', {title : "Error", error : e.toString()});
-        } 
-    }
-    catch(e){
-        return res.render('users/signup', {title : "Create an Account", error: e});
-    }
-});
-
-// Update user after they onboard
-router.patch('/onboarding/:id', async (req, res) => {
+  })
+  .patch(async (req, res) => {
     const requestBody = req.body;
     console.log(requestBody);
     let updatedObject = {};
@@ -205,8 +201,45 @@ router.patch('/onboarding/:id', async (req, res) => {
         // res.status(400).render('errors/error', {title : "Error: 'No fields have been changed from their initial values, so no update has occurred"});
         res.json('TODO... error page');
     }
-
 });
+
+// get onboarding/location page
+router.get('/onboarding/location/:id', async (req, res) => {
+    try {
+        res.render('users/location', {title : "Location", id: req.params.id});
+
+    }
+    catch(e){
+        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+    }
+});
+
+// get onboarding/filters page
+router.get('/onboarding/filters/:id', async (req, res) => {
+    try {
+        res.render('users/filters', {title : "Filters", id: req.params.id});
+
+    }
+    catch(e){
+        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+    }
+});
+
+// get onboarding/images page
+router.get('/onboarding/images/:id', async (req, res) => {
+    try {
+        res.render('users/images', {title : "Images"});
+
+    }
+    catch(e){
+        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+    }
+});
+
+
+
+// Update user after they onboard
+
 
 
 // router.get('/logout', async(req,res) =>{
@@ -215,38 +248,7 @@ router.patch('/onboarding/:id', async (req, res) => {
 // });
 
 // get and post login
-router
-  .route('/login')
-  .get(async (req, res) => { 
-    if(!req.session.user){
-        res.render('users/login', {title: "Login", header: "Login"});
-    }
-    else{
-        res.redirect("/dashboard")
-    }
-  })
-  .post(async (req, res) => {
-    try{
-        //shouldnt do input error checking on log in for security reasons
-        //let email = helpers.checkEmail(req.body.userEmail) 
-        //let password = helpers.checkPassword(req.body.userPassword)
 
-        let email = req.body.userEmail.toLowerCase();
-        let password = req.body.userPassword;
-        let response = await userData.checkUser(email, password);
-        if(response.authenticatedUser == true){
-          req.session.user = {email: email}
-          console.log(req.session.user)
-          res.redirect("/dashboard");
-        }
-        else{
-          return res.status(400).render("users/login", {title: "Login", error: e});
-        }
-      }
-      catch(e){
-        res.status(400).render("users/login", {title: "Login", error: e});
-      }
-  });
 
 
 
