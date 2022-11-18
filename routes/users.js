@@ -142,15 +142,18 @@ router.patch('/onboarding/:id', async (req, res) => {
         if (requestBody.gender && requestBody.gender !== oldUser.gender) {
             updatedObject.gender = requestBody.gender;
         }
-        if (requestBody.showGender !== oldUser.showGender) {
+
+        if (requestBody.showGender && requestBody.showGender !== oldUser.showGender)  {
             updatedObject.showGender = requestBody.showGender;
         }
+
         if (requestBody.pronouns && requestBody.pronouns !== oldUser.pronouns) {
             updatedObject.pronouns = requestBody.pronouns;
         }
-        if (requestBody.showPronouns !== oldUser.showPronouns) {
+        if (requestBody.showPronouns && requestBody.showPronouns !== oldUser.showPronouns) {
             updatedObject.showPronouns = requestBody.showPronouns;
         }
+
         if (requestBody.about !== undefined && requestBody.about !== oldUser.about) {
             updatedObject.about = requestBody.about;
         }
@@ -160,7 +163,7 @@ router.patch('/onboarding/:id', async (req, res) => {
         if (requestBody.location && requestBody.location !== oldUser.location) {
             updatedObject.location = requestBody.location;
         }
-        if (requestBody.filters && JSON.stringify(requestBody.filters) !== JSON.stringify(oldUser.filters)) {
+        if (requestBody.filters && JSON.stringify(requestBody.filters) !== JSON.stringify(oldUser.filters) ) {
             updatedObject.filters = requestBody.filters;
         }
 
@@ -168,6 +171,7 @@ router.patch('/onboarding/:id', async (req, res) => {
     catch (e) {
         return res.status(404).render('errors/error', {title : "User not Found", error : e.toString()});
     }
+    console.log(updatedObject);
     if (Object.keys(updatedObject).length !== 0) {
         try {
             const updatedUser = await updateUser(
@@ -185,7 +189,8 @@ router.patch('/onboarding/:id', async (req, res) => {
         }
     }
     else {
-        res.status(400).render('errors/error', {title : "Error: 'No fields have been changed from their initial values, so no update has occurred"});
+        // res.status(400).render('errors/error', {title : "Error: 'No fields have been changed from their initial values, so no update has occurred"});
+        res.json('TODO... error page');
     }
 
 });
