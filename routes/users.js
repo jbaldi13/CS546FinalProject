@@ -76,6 +76,11 @@ router.post('/signup', async (req, res) => {
     try {
         let email = req.body.userEmail;
         let password = req.body.userPassword;
+        let conPassword = req.body.conUserPassword;
+
+        if(password != conPassword){
+            throw "Error: your passwords do not match"
+        }
         const newUser = await userData.createUser(email, password);
         if(newUser != null){
             const userId = newUser._id;
