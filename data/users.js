@@ -56,10 +56,14 @@ const createUser = async (email, password) => {
 };
 
 const checkUser = async (email, password) => { 
-    //need to work on this
     //check inputs for errors and convert email to lowercase
+
+    email = helpers.checkEmail(email)
+    password = helpers.checkPassword(password)
+
     //email = helpers.checkEmail(email)
     password = helpers.checkPassword(password);
+
   
     //check if email exists in database
     const userCollection = await users();
