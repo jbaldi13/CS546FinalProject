@@ -19,7 +19,7 @@ router
         res.render('users/login', {title: "Login", header: "Login"});
     }
     else{
-        res.redirect("/dashboard")
+        res.redirect("/users/dashboard")
     }
   })
   .post(async (req, res) => {
@@ -34,7 +34,7 @@ router
         if(response.authenticatedUser == true){
           req.session.user = {email: email}
           console.log(req.session.user)
-          res.redirect("/dashboard");
+          res.redirect("/users/dashboard");
         }
         else{
           return res.status(400).render("users/login", {title: "Login", error: e});
@@ -54,14 +54,13 @@ router
             res.render('users/signup', {title : "Create an Account"});
         }
         else{
-            res.redirect("/dashboard")
+            res.redirect("/users/dashboard")
         }
     }
     catch(e){
         res.status(500).render('errors/error', {title : "Error", error : e.toString()});
     }
   })
-  // Create user after they sign up
   .post(async (req, res) => {
       try {
           let email = req.body.userEmail;
@@ -236,18 +235,29 @@ router.get('/onboarding/images/:id', async (req, res) => {
     }
 });
 
+//get dashboard page
+router.get('/dashboard', async(req,res) =>{
+    if(req.session.user){
+        res.render('dashboard/dashboard', {title: "Dashboard"})
+    }
+    else{
+        res.redirect("/")
+    }
+});
+
+// get logout page
+router.get('/logout', async(req,res) =>{
+    if(req.session.user){
+        let user = req.session.user.email
+        req.session.destroy();
+        res.render('users/loggedOut', {title: "Logged Out", user: user})
+    }
+    else{
+        res.redirect("/")
+    }
+});
 
 
-// Update user after they onboard
-
-
-
-// router.get('/logout', async(req,res) =>{
-//     req.session.destroy();
-//     res.redirect('/');
-// });
-
-// get and post login
 
 
 
