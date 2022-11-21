@@ -5,7 +5,8 @@ const userData = data.users;
 const helpers = require("../helpers");
 const {checkId, checkFirstName, checkBirthday, checkInterests, checkGender, checkAbout, checkPronouns, checkShowOnProfile,
     checkLocation,
-    checkFilters
+    checkFilters,
+    checkImages
 } = require("../helpers");
 const {getUserById, updateUser} = require("../data/users");
 
@@ -136,9 +137,9 @@ router
           if (requestBody.filters) {
               checkFilters(requestBody.filters);
           }
-          // if (requestBody.images) {
-          //     checkFilters(requestBody.filters);
-          // }
+          if (requestBody.images) {
+              checkImages(requestBody.images);
+          }
       }
       catch (e) {
           return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
@@ -178,7 +179,7 @@ router
           if (requestBody.filters && JSON.stringify(requestBody.filters) !== JSON.stringify(oldUser.filters)) {
               updatedObject.filters = requestBody.filters;
           }
-          if (requestBody.images) {
+          if (requestBody.images && JSON.stringify(requestBody.images) !== JSON.stringify(oldUser.images)) {
               updatedObject.images = requestBody.images;
           }
 
