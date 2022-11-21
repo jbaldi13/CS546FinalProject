@@ -42,7 +42,7 @@ app.use(session({
     secret: 'some secret string!',
     resave: false,
     saveUninitialized: true
-}))
+}));
 
 app.engine('handlebars', handlebarsInstance.engine);
 app.set('view engine', 'handlebars');

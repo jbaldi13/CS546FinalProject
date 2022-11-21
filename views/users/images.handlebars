@@ -1,27 +1,65 @@
-<div>
+<div id="imagesContainer">
 
     <h2 class="neon">CREATE ACCOUNT</h2>
-    <h3>Now it's time to upload some photos</h3>
-<!--    <div class="wrapper">-->
-<!--        <div class="image">-->
-<!--            <img src="../../../public/images/Location_Symbol.jpg">-->
-<!--        </div>-->
-<!--        <div class="content">-->
-<!--            <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>-->
-<!--            <div class="text">No file chosen, yet!<i class="fas fa-cloud-upload-alt"></i></div>-->
-<!--        </div>-->
-<!--        <div id="cancel-btn"><i class="fas fa-times"></i></div>-->
-<!--        <div class="file-name">File name here</div>-->
-<!--    </div>-->
-<!--    <input id="default-btn" type="file">-->
-<!--    <button id="custom-btn">Choose a file</button>-->
+    <h2>Now it's time to upload some photos</h2>
+    <div id="imagesContainer2">
+        <h3>Profile Picture</h3>
+        <form id="form1" class="grid">
+            <div class="form-element">
+                <input type="file" id="file-0" accept="image/*" required>
+                <label for="file-0" id="file-0-preview">
+                    <img src="../../../public/images/image-placeholder.png">
+                    <div>
+                        <span>+</span>
+                    </div>
+                </label>
+            </div>
+        </form>
+        <h3>Additional Photos</h3>
+        <form id="form2" class="grid">
+            <div class="form-element">
+                <input type="file" id="file-1" accept="image/*">
+                <label for="file-1" id="file-1-preview">
+                    <img src="../../../public/images/image-placeholder.png">
+                    <div>
+                        <span>+</span>
+                    </div>
+                </label>
+            </div>
+            <div class="form-element">
+                <input type="file" id="file-2" accept="image/*">
+                <label for="file-2" id="file-2-preview">
+                    <img src="../../../public/images/image-placeholder.png">
+                    <div>
+                        <span>+</span>
+                    </div>
+                </label>
+            </div>
+            <div class="form-element">
+                <input type="file" id="file-3" accept="image/*">
+                <label for="file-3" id="file-3-preview">
+                    <img src="../../../public/images/image-placeholder.png">
+                    <div>
+                        <span>+</span>
+                    </div>
+                </label>
+            </div>
+        </form>
+        <div class="form-group hidden" id="error-container">
+            <div class="alert alert-danger text-goes-here">
+            </div>
+        </div>
+        <div>
+            <button id="imagesButton" type="button" class="homepage-buttons" onclick="submitForms();">Submit</button>
+        </div>
+    </div>
 </div>
 <p hidden id="id">{{id}}</p>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"
         integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
         crossorigin="anonymous"></script>
-<!--<script src="/public/js/location.js"></script>-->
+<script src="/public/js/images.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
         integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
         crossorigin="anonymous"></script>

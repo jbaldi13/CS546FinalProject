@@ -19,7 +19,7 @@ router
         res.render('users/login', {title: "Login", header: "Login"});
     }
     else{
-        res.redirect("/users/dashboard")
+        res.redirect("/users/dashboard");
     }
   })
   .post(async (req, res) => {
@@ -31,9 +31,9 @@ router
         let email = req.body.userEmail.toLowerCase();
         let password = req.body.userPassword;
         let response = await userData.checkUser(email, password);
-        if(response.authenticatedUser == true){
-          req.session.user = {email: email}
-          console.log(req.session.user)
+        if(response.authenticatedUser === true){
+          req.session.user = {email: email};
+          console.log(req.session.user);
           res.redirect("/users/dashboard");
         }
         else{
@@ -54,7 +54,7 @@ router
             res.render('users/signup', {title : "Create an Account"});
         }
         else{
-            res.redirect("/users/dashboard")
+            res.redirect("/users/dashboard");
         }
     }
     catch(e){
@@ -67,14 +67,14 @@ router
           let password = helpers.checkPassword(req.body.userPassword);
           let conPassword = helpers.checkPassword(req.body.conUserPassword);
   
-          if(password != conPassword){
-              throw "Error: your passwords do not match"
+          if(password !== conPassword){
+              throw "Error: your passwords do not match";
           }
   
           const newUser = await userData.createUser(email, password);
           if(newUser != null){
               const userId = newUser._id;
-              req.session.user = {email: email}
+              req.session.user = {email: email};
               res.redirect(`/users/onboarding/${userId}`);
           }
           else{
@@ -100,8 +100,113 @@ router
 
   })
   .patch(async (req, res) => {
+      const requestBody = req.body;
+      // console.log(requestBody);
+      let updatedObject = {};
+      try {
+          req.params.movieId = checkId(req.params.id, "User Id");
 
-});
+          if (requestBody.firstName) {
+              checkFirstName(requestBody.firstName);
+          }
+          if (requestBody.birthday) {
+              checkBirthday(requestBody.birthday);
+          }
+          if (requestBody.gender) {
+              checkGender(requestBody.gender);
+          }
+          if (requestBody.showGender) {
+              requestBody.showGender = checkShowOnProfile(requestBody.showGender, "Show gender");
+          }
+          if (requestBody.pronouns) {
+              checkPronouns(requestBody.pronouns);
+          }
+          if (requestBody.showPronouns) {
+              requestBody.showPronouns = checkShowOnProfile(requestBody.showPronouns, "Show pronouns");
+          }
+          if (requestBody.about) {
+              checkAbout(requestBody.about);
+          }
+          if (requestBody.interests) {
+              checkInterests(requestBody.interests);
+          }
+          if (requestBody.location) {
+              checkLocation(requestBody.location);
+          }
+          if (requestBody.filters) {
+              checkFilters(requestBody.filters);
+          }
+          // if (requestBody.images) {
+          //     checkFilters(requestBody.filters);
+          // }
+      }
+      catch (e) {
+          return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
+      }
+      try {
+          const oldUser = await getUserById(req.params.id);
+          if (requestBody.firstName && requestBody.firstName !== oldUser.firstName) {
+              updatedObject.firstName = requestBody.firstName;
+          }
+          if (requestBody.birthday && requestBody.birthday !== oldUser.birthday) {
+              updatedObject.birthday = requestBody.birthday;
+          }
+          if (requestBody.gender && requestBody.gender !== oldUser.gender) {
+              updatedObject.gender = requestBody.gender;
+          }
+
+          if (requestBody.showGender && requestBody.showGender !== oldUser.showGender) {
+              updatedObject.showGender = requestBody.showGender;
+          }
+
+          if (requestBody.pronouns && requestBody.pronouns !== oldUser.pronouns) {
+              updatedObject.pronouns = requestBody.pronouns;
+          }
+          if (requestBody.showPronouns && requestBody.showPronouns !== oldUser.showPronouns) {
+              updatedObject.showPronouns = requestBody.showPronouns;
+          }
+
+          if (requestBody.about !== undefined && requestBody.about !== oldUser.about) {
+              updatedObject.about = requestBody.about;
+          }
+          if (requestBody.interests && JSON.stringify(requestBody.interests) !== JSON.stringify(oldUser.interests)) {
+              updatedObject.interests = requestBody.interests;
+          }
+          if (requestBody.location) {
+              updatedObject.location = requestBody.location;
+          }
+          if (requestBody.filters && JSON.stringify(requestBody.filters) !== JSON.stringify(oldUser.filters)) {
+              updatedObject.filters = requestBody.filters;
+          }
+          if (requestBody.images) {
+              updatedObject.images = requestBody.images;
+          }
+
+      }
+      catch (e) {
+          return res.status(404).render('errors/error', {title: "User not Found", error: e.toString()});
+      }
+      // console.log(updatedObject);
+      if (Object.keys(updatedObject).length !== 0) {
+          try {
+              const updatedUser = await updateUser(
+                  req.params.id,
+                  updatedObject
+              );
+
+              if (requestBody.firstName || requestBody.birthday || requestBody.gender ||
+                  requestBody.showPronouns || requestBody.pronouns || requestBody.showPronouns || requestBody.about || requestBody.interests) {
+                  res.redirect(`/users/onboarding/location/${updatedUser._id}`);
+              }
+
+          } catch (e) {
+              return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+          }
+      } else {
+          let errorMessage = "Error: 'No fields have been changed from their initial values, so no update has occurred";
+          res.status(400).render('errors/error', {title: "Error", error: errorMessage});
+      }
+  });
 
 // Create user after they sign up
 router.post('/signup', async (req, res) => {
@@ -110,7 +215,7 @@ router.post('/signup', async (req, res) => {
         let password = helpers.checkPassword(req.body.userPassword);
         let conPassword = helpers.checkPassword(req.body.conUserPassword);
 
-        if(password != conPassword){
+        if(password !== conPassword){
             throw "Error: your passwords do not match";
         }
 
@@ -129,112 +234,6 @@ router.post('/signup', async (req, res) => {
     }
 });
 
-// Update user after they onboard
-router.patch('/onboarding/:id', async (req, res) => {
-
-    const requestBody = req.body;
-    // console.log(requestBody);
-    let updatedObject = {};
-    try {
-        req.params.movieId = checkId(req.params.id, "User Id");
-
-        if (requestBody.firstName) {
-            checkFirstName(requestBody.firstName);
-        }
-        if (requestBody.birthday) {
-            checkBirthday(requestBody.birthday);
-        }
-        if (requestBody.gender) {
-            checkGender(requestBody.gender);
-        }
-        if (requestBody.showGender) {
-            requestBody.showGender = checkShowOnProfile(requestBody.showGender, "Show gender");
-        }
-        if (requestBody.pronouns) {
-            checkPronouns(requestBody.pronouns);
-        }
-        if (requestBody.showPronouns) {
-            requestBody.showPronouns = checkShowOnProfile(requestBody.showPronouns, "Show pronouns");
-        }
-        if (requestBody.about) {
-            checkAbout(requestBody.about);
-        }
-        if (requestBody.interests) {
-            checkInterests(requestBody.interests);
-        }
-        if (requestBody.location) {
-            checkLocation(requestBody.location);
-        }
-        if (requestBody.filters) {
-            checkFilters(requestBody.filters);
-        }
-    }
-    catch (e) {
-        return res.status(400).render('errors/error', {title : "Error", error : e.toString()});
-    }
-    try {
-        const oldUser = await getUserById(req.params.id);
-        if (requestBody.firstName && requestBody.firstName !== oldUser.firstName) {
-            updatedObject.firstName = requestBody.firstName;
-        }
-        if (requestBody.birthday && requestBody.birthday !== oldUser.birthday) {
-            updatedObject.birthday = requestBody.birthday;
-        }
-        if (requestBody.gender && requestBody.gender !== oldUser.gender) {
-            updatedObject.gender = requestBody.gender;
-        }
-
-        if (requestBody.showGender && requestBody.showGender !== oldUser.showGender)  {
-            updatedObject.showGender = requestBody.showGender;
-        }
-
-        if (requestBody.pronouns && requestBody.pronouns !== oldUser.pronouns) {
-            updatedObject.pronouns = requestBody.pronouns;
-        }
-        if (requestBody.showPronouns && requestBody.showPronouns !== oldUser.showPronouns) {
-            updatedObject.showPronouns = requestBody.showPronouns;
-        }
-
-        if (requestBody.about !== undefined && requestBody.about !== oldUser.about) {
-            updatedObject.about = requestBody.about;
-        }
-        if (requestBody.interests && JSON.stringify(requestBody.interests) !== JSON.stringify(oldUser.interests)) {
-            updatedObject.interests = requestBody.interests;
-        }
-        if (requestBody.location) {
-            updatedObject.location = requestBody.location;
-        }
-        if (requestBody.filters && JSON.stringify(requestBody.filters) !== JSON.stringify(oldUser.filters)) {
-            updatedObject.filters = requestBody.filters;
-        }
-
-    }
-    catch (e) {
-        return res.status(404).render('errors/error', {title : "User not Found", error : e.toString()});
-    }
-    // console.log(updatedObject);
-    if (Object.keys(updatedObject).length !== 0) {
-        try {
-            const updatedUser = await updateUser(
-                req.params.id,
-                updatedObject
-            );
-
-            if (requestBody.firstName || requestBody.birthday || requestBody.gender ||
-            requestBody.showPronouns || requestBody.pronouns || requestBody.showPronouns || requestBody.about || requestBody.interests) {
-                res.redirect(`/users/onboarding/location/${updatedUser._id}`);
-            }
-
-        }
-        catch (e) {
-            return res.status(500).render('errors/error', {title : "Error", error : e.toString()});
-        }
-    }
-    else {
-        let errorMessage = "Error: 'No fields have been changed from their initial values, so no update has occurred";
-        res.status(400).render('errors/error', {title : "Error", error: errorMessage});
-    }
-});
 
 // get onboarding/location page
 router.get('/onboarding/location/:id', async (req, res) => {
@@ -261,7 +260,7 @@ router.get('/onboarding/filters/:id', async (req, res) => {
 // get onboarding/images page
 router.get('/onboarding/images/:id', async (req, res) => {
     try {
-        res.render('users/images', {title : "Images"});
+        res.render('users/images', {title : "Images", id: req.params.id});
 
     }
     catch(e){
@@ -272,22 +271,23 @@ router.get('/onboarding/images/:id', async (req, res) => {
 //get dashboard page
 router.get('/dashboard', async(req,res) =>{
     if(req.session.user){
-        res.render('dashboard/dashboard', {title: "Dashboard"})
+        res.render('dashboard/dashboard', {title: "Dashboard"});
     }
     else{
-        res.redirect("/")
+        res.redirect("/");
     }
 });
 
 // get logout page
 router.get('/logout', async(req,res) =>{
     if(req.session.user){
-        let user = req.session.user.email
+        let user = req.session.user.email;
         req.session.destroy();
-        res.render('users/loggedOut', {title: "Logged Out", user: user})
+        // res.render('users/loggedOut', {title: "Logged Out", user: user});
+        res.redirect('/');
     }
     else{
-        res.redirect("/")
+        res.redirect("/");
     }
 });
 

@@ -58,8 +58,8 @@ const createUser = async (email, password) => {
 const checkUser = async (email, password) => { 
     //check inputs for errors and convert email to lowercase
 
-    email = helpers.checkEmail(email)
-    password = helpers.checkPassword(password)
+    email = helpers.checkEmail(email);
+    password = helpers.checkPassword(password);
 
     //email = helpers.checkEmail(email)
     password = helpers.checkPassword(password);
