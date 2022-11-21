@@ -5,7 +5,7 @@ const helpers = require("../helpers");
 const {checkFirstName, checkBirthday, checkInterests, getAge,
     checkGender,
     checkPronouns,
-    checkAbout, checkLocation, checkFilters, checkShowOnProfile
+    checkAbout, checkLocation, checkFilters, checkShowOnProfile, checkImages
 } = require("../helpers");
 const bcrypt = require("bcryptjs");
 const saltRounds = 16;
@@ -149,6 +149,9 @@ const updateUser = async (userId, updatedUser) => {
     }
     if (updatedUser.filters) {
         checkFilters(updatedUser.filters);
+    }
+    if (updatedUser.images) {
+        checkImages(updatedUser.images);
     }
 
 

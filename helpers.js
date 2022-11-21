@@ -134,6 +134,12 @@ function checkFilters(filters) {
     if (filters.maxAge < filters.minAge) throw 'The Max Age must be greater than or equal to the Min Age';
 }
 
+function checkImages(images) {
+    if (typeof images !== "object") throw 'Images should be an object';
+    if (typeof images.profilePic !== 'string') throw 'Error in images format: profile pic should be string';
+    if (typeof images.otherPics !== 'object') throw 'Error in images format: other pics field should be an object';
+}
+
 function checkPassword(password){
     //check if password is provided
     if(!password){
@@ -211,5 +217,5 @@ module.exports = {checkFilters,
     checkAbout, 
     checkEmail, 
     checkInterests,
-    checkPassword, 
+    checkPassword, checkImages,
     getAge};

@@ -27,10 +27,11 @@ const errorContainer = document.getElementById('error-container');
 const errorTextElement = errorContainer.getElementsByClassName(
     'text-goes-here'
 )[0];
-let otherPics = [];
-const newData = {images: {profilePic: "", otherPics: {other1: "", other2: "", other3: ""}}};
+
+let newData = {images: {profilePic: "", otherPics: {other1: "", other2: "", other3: ""}}};
 
 async function submitForms() {
+    console.log(newData);
     errorContainer.classList.add('hidden');
     try {
         if (proPic.value === "") throw "You must select a profile picture";
@@ -64,6 +65,7 @@ async function submitForms() {
 
         window.location.href = `/users/dashboard`;
         let res = await axios.patch(`/users/onboarding/${userId}`, newData);
+
     }
     catch (e) {
         const message = typeof e === 'string' ? e : e.message;
