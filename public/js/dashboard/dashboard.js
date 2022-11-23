@@ -4,8 +4,7 @@ function goToLogout() {
 
 // DOM
 const swiper = document.querySelector('#swiper');
-const like = document.querySelector('#like');
-const dislike = document.querySelector('#dislike');
+
 
 // constants
 const urls = [
@@ -25,14 +24,6 @@ function appendNewCard() {
         imageUrl: urls[cardCount % 5].url,
         name: urls[cardCount % 5].name,
         onDismiss: appendNewCard,
-        onLike: () => {
-            like.style.animationPlayState = 'running';
-            like.classList.toggle('trigger');
-        },
-        onDislike: () => {
-            dislike.style.animationPlayState = 'running';
-            dislike.classList.toggle('trigger');
-        }
     });
     swiper.append(card.element);
     cardCount++;
