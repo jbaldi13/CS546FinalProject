@@ -16,7 +16,7 @@ const urls = [
 ];
 
 // variables
-let cardCount = 0;
+let cardCount = 1;
 
 // functions
 function appendNewCard() {
