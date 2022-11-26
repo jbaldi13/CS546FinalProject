@@ -1,5 +1,3 @@
-const userId = document.getElementById("id").innerText;
-
 let minAge = document.getElementById("minAge");
 let maxAge = document.getElementById("maxAge");
 let maxDistance = document.getElementById("maxDistance");
@@ -82,8 +80,8 @@ if (staticForm) {
             return;
         }
         try {
-            window.location.href = `/users/onboarding/images/${userId}`;
-            let res = await axios.patch(`/users/onboarding/${userId}`, newData);
+            window.location.href = `/users/onboarding/images`;
+            let res = await axios.patch(`/users/onboarding`, newData);
         }
         catch (e) {
             errorTextElement.textContent = `Error: No fields have been changed from their initial values, so no update has occurred`;

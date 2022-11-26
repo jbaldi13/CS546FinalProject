@@ -1,4 +1,3 @@
-const userId = document.getElementById("id").innerText;
 const errorContainer = document.getElementById('error-container');
 const errorTextElement = errorContainer.getElementsByClassName(
     'text-goes-here'
@@ -41,8 +40,8 @@ async function getLocation() {
         };
 
         try {
-            window.location.href = `/users/onboarding/filters/${userId}`;
-            const res = await axios.patch(`/users/onboarding/${userId}`, newData);
+            window.location.href = `/users/onboarding/filters`;
+            const res = await axios.patch(`/users/onboarding`, newData);
             console.log(res);
         }
         catch (e) {

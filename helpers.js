@@ -110,6 +110,8 @@ function checkInterests(interests) {
     if (Array.isArray(interests)) {
         if (interests.length > 10) throw "You must only select up to 10 interests";
     }
+    else if (typeof interests === 'string') return [interests];
+    return interests;
 }
 
 function checkEmail(email){

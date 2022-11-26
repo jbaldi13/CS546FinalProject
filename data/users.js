@@ -88,7 +88,6 @@ const checkUser = async (email, password) => {
 
 const getUserById = async (userId) => {
     userId = helpers.checkId(userId, "userId");
-    console.log(userId);
     const userCollection = await users();
     const user = await userCollection.findOne({_id: ObjectId(userId)});
     if (user === null) throw "Error: No user with that id";
