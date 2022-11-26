@@ -1,3 +1,5 @@
+const userId = document.getElementById("id").innerText;
+
 function previewBeforeUpload(id) {
     document.querySelector("#" + id).addEventListener("change", function (e) {
         if (e.target.files.length === 0) {
@@ -62,7 +64,7 @@ async function submitForms() {
         }
 
         window.location.href = `/users/dashboard`;
-        let res = await axios.patch(`/users/onboarding`, newData);
+        let res = await axios.patch(`/users/onboarding/${userId}`, newData);
 
     }
     catch (e) {
