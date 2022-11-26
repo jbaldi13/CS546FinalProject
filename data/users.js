@@ -61,10 +61,6 @@ const checkUser = async (email, password) => {
     email = helpers.checkEmail(email);
     password = helpers.checkPassword(password);
 
-    //email = helpers.checkEmail(email)
-    password = helpers.checkPassword(password);
-
-  
     //check if email exists in database
     const userCollection = await users();
     const userInDB = await userCollection.findOne({email: email});
@@ -73,7 +69,7 @@ const checkUser = async (email, password) => {
     if (userInDB != null){
       let comparePasswords = false;
       comparePasswords = await bcrypt.compare(password, userInDB.password);
-  
+
       if(comparePasswords){
         return {authenticatedUser: true};
       }
@@ -169,4 +165,38 @@ const updateUser = async (userId, updatedUser) => {
     return await getUserById(userId);
 };
 
-module.exports = {createUser, checkUser, getUserById, getAllUsers, removeUser, updateUser};
+const validateOtherUserData = async(email) => {
+    //Validates all userdata besides email & password (handled by checkUser)
+
+    //Get's the user based on their email
+    const userCollection = await users();
+    const userInDB = await userCollection.findOne({email: email});
+    try{
+        helpers.checkFirstName(userInDB.firstName); 
+        helpers.checkBirthday(userInDB.birthday);
+        helpers.checkGender(userInDB.gender);
+        helpers.checkPronouns(userInDB.pronouns);
+        helpers.checkAbout(userInDB.about);
+        helpers.checkInterests(userInDB.interests);
+    }catch(e){
+        throw "Error: General user info for the user is invalid or undefined"
+    }
+    if(userInDB.age === null || userInDB.showGender === null || userInDB.showPronouns === null){
+        throw "Error: General user info for the user is invalid or undefined"
+    }
+    try{
+        helpers.checkLocation(userInDB.location);
+    }catch(e){
+        throw "Error: Location is invalid or undefined"
+    }
+    try{
+        helpers.checkFilters(userInDB.filters);
+    }catch(e){
+        throw "Error: Filters for the user are invalid or undefined"
+    }
+    if(typeof userInDB.filters.minAge !== "number" || typeof userInDB.filters.maxAge !== "number" || typeof userInDB.filters.maxDistance !== "number"){
+        throw "Error: Filters for the user are invalid or undefined"
+    }
+};
+
+module.exports = {createUser, checkUser, getUserById, getAllUsers, removeUser, updateUser, validateOtherUserData};
