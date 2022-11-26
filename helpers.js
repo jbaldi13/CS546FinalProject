@@ -110,23 +110,21 @@ function checkInterests(interests) {
     if (Array.isArray(interests)) {
         if (interests.length > 10) throw "You must only select up to 10 interests";
     }
-    else if (typeof interests === 'string') return [interests];
-    return interests;
 }
 
 function checkEmail(email){
     if(!email) throw "You must provide an email.";
-    email = String(email).toLowerCase();
+    email = String(email).toLowerCase()
     const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if(!res.test(email)){
-        throw "Error: you must enter a valid email address.";
+        throw "Error: you must enter a valid email address."
     }
-    return email;
+    return email
 }
 
 function checkLocation(location) {
     if (!location.latitude || !location.longitude ||
-        !location.city || !location.principalSubdiv) throw "Could not get user location";
+        !location.locality || !location.principalSubdiv) throw "Could not get user location";
 
 }
 
@@ -145,37 +143,37 @@ function checkImages(images) {
 function checkPassword(password){
     //check if password is provided
     if(!password){
-        throw "Error: you must provide a password.";
+        throw "Error: you must provide a password."
     }
     
     //trim password and check length if length is atleast 6
     if(password.trim().length < 6){
-        throw "Error: password must be atleast 6 characters long.";
+        throw "Error: password must be atleast 6 characters long."
     }
 
     //check if password has any spaces
-    var checkpass = password.replace(/\s/g,"");
+    var checkpass = password.replace(/\s/g,"")
     if(checkpass != password){
-        throw "Error: password cannot have any spaces.";
+        throw "Error: password cannot have any spaces."
     }
 
-    //check if password has at least one uppercase character
+    //check if password has atleast one uppercase character
     if(!checkForUpperCaseLetter(password)){
-        throw "Error: password must contain at least one uppercase letter.";
+        throw "Error: password must contain atleast one uppercase letter."
     }
 
-    //check if password has at least one number
+    //check if password has atleast one number
     if(!checkForNumber(password)){
-        throw "Error: password must contain at least one number.";
+        throw "Error: password must contain atleast one number."
     }
 
-    //check if password has at least one special character
+    //check if password has atleast one special character
     if(!checkForSpecialChar(password)){
-        throw "Error: password must contain at least one special character.";
+        throw "Error: password must contain atleast one special character."
     }
 
     //return password as inputted
-    return password;
+    return password
 }
 
 function checkForUpperCaseLetter(string){
@@ -197,7 +195,7 @@ function checkForNumber(string){
 }
 
 function checkForSpecialChar(string){
-    var regex = /[!.,?`~@#$%^&*()_|+\-=;:<>\{\}\[\]\\\/]/i;
+    var regex = /[!.,?`~@#$%^&*()_|+\-=;:<>\{\}\[\]\\\/]/i
     for (i = 0; i < string.length; i++){
         if (string.charAt(i).match(regex)){
           return true;

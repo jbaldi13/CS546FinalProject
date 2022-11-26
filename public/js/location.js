@@ -1,3 +1,4 @@
+const userId = document.getElementById("id").innerText;
 const errorContainer = document.getElementById('error-container');
 const errorTextElement = errorContainer.getElementsByClassName(
     'text-goes-here'
@@ -25,23 +26,21 @@ async function getLocation() {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
-
         const geoApiUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
 
         let locationData = await fetch(geoApiUrl);
         locationData = locationData.json();
         locationData = await locationData.then();
-        console.log(locationData);
 
-        let city = locationData.city;
+        let locality = locationData.locality;
         let principalSubdiv = locationData.principalSubdivision;
         const newData = {
-            location: {latitude: latitude, longitude: longitude, city: city, principalSubdiv: principalSubdiv}
+            location: {latitude: latitude, longitude: longitude, locality: locality, principalSubdiv: principalSubdiv}
         };
 
         try {
-            window.location.href = `/users/onboarding/filters`;
-            const res = await axios.patch(`/users/onboarding`, newData);
+            window.location.href = `/users/onboarding/filters/${userId}`;
+            const res = await axios.patch(`/users/onboarding/${userId}`, newData);
             console.log(res);
         }
         catch (e) {

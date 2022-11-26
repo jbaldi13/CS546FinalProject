@@ -243,12 +243,12 @@ const validateOtherUserData = async(email) => {
     const userCollection = await users();
     const userInDB = await userCollection.findOne({email: email});
     try{
-        helpers.checkFirstName(userInDB.firstName); 
-        helpers.checkBirthday(userInDB.birthday);
-        helpers.checkGender(userInDB.gender);
-        helpers.checkPronouns(userInDB.pronouns);
-        helpers.checkAbout(userInDB.about);
-        helpers.checkInterests(userInDB.interests);
+        checkFirstName(userInDB.firstName); 
+        checkBirthday(userInDB.birthday);
+        checkGender(userInDB.gender);
+        checkPronouns(userInDB.pronouns);
+        checkAbout(userInDB.about);
+        checkInterests(userInDB.interests);
     }catch(e){
         throw "Error: General user info for the user is invalid or undefined"
     }
@@ -256,12 +256,12 @@ const validateOtherUserData = async(email) => {
         throw "Error: General user info for the user is invalid or undefined"
     }
     try{
-        helpers.checkLocation(userInDB.location);
+        checkLocation(userInDB.location);
     }catch(e){
         throw "Error: Location is invalid or undefined"
     }
     try{
-        helpers.checkFilters(userInDB.filters);
+        checkFilters(userInDB.filters);
     }catch(e){
         throw "Error: Filters for the user are invalid or undefined"
     }
