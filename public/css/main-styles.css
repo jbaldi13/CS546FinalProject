@@ -442,12 +442,12 @@ h2 {
 
 .swipe-container {
     float: right;
-    margin-right: 50px;
-    width: 50%;
+    margin-left: 175px;
+    width: 400px;
 }
 
-.chat-container {
-    width: 50%;
+.matches-container {
+    width: 200px;
     color: white;
     float: left;
     margin-left: 100px;
@@ -463,6 +463,10 @@ h2 {
 .swipeInstructionDiv p {
     font-weight: bold;
     font-size: 20px;
+}
+
+#matchesList li {
+    width: 10px;
 }
 
 

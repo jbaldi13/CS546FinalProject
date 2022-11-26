@@ -1,4 +1,6 @@
-let name = document.getElementById("name");
+// let name = document.getElementById("name");
+
+let matchesList = document.getElementById('matchesList');
 
 class Card {
     constructor({
@@ -36,14 +38,7 @@ class Card {
         const img = document.createElement('img');
         img.src = this.imageUrl;
         card.append(img);
-        // const swipeInstructionDiv = document.createElement('div');
-        // const swipeRightInstruction = document.createElement('p');
-        // const swipeLeftInstruction = document.createElement('p');
-        // swipeRightInstruction.innerHTML = "Swipe right to like";
-        // swipeLeftInstruction.innerHTML = "Swipe left to dislike";
-        // swipeInstructionDiv.append(swipeLeftInstruction);
-        // swipeInstructionDiv.append(swipeRightInstruction);
-        // card.append(swipeInstructionDiv);
+
         this.element = card;
         if (this.#isTouchDevice()) {
             this.#listenToTouchEvents();

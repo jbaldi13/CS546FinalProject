@@ -5,7 +5,7 @@ const helpers = require("../helpers");
 const {checkFirstName, checkBirthday, checkInterests, getAge,
     checkGender,
     checkPronouns,
-    checkAbout, checkLocation, checkFilters, checkShowOnProfile, checkImages
+    checkAbout, checkFilters, checkShowOnProfile, checkImages, checkEmail
 } = require("../helpers");
 const bcrypt = require("bcryptjs");
 const saltRounds = 16;
@@ -36,7 +36,7 @@ const createUser = async (email, password) => {
         pronouns: null,
         showPronouns: null,
         filters: {genderInterest: null, minAge: null, maxAge: null, maxDistance: null},
-        location: {latitude: null, longitude: null, locality: null, principalSubdiv: null},
+        location: {latitude: null, longitude: null, city: null, principalSubdiv: null},
         about: null,
         images: {profilePic: null, otherPics: []},
         interests: [],
@@ -92,6 +92,16 @@ const getUserById = async (userId) => {
     return user;
 };
 
+const getUserByEmail = async (email) => {
+    email = checkEmail(email);
+    const userCollection = await users();
+    const user = await userCollection.findOne({email: email});
+    if (user === null) throw "Error: No user with that email";
+
+    user._id = user._id.toString();
+    return user;
+};
+
 const getAllUsers = async () => {
     const userCollection = await users();
     const userList = await userCollection.find({}).toArray();
@@ -101,6 +111,67 @@ const getAllUsers = async () => {
     userList.forEach(user => {user._id = user._id.toString();});
     return userList;
 
+};
+
+const distanceBetweenUsers = (lat1, lon1, lat2, lon2) => {
+    function deg2rad(deg) {
+        return deg * (Math.PI/180);
+    }
+
+    let R = 6371; // Radius of the earth in km
+    let dLat = deg2rad(lat2-lat1);  // deg2rad below
+    let dLon = deg2rad(lon2-lon1);
+    let a =
+        Math.sin(dLat/2) * Math.sin(dLat/2) +
+        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon/2) * Math.sin(dLon/2)
+    ;
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    let d = R * c; // Distance in km
+    d = d * 0.621371; // Distance in miles
+    return d;
+
+};
+
+const getMutualInterestCount = (user1Interests, user2Interests) => {
+    const matchesArr = user1Interests.filter(e => {
+        return user2Interests.includes(e);
+    });
+
+    return matchesArr.length;
+};
+
+const getAllCompatibleUsers = async (user) => {
+    const genderInterest = user.filters.genderInterest;
+    let gender;
+    if (genderInterest === "women") gender = "woman";
+    else {
+        gender = "man";
+    }
+    const userCollection = await users();
+    let userList = await userCollection.find({gender: gender}).toArray();
+
+    if (!userList) throw "Error: Could not get compatible users";
+
+    userList.forEach(user => {user._id = user._id.toString();});
+
+
+    userList = userList.filter(otherUser => {
+        let distance = distanceBetweenUsers(
+            user.location.latitude,
+            user.location.longitude,
+            otherUser.location.latitude,
+            otherUser.location.longitude
+        );
+
+        const mutualInterestCount = getMutualInterestCount(user.interests, otherUser.interests);
+
+
+
+        return (distance <= user.filters.maxDistance && mutualInterestCount >= 3);
+    });
+
+    return userList;
 };
 
 const removeUser = async (userId) => {
@@ -199,4 +270,4 @@ const validateOtherUserData = async(email) => {
     }
 };
 
-module.exports = {createUser, checkUser, getUserById, getAllUsers, removeUser, updateUser, validateOtherUserData};
+module.exports = {createUser, checkUser, getUserById, getUserByEmail, getAllUsers, getAllCompatibleUsers, removeUser, updateUser, validateOtherUserData};
