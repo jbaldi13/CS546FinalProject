@@ -65,7 +65,7 @@ router
   })
   .post(async (req, res) => {
       try {
-          let email = req.body.userEmail;
+          let email = helpers.checkEmail(req.body.userEmail);
           let password = helpers.checkPassword(req.body.userPassword);
           let conPassword = helpers.checkPassword(req.body.conUserPassword);
   
@@ -77,7 +77,7 @@ router
           if(newUser != null){
               const userId = newUser._id;
               req.session.user = {email: email};
-              res.redirect(`/users/onboarding/${userId}`);
+              res.redirect(`/users/onboarding`);
           }
           else{
               return res.status(500).render('errors/error', {title : "Error", error : e.toString()});
@@ -90,10 +90,10 @@ router
 
 // get and patch main onboarding page
 router
-  .route('/onboarding/:id')
+  .route('/onboarding')
   .get(async (req, res) => {
     try {
-        res.render('users/onboarding', {title : "Create an Account", id: req.params.id});
+        res.render('users/onboarding', {title : "Create an Account"});
 
     }
     catch(e){
@@ -105,9 +105,16 @@ router
       const requestBody = req.body;
       // console.log(requestBody);
       let updatedObject = {};
+      let userId = await getUserByEmail(req.session.user.email);
+      userId = userId._id;
       try {
-          req.params.id = checkId(req.params.id, "User Id");
 
+          userId = checkId(userId, 'User ID');
+      }
+      catch (e) {
+          return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
+      }
+      try {
           if (requestBody.firstName) {
               checkFirstName(requestBody.firstName);
           }
@@ -130,7 +137,7 @@ router
               checkAbout(requestBody.about);
           }
           if (requestBody.interests) {
-              checkInterests(requestBody.interests);
+              requestBody.interests = checkInterests(requestBody.interests);
           }
           if (requestBody.location) {
               checkLocation(requestBody.location);
@@ -146,7 +153,7 @@ router
           return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
       }
       try {
-          const oldUser = await getUserById(req.params.id);
+          const oldUser = await getUserById(userId);
           if (requestBody.firstName && requestBody.firstName !== oldUser.firstName) {
               updatedObject.firstName = requestBody.firstName;
           }
@@ -184,8 +191,8 @@ router
               updatedObject.images = requestBody.images;
           }
           if (requestBody.matches && JSON.stringify(requestBody.matches) !== JSON.stringify(oldUser.matches)) {
-            updatedObject.matches = requestBody.matches;
-        }
+              updatedObject.matches = requestBody.matches;
+          }
       }
       catch (e) {
           return res.status(404).render('errors/error', {title: "User not Found", error: e.toString()});
@@ -194,12 +201,12 @@ router
       if (Object.keys(updatedObject).length !== 0) {
           try {
               const updatedUser = await updateUser(
-                  req.params.id,
+                  userId,
                   updatedObject
               );
 
               if (requestBody.firstName) {
-                  res.redirect(`/users/onboarding/location/${updatedUser._id}`);
+                  res.redirect(`/users/onboarding/location`);
               }
 
           } catch (e) {
@@ -214,7 +221,7 @@ router
 // Create user after they sign up
 router.post('/signup', async (req, res) => {
     try {
-        let email = req.body.userEmail;
+        let email = helpers.checkEmail(req.body.userEmail);
         let password = helpers.checkPassword(req.body.userPassword);
         let conPassword = helpers.checkPassword(req.body.conUserPassword);
 
@@ -239,9 +246,9 @@ router.post('/signup', async (req, res) => {
 
 
 // get onboarding/location page
-router.get('/onboarding/location/:id', async (req, res) => {
+router.get('/onboarding/location', async (req, res) => {
     try {
-        res.render('users/location', {title : "Location", id: req.params.id});
+        res.render('users/location', {title : "Location"});
 
     }
     catch(e){
@@ -250,9 +257,9 @@ router.get('/onboarding/location/:id', async (req, res) => {
 });
 
 // get onboarding/filters page
-router.get('/onboarding/filters/:id', async (req, res) => {
+router.get('/onboarding/filters', async (req, res) => {
     try {
-        res.render('users/filters', {title : "Filters", id: req.params.id});
+        res.render('users/filters', {title : "Filters"});
 
     }
     catch(e){
@@ -261,9 +268,9 @@ router.get('/onboarding/filters/:id', async (req, res) => {
 });
 
 // get onboarding/images page
-router.get('/onboarding/images/:id', async (req, res) => {
+router.get('/onboarding/images', async (req, res) => {
     try {
-        res.render('users/images', {title : "Images", id: req.params.id});
+        res.render('users/images', {title : "Images"});
 
     }
     catch(e){
@@ -271,7 +278,6 @@ router.get('/onboarding/images/:id', async (req, res) => {
     }
 });
 
-//get dashboard page
 router.get('/dashboard', async(req,res) =>{
     if(req.session.user){
         res.render('dashboard/dashboard', {title: "Dashboard"});
@@ -304,7 +310,7 @@ router
   })
   .post(async (req, res) => {
     try{
-        let email = req.body.userEmail;
+        let email = helpers.checkEmail(req.body.userEmail);
         let password = helpers.checkPassword(req.body.userPassword);
         let response = await userData.checkUser(email, password);
         if(response.authenticatedUser === true){
@@ -321,18 +327,6 @@ router
   });
 
 
-  	
-router.get('/compatibleUsers', async (req, res) => {
-    try {
-        const user = await userData.getUserByEmail(req.session.user.email);
-        const compatibleUsers = await userData.getAllCompatibleUsers(user);
-        res.json(compatibleUsers);
-    }
-    catch (e) {
-        return res.status(404).render('errors/userNotFound', {title : "Not Found", error : e.toString()});
-    }
-});
-
 
 
 // // Get all users
@@ -348,21 +342,37 @@ router.get('/compatibleUsers', async (req, res) => {
 // });
 
 // Get single user
- router.get('/:userId', async (req, res) => {
-     try {
-         req.params.userId = helpers.checkId(req.params.userId, "Id URL Param");
-     }
-     catch (e) {
-         return res.status(400).render('errors/error', {title : "Error", error : e.toString()});
-     }
-     try {
-         const user = await userData.getUserById(req.params.userId);
-         res.render('userFound', {title : "User Info", user : user});
-     }
-     catch (e) {
-         return res.status(404).render('userNotFound', {title : "Not Found", error : e.toString()});
-     }
- });
+router.get('/user', async (req, res) => {
+    let userId = await getUserByEmail(req.session.user.email);
+    userId = userId._id;
+    try {
+        userId = helpers.checkId(userId, "User ID");
+    }
+    catch (e) {
+        return res.status(400).render('errors/error', {title : "Error", error : e.toString()});
+    }
+    try {
+        const user = await userData.getUserById(userId);
+        // res.render('users/userInfo', {title : "User Info", user : user});
+        res.json(user);
+    }
+    catch (e) {
+        return res.status(404).render('errors/userNotFound', {title : "Not Found", error : e.toString()});
+    }
+});
+
+router.get('/compatibleUsers', async (req, res) => {
+    try {
+        const user = await userData.getUserByEmail(req.session.user.email);
+        const compatibleUsers = await userData.getAllCompatibleUsers(user);
+        res.json(compatibleUsers);
+
+    }
+    catch (e) {
+        return res.status(404).render('errors/userNotFound', {title : "Not Found", error : e.toString()});
+    }
+});
+
 
 // Delete user
 // router.delete('/:id', async (req, res) => {
