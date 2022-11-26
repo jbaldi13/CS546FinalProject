@@ -8,7 +8,7 @@ const {checkId, checkFirstName, checkBirthday, checkInterests, checkGender, chec
     checkFilters,
     checkImages
 } = require("../helpers");
-const {getUserById, updateUser} = require("../data/users");
+const {getUserById, updateUser, getUserByEmail} = require("../data/users");
 const {response} = require("express");
 
 
@@ -106,7 +106,7 @@ router
       // console.log(requestBody);
       let updatedObject = {};
       try {
-          req.params.movieId = checkId(req.params.id, "User Id");
+          req.params.id = checkId(req.params.id, "User Id");
 
           if (requestBody.firstName) {
               checkFirstName(requestBody.firstName);
@@ -183,7 +183,9 @@ router
           if (requestBody.images && JSON.stringify(requestBody.images) !== JSON.stringify(oldUser.images)) {
               updatedObject.images = requestBody.images;
           }
-
+          if (requestBody.matches && JSON.stringify(requestBody.matches) !== JSON.stringify(oldUser.matches)) {
+            updatedObject.matches = requestBody.matches;
+        }
       }
       catch (e) {
           return res.status(404).render('errors/error', {title: "User not Found", error: e.toString()});
@@ -196,8 +198,7 @@ router
                   updatedObject
               );
 
-              if (requestBody.firstName || requestBody.birthday || requestBody.gender ||
-                  requestBody.showPronouns || requestBody.pronouns || requestBody.showPronouns || requestBody.about || requestBody.interests) {
+              if (requestBody.firstName) {
                   res.redirect(`/users/onboarding/location/${updatedUser._id}`);
               }
 
@@ -320,6 +321,18 @@ router
   });
 
 
+  	
+router.get('/compatibleUsers', async (req, res) => {
+    try {
+        const user = await userData.getUserByEmail(req.session.user.email);
+        const compatibleUsers = await userData.getAllCompatibleUsers(user);
+        res.json(compatibleUsers);
+    }
+    catch (e) {
+        return res.status(404).render('errors/userNotFound', {title : "Not Found", error : e.toString()});
+    }
+});
+
 
 
 // // Get all users
@@ -335,21 +348,21 @@ router
 // });
 
 // Get single user
-// router.get('/:userId', async (req, res) => {
-//     try {
-//         req.params.userId = helpers.checkId(req.params.userId, "Id URL Param");
-//     }
-//     catch (e) {
-//         return res.status(400).render('error', {title : "Error", error : e.toString()});
-//     }
-//     try {
-//         const user = await userData.getUserById(req.params.userId);
-//         res.render('userFound', {title : "User Info", user : user});
-//     }
-//     catch (e) {
-//         return res.status(404).render('userNotFound', {title : "Not Found", error : e.toString()});
-//     }
-// });
+ router.get('/:userId', async (req, res) => {
+     try {
+         req.params.userId = helpers.checkId(req.params.userId, "Id URL Param");
+     }
+     catch (e) {
+         return res.status(400).render('error', {title : "Error", error : e.toString()});
+     }
+     try {
+         const user = await userData.getUserById(req.params.userId);
+         res.render('userFound', {title : "User Info", user : user});
+     }
+     catch (e) {
+         return res.status(404).render('userNotFound', {title : "Not Found", error : e.toString()});
+     }
+ });
 
 // Delete user
 // router.delete('/:id', async (req, res) => {
