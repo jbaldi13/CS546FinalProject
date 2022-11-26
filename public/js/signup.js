@@ -13,8 +13,8 @@ if (staticForm) {
     staticForm.addEventListener('submit', (event) => {
         event.preventDefault();
         try {
-            let email = document.getElementById('email');
-            let password = document.getElementById('password');
+            let email = document.getElementById('email').value;
+            let password = document.getElementById('password').value;
 
             console.log(email);
             console.log(password);
