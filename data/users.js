@@ -5,7 +5,7 @@ const helpers = require("../helpers");
 const {checkFirstName, checkBirthday, checkInterests, getAge,
     checkGender,
     checkPronouns,
-    checkAbout, checkFilters, checkShowOnProfile, checkImages, checkEmail
+    checkAbout, checkFilters, checkShowOnProfile, checkImages, checkEmail, checkLocation
 } = require("../helpers");
 const bcrypt = require("bcryptjs");
 const saltRounds = 16;
