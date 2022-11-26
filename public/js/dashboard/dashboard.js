@@ -14,11 +14,11 @@ async function cards () {
 //     {url: 'https://source.unsplash.com/random/1000x1000/?forest', name: 'Brooke'}
 // ];
 
-    let user = await axios.get('/users/63815adf359eee5a29e6ea31');
+    let user = await axios.get('/users/user');
     user = user.data;
-    console.log(user);
 
-    let compatibleUsers = await axios.get(`/users/temp/compatibleUsers`);
+
+    let compatibleUsers = await axios.get(`/users/compatibleUsers`);
     compatibleUsers = compatibleUsers.data;
     console.log(compatibleUsers);
 
@@ -28,24 +28,35 @@ async function cards () {
 
 // functions
     function appendNewCard() {
-        const card = new Card({
-            imageUrl: "https://source.unsplash.com/random/1000x1000/?sky",
-            name: compatibleUsers[cardCount % compatibleUsers.length].firstName,
-            onDismiss: appendNewCard,
-            onLike: async () => {
-                // let a = document.createElement('a');
-                // let linkText = document.createTextNode(this.name);
-                // a.appendChild(linkText);
-                let updatedMatches = user.matches;
-                updatedMatches.push(compatibleUsers[cardCount % compatibleUsers.length]._id.toString());
-                let newData = {interests: updatedMatches};
-                let res = await axios.patch(`/users/onboarding/63815adf359eee5a29e6ea31`, newData);
-                let li = document.createElement('li');
-                li.innerHTML = compatibleUsers[cardCount % compatibleUsers.length].firstName;
-                matchesList.appendChild(li);
+        let card;
+        if (compatibleUsers.length > 0) {
+            card = new Card({
+                imageUrl: "https://source.unsplash.com/random/1000x1000/?sky",
+                name: compatibleUsers[cardCount % compatibleUsers.length].firstName,
+                onDismiss: appendNewCard,
+                onLike: async () => {
+                    // let a = document.createElement('a');
+                    // let linkText = document.createTextNode(this.name);
+                    // a.appendChild(linkText);
+                    let updatedMatches = user.matches;
+                    updatedMatches.push(compatibleUsers[cardCount % compatibleUsers.length]._id.toString());
+                    // console.log(updatedMatches);
+                    let newData = {matches: updatedMatches};
+                    let li = document.createElement('li');
+                    li.innerHTML = compatibleUsers[cardCount % compatibleUsers.length].firstName;
+                    matchesList.appendChild(li);
+                    await axios.patch(`/users/onboarding`, newData);
+                }
+            });
+        }
+        else {
+            card = new Card({
+                imageUrl: "https://thisinterestsme.com/wp-content/uploads/2017/02/tinder-no-one-new-around-yo.jpg",
+                name: "Error",
+                onDismiss: appendNewCard,
+            });
+        }
 
-            }
-        });
         swiper.append(card.element);
         cardCount++;
 
