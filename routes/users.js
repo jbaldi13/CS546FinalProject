@@ -65,7 +65,7 @@ router
   })
   .post(async (req, res) => {
       try {
-          let email = req.body.userEmail;
+          let email = helpers.checkEmail(req.body.userEmail);
           let password = helpers.checkPassword(req.body.userPassword);
           let conPassword = helpers.checkPassword(req.body.conUserPassword);
   
@@ -221,7 +221,7 @@ router
 // Create user after they sign up
 router.post('/signup', async (req, res) => {
     try {
-        let email = req.body.userEmail;
+        let email = helpers.checkEmail(req.body.userEmail);
         let password = helpers.checkPassword(req.body.userPassword);
         let conPassword = helpers.checkPassword(req.body.conUserPassword);
 
@@ -310,7 +310,7 @@ router
   })
   .post(async (req, res) => {
     try{
-        let email = req.body.userEmail;
+        let email = helpers.checkEmail(req.body.userEmail);
         let password = helpers.checkPassword(req.body.userPassword);
         let response = await userData.checkUser(email, password);
         if(response.authenticatedUser === true){
