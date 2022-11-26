@@ -353,7 +353,7 @@ router.get('/compatibleUsers', async (req, res) => {
          req.params.userId = helpers.checkId(req.params.userId, "Id URL Param");
      }
      catch (e) {
-         return res.status(400).render('error', {title : "Error", error : e.toString()});
+         return res.status(400).render('errors/error', {title : "Error", error : e.toString()});
      }
      try {
          const user = await userData.getUserById(req.params.userId);
