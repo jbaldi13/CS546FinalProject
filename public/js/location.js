@@ -26,16 +26,18 @@ async function getLocation() {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
+
         const geoApiUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
 
         let locationData = await fetch(geoApiUrl);
         locationData = locationData.json();
         locationData = await locationData.then();
+        console.log(locationData);
 
-        let locality = locationData.locality;
+        let city = locationData.city;
         let principalSubdiv = locationData.principalSubdivision;
         const newData = {
-            location: {latitude: latitude, longitude: longitude, locality: locality, principalSubdiv: principalSubdiv}
+            location: {latitude: latitude, longitude: longitude, city: city, principalSubdiv: principalSubdiv}
         };
 
         try {
