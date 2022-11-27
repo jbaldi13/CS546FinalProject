@@ -108,19 +108,20 @@ router
       let userId = null;
       try{
         if(req.session.user){
-            userId = await getUserByEmail(req.session.user.email);
+            helpers.checkEmail(req.session.user.email);
         }
         else{
             return res.status(403).render('errors/error', {title: "Error", error: "Error: Unable to verify user identity."});
-        }
+        }    
       }
       catch(e){
-        if(e === "Error: No user with that email"){
-            return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
-        }
-        else{
             return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
-        }
+      }
+      try{
+        userId = await getUserByEmail(req.session.user.email);
+      }
+      catch(e){
+        return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
       }
       userId = userId._id;
       try {
@@ -362,19 +363,21 @@ router.get('/user', async (req, res) => {
     let userId = null;
     try{
         if(req.session.user){
-            userId = await getUserByEmail(req.session.user.email);
+            helpers.checkEmail(req.session.user.email);
         }
         else{
             return res.status(403).render('errors/error', {title: "Error", error: "Error: Unable to verify user identity."});
         }    
     }
     catch(e){
-        if(e === "Error: No user with that email"){
-            return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
-        }
-        else{
-            return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
-        }    }
+        return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
+    }
+    try{
+        userId = await getUserByEmail(req.session.user.email);
+    }
+    catch(e){
+        return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
+    }
     userId = userId._id;
     try {
         userId = helpers.checkId(userId, "User ID");
