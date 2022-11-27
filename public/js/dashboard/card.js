@@ -134,7 +134,7 @@ class Card {
         }
         if (typeof this.onLike === 'function' && direction === 1) {
             this.onLike();
-            console.log('like');
+            // console.log('like');
         }
         if (typeof this.onDislike === 'function' && direction === -1) {
             this.onDislike();

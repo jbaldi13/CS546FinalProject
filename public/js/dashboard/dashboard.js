@@ -23,12 +23,11 @@ async function cards () {
     console.log(compatibleUsers);
 
 
-    // variables
     let cardCount = 0;
 
-// functions
-    function appendNewCard() {
+    async function appendNewCard() {
         let card;
+        console.log(compatibleUsers.length);
         if (compatibleUsers.length > 0) {
             card = new Card({
                 imageUrl: "https://source.unsplash.com/random/1000x1000/?sky",
@@ -65,7 +64,6 @@ async function cards () {
             card.style.setProperty('--i', index);
         });
     }
-
     appendNewCard();
 
 // first 5 cards
