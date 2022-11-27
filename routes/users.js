@@ -107,10 +107,20 @@ router
       let updatedObject = {};
       let userId = null;
       try{
-        userId = await getUserByEmail(req.session.user.email);
+        if(req.session.user){
+            userId = await getUserByEmail(req.session.user.email);
+        }
+        else{
+            return res.status(403).render('errors/error', {title: "Error", error: "Unable to verify user identity."});
+        }
       }
       catch(e){
-        return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
+        if(e === "Error: No user with that email"){
+            return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
+        }
+        else{
+            return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
+        }
       }
       userId = userId._id;
       try {
@@ -351,11 +361,20 @@ router.get('/logout', async(req,res) =>{
 router.get('/user', async (req, res) => {
     let userId = null;
     try{
-        userId = await getUserByEmail(req.session.user.email);
+        if(req.session.user){
+            userId = await getUserByEmail(req.session.user.email);
+        }
+        else{
+            return res.status(403).render('errors/error', {title: "Error", error: "Unable to verify user identity."});
+        }    
     }
     catch(e){
-        return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
-    }
+        if(e === "Error: No user with that email"){
+            return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
+        }
+        else{
+            return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
+        }    }
     userId = userId._id;
     try {
         userId = helpers.checkId(userId, "User ID");
@@ -375,10 +394,14 @@ router.get('/user', async (req, res) => {
 
 router.get('/compatibleUsers', async (req, res) => {
     try {
-        const user = await userData.getUserByEmail(req.session.user.email);
-        const compatibleUsers = await userData.getAllCompatibleUsers(user);
-        res.json(compatibleUsers);
-
+        if(req.session.user){
+            const user = await userData.getUserByEmail(req.session.user.email);
+            const compatibleUsers = await userData.getAllCompatibleUsers(user);
+            res.json(compatibleUsers);
+        }
+        else{
+            return res.status(403).render('errors/error', {title: "Error", error: "Unable to verify user identity."});
+        }    
     }
     catch (e) {
         return res.status(404).render('errors/userNotFound', {title : "Not Found", error : e.toString()});
