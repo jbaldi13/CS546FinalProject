@@ -65,7 +65,8 @@ router
   })
   .post(async (req, res) => {
       try {
-          let email = helpers.checkEmail(req.body.userEmail);
+          //let email = helpers.checkEmail(req.body.userEmail);
+          let email = req.body.userEmail; //For testing purposes, delete & replace with above when done
           let password = helpers.checkPassword(req.body.userPassword);
           let conPassword = helpers.checkPassword(req.body.conUserPassword);
   
@@ -221,7 +222,8 @@ router
 // Create user after they sign up
 router.post('/signup', async (req, res) => {
     try {
-        let email = helpers.checkEmail(req.body.userEmail);
+        //let email = helpers.checkEmail(req.body.userEmail);
+        let email = req.body.userEmail; //For testing purposes, delete & replace with above when done
         let password = helpers.checkPassword(req.body.userPassword);
         let conPassword = helpers.checkPassword(req.body.conUserPassword);
 
@@ -303,14 +305,15 @@ router.get('/logout', async(req,res) =>{
 
 
 // get and post login
-router
+/*router
   .route('/login')
   .get(async (req, res) => { 
     res.render('users/login', {title: "Login", header: "Login"});
   })
   .post(async (req, res) => {
     try{
-        let email = helpers.checkEmail(req.body.userEmail);
+        //let email = helpers.checkEmail(req.body.userEmail);
+        let email = req.body.userEmail; //For testing purposes, delete & replace with above when done
         let password = helpers.checkPassword(req.body.userPassword);
         let response = await userData.checkUser(email, password);
         if(response.authenticatedUser === true){
@@ -324,7 +327,7 @@ router
       catch(e){
         res.status(400).render("users/login", {title: "Login", error: e});
       }
-  });
+  });*/
 
 
 
