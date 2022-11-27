@@ -111,7 +111,7 @@ router
             userId = await getUserByEmail(req.session.user.email);
         }
         else{
-            return res.status(403).render('errors/error', {title: "Error", error: "Unable to verify user identity."});
+            return res.status(403).render('errors/error', {title: "Error", error: "Error: Unable to verify user identity."});
         }
       }
       catch(e){
@@ -365,7 +365,7 @@ router.get('/user', async (req, res) => {
             userId = await getUserByEmail(req.session.user.email);
         }
         else{
-            return res.status(403).render('errors/error', {title: "Error", error: "Unable to verify user identity."});
+            return res.status(403).render('errors/error', {title: "Error", error: "Error: Unable to verify user identity."});
         }    
     }
     catch(e){
@@ -400,7 +400,7 @@ router.get('/compatibleUsers', async (req, res) => {
             res.json(compatibleUsers);
         }
         else{
-            return res.status(403).render('errors/error', {title: "Error", error: "Unable to verify user identity."});
+            return res.status(403).render('errors/error', {title: "Error", error: "Error: Unable to verify user identity."});
         }    
     }
     catch (e) {
