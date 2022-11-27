@@ -65,8 +65,7 @@ router
   })
   .post(async (req, res) => {
       try {
-          //let email = helpers.checkEmail(req.body.userEmail);
-          let email = req.body.userEmail; //For testing purposes, delete & replace with above when done
+          let email = helpers.checkEmail(req.body.userEmail);
           let password = helpers.checkPassword(req.body.userPassword);
           let conPassword = helpers.checkPassword(req.body.conUserPassword);
   
@@ -106,7 +105,13 @@ router
       const requestBody = req.body;
       // console.log(requestBody);
       let updatedObject = {};
-      let userId = await getUserByEmail(req.session.user.email);
+      let userId = null;
+      try{
+        userId = await getUserByEmail(req.session.user.email);
+      }
+      catch(e){
+        return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
+      }
       userId = userId._id;
       try {
 
@@ -222,8 +227,7 @@ router
 // Create user after they sign up
 router.post('/signup', async (req, res) => {
     try {
-        //let email = helpers.checkEmail(req.body.userEmail);
-        let email = req.body.userEmail; //For testing purposes, delete & replace with above when done
+        let email = helpers.checkEmail(req.body.userEmail);
         let password = helpers.checkPassword(req.body.userPassword);
         let conPassword = helpers.checkPassword(req.body.conUserPassword);
 
@@ -312,8 +316,7 @@ router.get('/logout', async(req,res) =>{
   })
   .post(async (req, res) => {
     try{
-        //let email = helpers.checkEmail(req.body.userEmail);
-        let email = req.body.userEmail; //For testing purposes, delete & replace with above when done
+        let email = helpers.checkEmail(req.body.userEmail);
         let password = helpers.checkPassword(req.body.userPassword);
         let response = await userData.checkUser(email, password);
         if(response.authenticatedUser === true){
@@ -346,7 +349,13 @@ router.get('/logout', async(req,res) =>{
 
 // Get single user
 router.get('/user', async (req, res) => {
-    let userId = await getUserByEmail(req.session.user.email);
+    let userId = null;
+    try{
+        userId = await getUserByEmail(req.session.user.email);
+    }
+    catch(e){
+        return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
+    }
     userId = userId._id;
     try {
         userId = helpers.checkId(userId, "User ID");
