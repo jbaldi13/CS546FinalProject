@@ -250,7 +250,7 @@ router.post('/signup', async (req, res) => {
         if(newUser != null){
             const userId = newUser._id;
             req.session.user = {email: email};
-            res.redirect(`/users/onboarding/${userId}`);
+            res.redirect(`/users/onboarding`);
         }
         else{
             return res.status(500).render('errors/error', {title : "Error", error : e.toString()});
