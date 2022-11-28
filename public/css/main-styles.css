@@ -134,8 +134,8 @@ nav {
     background-image: linear-gradient(
             to bottom,
             rgba(76, 0, 19, 0.8),
-            rgba(0, 0, 0, 0.6)
-    ), url(https://cdn.portico.travel/i/v1.299235.png);
+            rgba(0, 0, 0, 0.8)
+    ), url(https://assets3.thrillist.com/v1/image/3053599/1584x1056/flatten;crop;webp=auto;jpeg_quality=50.jpg);
 }
 
 #homepage-description{
@@ -422,6 +422,7 @@ h2 {
 /* Dashboard Page */
 .dashboard h3 {
     font-size: 30px;
+    font-weight: bold;
 }
 
 .dashboard {
