@@ -14,6 +14,7 @@ function checkFirstName(firstName){
     for (let i = 0; i < firstName.length; i++) {
         if (!(/^[A-Za-z'-]/g.test(firstName[i]))) throw `The first name must only contain letters a-z or A-Z, an apostrophe, or a hyphen`;
     }
+    return firstName;
 }
 
 function checkBirthday(bDay) {
@@ -72,7 +73,7 @@ function getAge(bDay) {
 }
 
 function checkGender(gender) {
-    checkStringErrors(gender, 'Gender');
+    return checkStringErrors(gender, 'Gender');
 }
 
 function checkShowOnProfile(arg, argName) {
@@ -80,7 +81,7 @@ function checkShowOnProfile(arg, argName) {
 }
 
 function checkPronouns(pronouns) {
-    checkStringErrors(pronouns, 'Pronouns');
+    return checkStringErrors(pronouns, 'Pronouns');
 }
 
 function checkAbout(about) {
