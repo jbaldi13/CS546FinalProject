@@ -12,7 +12,7 @@ const saltRounds = 16;
 
 const createUser = async (email, password) => {
     //input error checking (TODO...)
-    email = helpers.checkEmail(email.toLowerCase());
+    email = helpers.checkEmail(email);
     password = helpers.checkPassword(password);
 
     //check if email already exists in database
