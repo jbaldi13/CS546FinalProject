@@ -80,8 +80,9 @@ if (staticForm) {
             return;
         }
         try {
-            window.location.href = `/users/onboarding/images`;
             let res = await axios.patch(`/users/onboarding`, newData);
+            window.location.href = `/users/onboarding/images`;
+
         }
         catch (e) {
             errorTextElement.textContent = `Error: No fields have been changed from their initial values, so no update has occurred`;

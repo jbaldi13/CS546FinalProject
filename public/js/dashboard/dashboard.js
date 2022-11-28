@@ -58,7 +58,7 @@ async function cards () {
                     });
                     console.log(compatibleUsers);
                     console.log(matchedUserIds);
-                    await axios.patch(`/users/addMatch`, newData);
+                    await axios.patch(`/users/onboarding`, newData);
                 }
             });
             swiper.append(card.element);
