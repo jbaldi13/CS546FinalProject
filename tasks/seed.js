@@ -128,6 +128,6 @@ async function main() {
 
     newUser2 = await users.updateUser(newUser2._id, updatedUser);
 
-    // await dbConnection.closeConnection();
+    await dbConnection.closeConnection();
 }
 main();
