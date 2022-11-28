@@ -28,6 +28,7 @@ function checkFirstName(firstName){
     for (let i = 0; i < firstName.length; i++) {
         if (!(/^[A-Za-z'-]/g.test(firstName[i]))) throw {errorMessage: `The first name must only contain letters a-z or A-Z, an apostrophe, or a hyphen`, status: 400};
     }
+    return firstName;
 }
 
 function checkBirthday(bDay) {
@@ -69,6 +70,7 @@ function checkBirthday(bDay) {
     if (bDay[2] !== '/' || bDay[5] !== '/') throw {errorMessage: "Birthday must be in the form: mm/dd/yyyy", status: 400};
     if (day > daysInEachMonth[month]) throw {errorMessage: `Regarding the birthday input, there are not ${day} days in ${monthNames[month]}`, status: 400};
     if (month < 1 || month > 12) throw {errorMessage: `Regarding the birthday input, ${month} is not a valid month`, status: 400};
+    return bDay;
 }
 
 function getAge(bDay) {
@@ -85,11 +87,11 @@ function getAge(bDay) {
 }
 
 function checkGender(gender) {
-    checkStringErrors(gender, 'Gender');
+    return checkStringErrors(gender, 'Gender');
 }
 
 function checkPronouns(pronouns) {
-    checkStringErrors(pronouns, 'Pronouns');
+    return checkStringErrors(pronouns, 'Pronouns');
 }
 
 function checkShowOnProfile(arg, argName) {
@@ -104,6 +106,7 @@ function checkAbout(about) {
     if (about !== "") {
         if (about.trim() === "") throw {errorMessage: "\'About me\' can't contain only spaces", status: 400};
     }
+    return about;
 }
 
 function checkInterests(interests) {
@@ -126,19 +129,21 @@ function checkEmail(email){
 function checkLocation(location) {
     if (!location || !location.latitude || !location.longitude ||
         !location.city || !location.principalSubdiv) throw {errorMessage: "Could not get user location", status: 400};
-
+    return location;
 }
 
 function checkFilters(filters) {
     checkStringErrors(filters.genderInterest, "Gender Interest");
     if (filters.genderInterest === "Select Gender") throw {errorMessage:`You must select what gender you're interested in`, status: 400};
     if (filters.maxAge < filters.minAge) throw {errorMessage: 'The Max Age must be greater than or equal to the Min Age', status: 400};
+    return filters;
 }
 
 function checkImages(images) {
     if (typeof images !== "object") throw {errorMessage:'Images should be an object', status: 400}
     if (typeof images.profilePic !== 'string') throw {errorMessage:'Error in images format: profile pic should be string', status: 400}
     if (typeof images.otherPics !== 'object') throw {errorMessage:'Error in images format: other pics field should be an object', status: 400}
+    return images;
 }
 
 function checkPassword(password){
