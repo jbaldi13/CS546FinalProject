@@ -8,17 +8,17 @@ async function main() {
 
     let mainUser = await users.createUser(
         "stevensstudent@gmail.com",
-        "ILoveCoding123!"
+        "Ilovecoding123!"
     );
 
     let newUser1 = await users.createUser(
         "testUser1@gmail.com",
-        "IlikeFlowers22!"
+        "Iloveflowers123!"
     );
 
     let newUser2 = await users.createUser(
         "testUser2@gmail.com",
-        "IlikeFood22!"
+        "Ilovefood123!"
     );
 
     let updatedUser = {
