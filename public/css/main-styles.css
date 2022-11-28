@@ -497,10 +497,10 @@ h2 {
 }
 
 #matchesListUl div img {
-    width: 70px;
-    height: auto;
+    width: 60px;
+    height: 55px;
     float: right;
-    border-radius: 10px;
+    border-radius: 25%;
     /*margin-bottom: 100px;*/
 }
 
@@ -509,7 +509,7 @@ h2 {
     font-size: 25px;
     width: fit-content;
     float: left;
-    margin-top: 9px;
+    margin-top: 8px;
 
 }
 
