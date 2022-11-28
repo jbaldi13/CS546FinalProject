@@ -92,7 +92,7 @@ function checkAbout(about) {
 }
 
 function checkInterests(interests) {
-   if (interests.length > 10) throw "You must only select up to 10 interests";
+   if (interests.length < 3 || interests.length > 10) throw "You must select 3-10 interests";
 }
 
 function getRadioValue(name) {

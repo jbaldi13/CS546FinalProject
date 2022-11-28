@@ -61,8 +61,9 @@ async function submitForms() {
             newData.images.otherPics.other3 = addPic3.value;
         }
 
-        window.location.href = `/users/dashboard`;
         let res = await axios.patch(`/users/onboarding`, newData);
+        window.location.href = `/users/dashboard`;
+
 
     }
     catch (e) {
