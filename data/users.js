@@ -130,7 +130,6 @@ const distanceBetweenUsers = (lat1, lon1, lat2, lon2) => {
     let d = R * c; // Distance in km
     d = d * 0.621371; // Distance in miles
     return d;
-
 };
 
 const getMutualInterestCount = (user1Interests, user2Interests) => {
@@ -168,7 +167,8 @@ const getAllCompatibleUsers = async (user) => {
 
 
 
-        return (distance <= user.filters.maxDistance && mutualInterestCount >= 3);
+        return (distance <= user.filters.maxDistance && mutualInterestCount >= 3 &&
+            !user.matches.includes(otherUser._id) && otherUser._id !== user._id);
     });
 
     return userList;

@@ -59,6 +59,9 @@ async function cards () {
                     console.log(compatibleUsers);
                     console.log(matchedUserIds);
                     await axios.patch(`/users/onboarding`, newData);
+                },
+                onDislike: async () => {
+                    compatibleUsers = compatibleUsers.slice(1);
                 }
             });
             swiper.append(card.element);
