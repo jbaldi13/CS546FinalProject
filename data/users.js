@@ -255,10 +255,10 @@ const validateOtherUserData = async(email) => {
         checkShowOnProfile(userInDB.showGender, "Show gender");
         checkShowOnProfile(userInDB.showPronouns, "Show pronouns");
     }catch(e){
-        throw "Error: General user info for the user is invalid or undefined";
+        throw "Error: General info for the user is invalid or undefined";
     }
     if(userInDB.age === null || userInDB.showGender === null || userInDB.showPronouns === null){
-        throw "Error: General user info for the user is invalid or undefined";
+        throw "Error: General info for the user is invalid or undefined";
     }
     try{
         checkLocation(userInDB.location);
