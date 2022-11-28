@@ -11,15 +11,15 @@ async function main() {
         "Ilovecoding123!"
     );
 
-    let newUser1 = await users.createUser(
-        "testUser1@gmail.com",
-        "Iloveflowers123!"
-    );
-
-    let newUser2 = await users.createUser(
-        "testUser2@gmail.com",
-        "Ilovefood123!"
-    );
+    // let newUser1 = await users.createUser(
+    //     "testUser1@gmail.com",
+    //     "Iloveflowers123!"
+    // );
+    //
+    // let newUser2 = await users.createUser(
+    //     "testUser2@gmail.com",
+    //     "Ilovefood123!"
+    // );
 
     let updatedUser = {
         firstName: "Michael",
@@ -57,76 +57,76 @@ async function main() {
     mainUser = await users.updateUser(mainUser._id, updatedUser);
 
 
-    updatedUser = {
-        firstName: "Sydney",
-        birthday: "06/02/1996",
-        age: 26,
-        gender: "woman",
-        showGender: "off",
-        pronouns: "she/her",
-        showPronouns: "off",
-        filters: {
-            genderInterest: "men",
-            minAge: 21,
-            maxAge: 29,
-            maxDistance: 10
-        },
-        location: {
-            latitude: 40.745255,
-            longitude: -74.034775,
-            city: "Hoboken",
-            principalSubdiv: "New Jersey",
-        },
-        about: "",
-        images: {
-            profilePic: "https://www.muscleandfitness.com/wp-content/uploads/2017/04/woman-beach-1280.jpg?quality=86&strip=all",
-            otherPics: {
-                other1: "",
-                other2: "",
-                other3: ""
-            }
-        },
-        interests: ["musicvenues", "comedyclubs", "pizza", "fondue", "icecream", "paintandsip", "hauntedhouses", "arcades", "bars"],
-        matches: []
-    };
-
-
-    newUser1 = await users.updateUser(newUser1._id, updatedUser);
-
-    updatedUser = {
-        firstName: "Jessica",
-        birthday: "06/02/1992",
-        age: 30,
-        gender: "woman",
-        showGender: "off",
-        pronouns: "she/her",
-        showPronouns: "off",
-        filters: {
-            genderInterest: "men",
-            minAge: 18,
-            maxAge: 25,
-            maxDistance: 5
-        },
-        location: {
-            latitude: 40.7085,
-            longitude: -73.9520,
-            city: "Brooklyn",
-            principalSubdiv: "New York",
-        },
-        about: "",
-        images: {
-            profilePic: "https://parade.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTkzMTUwNTkxMDU1MTc3Mjk2/jessica-chastain-ftr.jpg",
-            otherPics: {
-                other1: "",
-                other2: "",
-                other3: ""
-            }
-        },
-        interests: ["musicvenues", "comedyclubs", "pizza", "fondue", "icecream", "paintandsip", "hauntedhouses", "arcades", "bars"],
-        matches: []
-    };
-
-    newUser2 = await users.updateUser(newUser2._id, updatedUser);
+    // updatedUser = {
+    //     firstName: "Sydney",
+    //     birthday: "06/02/1996",
+    //     age: 26,
+    //     gender: "woman",
+    //     showGender: "off",
+    //     pronouns: "she/her",
+    //     showPronouns: "off",
+    //     filters: {
+    //         genderInterest: "men",
+    //         minAge: 21,
+    //         maxAge: 29,
+    //         maxDistance: 10
+    //     },
+    //     location: {
+    //         latitude: 40.745255,
+    //         longitude: -74.034775,
+    //         city: "Hoboken",
+    //         principalSubdiv: "New Jersey",
+    //     },
+    //     about: "",
+    //     images: {
+    //         profilePic: "https://www.muscleandfitness.com/wp-content/uploads/2017/04/woman-beach-1280.jpg?quality=86&strip=all",
+    //         otherPics: {
+    //             other1: "",
+    //             other2: "",
+    //             other3: ""
+    //         }
+    //     },
+    //     interests: ["musicvenues", "comedyclubs", "pizza", "fondue", "icecream", "paintandsip", "hauntedhouses", "arcades", "bars"],
+    //     matches: []
+    // };
+    //
+    //
+    // newUser1 = await users.updateUser(newUser1._id, updatedUser);
+    //
+    // updatedUser = {
+    //     firstName: "Jessica",
+    //     birthday: "06/02/1992",
+    //     age: 30,
+    //     gender: "woman",
+    //     showGender: "off",
+    //     pronouns: "she/her",
+    //     showPronouns: "off",
+    //     filters: {
+    //         genderInterest: "men",
+    //         minAge: 18,
+    //         maxAge: 25,
+    //         maxDistance: 5
+    //     },
+    //     location: {
+    //         latitude: 40.7085,
+    //         longitude: -73.9520,
+    //         city: "Brooklyn",
+    //         principalSubdiv: "New York",
+    //     },
+    //     about: "",
+    //     images: {
+    //         profilePic: "https://parade.com/.image/ar_16:9%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTkzMTUwNTkxMDU1MTc3Mjk2/jessica-chastain-ftr.jpg",
+    //         otherPics: {
+    //             other1: "",
+    //             other2: "",
+    //             other3: ""
+    //         }
+    //     },
+    //     interests: ["musicvenues", "comedyclubs", "pizza", "fondue", "icecream", "paintandsip", "hauntedhouses", "arcades", "bars"],
+    //     matches: []
+    // };
+    //
+    // newUser2 = await users.updateUser(newUser2._id, updatedUser);
 
     // await dbConnection.closeConnection();
 }
