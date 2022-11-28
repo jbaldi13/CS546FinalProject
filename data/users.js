@@ -243,8 +243,8 @@ const validateOtherUserData = async(email) => {
     //Validates all userdata besides email & password (handled by checkUser)
 
     //Get's the user based on their email
-    const userCollection = await users();
-    const userInDB = await userCollection.findOne({email: email});
+    email = checkEmail(email);
+    const userInDB = await getUserByEmail(email);
     try{
         checkFirstName(userInDB.firstName); 
         checkBirthday(userInDB.birthday);
@@ -252,11 +252,13 @@ const validateOtherUserData = async(email) => {
         checkPronouns(userInDB.pronouns);
         checkAbout(userInDB.about);
         checkInterests(userInDB.interests);
+        checkShowOnProfile(userInDB.showGender, "Show gender");
+        checkShowOnProfile(userInDB.showPronouns, "Show pronouns");
     }catch(e){
-        throw "Error: General user info for the user is invalid or undefined";
+        throw "Error: General info for the user is invalid or undefined";
     }
     if(userInDB.age === null || userInDB.showGender === null || userInDB.showPronouns === null){
-        throw "Error: General user info for the user is invalid or undefined";
+        throw "Error: General info for the user is invalid or undefined";
     }
     try{
         checkLocation(userInDB.location);
@@ -270,6 +272,16 @@ const validateOtherUserData = async(email) => {
     }
     if(typeof userInDB.filters.minAge !== "number" || typeof userInDB.filters.maxAge !== "number" || typeof userInDB.filters.maxDistance !== "number"){
         throw "Error: Filters for the user are invalid or undefined";
+    }
+    try{
+        checkImages(userInDB.images);
+    }catch(e){
+        throw "Error: Images for the user are invalid or undefined"
+    }
+    try{
+        checkImages(userInDB.images);
+    }catch(e){
+        throw "Error: Images for the user are invalid or undefined"
     }
 };
 
