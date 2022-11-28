@@ -22,8 +22,29 @@ router
         res.render('users/login', {title: "Login", header: "Login"});
     }
     else{
-        res.redirect("/users/dashboard");
-    }
+        try{
+            await userData.validateOtherUserData(req.session.user.email);
+            res.redirect("/users/dashboard");
+          }catch(e){
+            if(e==="Error: General info for the user is invalid or undefined" ||
+               e==="Error: Location is invalid or undefined" ||
+               e==="Error: Filters for the user are invalid or undefined" ||
+               e==="Error: Images for the user are invalid or undefined")
+               {
+                try{
+                    id = await userData.getUserByEmail(req.session.user.email);
+                    await userData.removeUser(id._id);
+                    req.session.destroy();
+                    res.render('users/login', {title: "Login", header: "Login"});
+                }catch(e){
+                    return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+                }
+            }
+            else{
+                return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+            }
+          }    
+        }
   })
   .post(async (req, res) => {
     try{
@@ -57,7 +78,28 @@ router
             res.render('users/signup', {title : "Create an Account"});
         }
         else{
-            res.redirect("/users/dashboard");
+            try{
+                await userData.validateOtherUserData(req.session.user.email);
+                res.redirect("/users/dashboard");
+              }catch(e){
+                if(e==="Error: General info for the user is invalid or undefined" ||
+                   e==="Error: Location is invalid or undefined" ||
+                   e==="Error: Filters for the user are invalid or undefined" ||
+                   e==="Error: Images for the user are invalid or undefined")
+                   {
+                    try{
+                        id = await userData.getUserByEmail(req.session.user.email);
+                        await userData.removeUser(id._id);
+                        req.session.destroy();
+                        res.render('users/signup', {title: "Login", header: "Login"});
+                    }catch(e){
+                        return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+                    }
+                }
+                else{
+                    return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+                }
+              }
         }
     }
     catch(e){
