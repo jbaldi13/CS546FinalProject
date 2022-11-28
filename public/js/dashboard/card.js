@@ -1,6 +1,7 @@
 // let name = document.getElementById("name");
 
-let matchesList = document.getElementById('matchesList');
+let matchesListUl = document.getElementById('matchesListUl');
+// matchesList.classList.add('matchesList');
 
 class Card {
     constructor({
@@ -117,7 +118,7 @@ class Card {
         this.element.style.transform = '';
     };
 
-    #dismiss = (direction) => {
+    #dismiss = async (direction) => {
         this.#startPoint = null;
         document.removeEventListener('mouseup', this.#handleMoveUp);
         document.removeEventListener('mousemove', this.#handleMouseMove);
@@ -129,16 +130,16 @@ class Card {
         setTimeout(() => {
             this.element.remove();
         }, 1000);
-        if (typeof this.onDismiss === 'function') {
-            this.onDismiss();
-        }
         if (typeof this.onLike === 'function' && direction === 1) {
-            this.onLike();
-            console.log('like');
+            await this.onLike();
+            // console.log('like');
         }
         if (typeof this.onDislike === 'function' && direction === -1) {
-            this.onDislike();
+            await this.onDislike();
             console.log('dislike');
+        }
+        if (typeof this.onDismiss === 'function') {
+            await this.onDismiss();
         }
     };
 }
