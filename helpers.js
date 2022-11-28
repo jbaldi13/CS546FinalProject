@@ -107,10 +107,9 @@ function checkAbout(about) {
 }
 
 function checkInterests(interests) {
-    if (Array.isArray(interests)) {
-        if (interests.length > 10) throw "You must only select up to 10 interests";
-    }
-    else if (typeof interests === 'string') return [interests];
+    if (typeof interests === "undefined") throw "Interests doesn't exists";
+    if (!Array.isArray(interests)) throw "Interests should be an array";
+    if (interests.length < 3 || interests.length > 10) throw "You must select 3-10 interests";
     return interests;
 }
 
@@ -206,9 +205,16 @@ function checkForSpecialChar(string){
     return false;
 }
 
+function checkMatches(matches) {
+    if (typeof matches === "undefined") throw 'Matches doesn\'t exist';
+    if (!Array.isArray(matches)) throw 'Matches should be an array';
+}
 
 
-module.exports = {checkFilters, 
+
+module.exports = {
+    checkMatches,
+    checkFilters,
     checkLocation, 
     checkShowOnProfile, 
     checkId, 

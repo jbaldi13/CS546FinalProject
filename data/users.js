@@ -5,7 +5,7 @@ const helpers = require("../helpers");
 const {checkFirstName, checkBirthday, checkInterests, getAge,
     checkGender,
     checkPronouns,
-    checkAbout, checkFilters, checkShowOnProfile, checkImages, checkEmail, checkLocation
+    checkAbout, checkFilters, checkShowOnProfile, checkImages, checkEmail, checkLocation, checkMatches
 } = require("../helpers");
 const bcrypt = require("bcryptjs");
 const saltRounds = 16;
@@ -220,6 +220,9 @@ const updateUser = async (userId, updatedUser) => {
     if (updatedUser.images) {
         checkImages(updatedUser.images);
     }
+    if (updatedUser.matches) {
+        checkMatches(updatedUser.matches);
+    }
 
 
     const userCollection = await users();
@@ -252,23 +255,28 @@ const validateOtherUserData = async(email) => {
         checkShowOnProfile(userInDB.showGender, "Show gender");
         checkShowOnProfile(userInDB.showPronouns, "Show pronouns");
     }catch(e){
-        throw "Error: General info for the user is invalid or undefined"
+        throw "Error: General user info for the user is invalid or undefined";
     }
-    if(userInDB.age === null){
-        throw "Error: General info for the user is invalid or undefined"
+    if(userInDB.age === null || userInDB.showGender === null || userInDB.showPronouns === null){
+        throw "Error: General user info for the user is invalid or undefined";
     }
     try{
         checkLocation(userInDB.location);
     }catch(e){
-        throw "Error: Location is invalid or undefined"
+        throw "Error: Location is invalid or undefined";
     }
     try{
         checkFilters(userInDB.filters);
     }catch(e){
-        throw "Error: Filters for the user are invalid or undefined"
+        throw "Error: Filters for the user are invalid or undefined";
     }
     if(typeof userInDB.filters.minAge !== "number" || typeof userInDB.filters.maxAge !== "number" || typeof userInDB.filters.maxDistance !== "number"){
-        throw "Error: Filters for the user are invalid or undefined"
+        throw "Error: Filters for the user are invalid or undefined";
+    }
+    try{
+        checkImages(userInDB.images);
+    }catch(e){
+        throw "Error: Images for the user are invalid or undefined"
     }
     try{
         checkImages(userInDB.images);

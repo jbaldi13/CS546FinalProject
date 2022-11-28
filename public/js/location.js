@@ -40,9 +40,8 @@ async function getLocation() {
         };
 
         try {
-            window.location.href = `/users/onboarding/filters`;
             const res = await axios.patch(`/users/onboarding`, newData);
-            console.log(res);
+            window.location.href = `/users/onboarding/filters`;
         }
         catch (e) {
             loader.hidden = true;
