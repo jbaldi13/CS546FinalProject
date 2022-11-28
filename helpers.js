@@ -1,22 +1,22 @@
 const {ObjectId} = require("mongodb");
 
 function checkId(arg, argName) {
-    if (typeof arg === 'undefined') throw `Error: The ${argName} was not provided`;
-    if (typeof arg !== "string") throw `Error: The ${argName} is of the ${typeof arg} type; it should be of the string type`;
-    if (arg === "") throw `Error: The ${argName}t is an empty string`;
-    if (arg.trim() === '') throw `Error: The ${argName} is a string that only contains spaces`;
+    if (typeof arg === 'undefined') throw {errorMessage: `Error: The ${argName} was not provided`, status: 400};
+    if (typeof arg !== "string") throw {errorMessage: `Error: The ${argName} is of the ${typeof arg} type; it should be of the string type`, status: 400};
+    if (arg === "") throw {errorMessage: `Error: The ${argName}t is an empty string`, status: 400};
+    if (arg.trim() === '') throw {errorMessage: `Error: The ${argName} is a string that only contains spaces`, status: 400};
 
     arg = arg.trim();
-    if (!ObjectId.isValid(arg)) throw `Error: The ${argName} is not a valid Object ID`;
+    if (!ObjectId.isValid(arg)) throw {errorMessage: `Error: The ${argName} is not a valid Object ID`, status: 400};
 
     return arg;
 }
 
 function checkStringErrors(arg, argName) {
-    if (typeof arg === 'undefined') throw `\"${argName}\" was not provided`;
-    if (typeof arg !== "string") throw `\"${argName}\" is of the ${typeof arg} type; it should be of the string type`;
-    if (arg === "") throw `\"${argName}\" is an empty string`;
-    if (arg.trim() === '') throw `\"${argName}\" is a string that only contains spaces`;
+    if (typeof arg === 'undefined') throw {errorMessage: `\"${argName}\" was not provided`, status: 400};
+    if (typeof arg !== "string") throw {errorMessage: `\"${argName}\" is of the ${typeof arg} type; it should be of the string type`, status: 400};
+    if (arg === "") throw {errorMessage: `\"${argName}\" is an empty string`, status: 400};
+    if (arg.trim() === '') throw {errorMessage: `\"${argName}\" is a string that only contains spaces`, status: 400};
 
     arg = arg.trim();
     return arg;
@@ -26,7 +26,7 @@ function checkFirstName(firstName){
     firstName = checkStringErrors(firstName, '\"First Name\"');
 
     for (let i = 0; i < firstName.length; i++) {
-        if (!(/^[A-Za-z'-]/g.test(firstName[i]))) throw `The first name must only contain letters a-z or A-Z, an apostrophe, or a hyphen`;
+        if (!(/^[A-Za-z'-]/g.test(firstName[i]))) throw {errorMessage: `The first name must only contain letters a-z or A-Z, an apostrophe, or a hyphen`, status: 400};
     }
 }
 
@@ -60,15 +60,15 @@ function checkBirthday(bDay) {
         '11': 'November',
         '12': 'December'
     };
-    if (bDay.length !== 10) throw "Birthday must be in the form: mm/dd/yyyy";
+    if (bDay.length !== 10) throw {errorMessage: "Birthday must be in the form: mm/dd/yyyy", status: 400};
 
     let month = Number(bDay.slice(0, 2));
     let day = Number(bDay.slice(3, 5));
     let year = Number(bDay.slice(6));
-    if (isNaN(month) || isNaN(day) || isNaN(year)) throw "The month, day, and year must be digits";
-    if (bDay[2] !== '/' || bDay[5] !== '/') throw "Birthday must be in the form: mm/dd/yyyy";
-    if (day > daysInEachMonth[month]) throw `Regarding the birthday input, there are not ${day} days in ${monthNames[month]}`;
-    if (month < 1 || month > 12) throw `Regarding the birthday input, ${month} is not a valid month`;
+    if (isNaN(month) || isNaN(day) || isNaN(year)) throw {errorMessage: "The month, day, and year must be digits", status: 400};
+    if (bDay[2] !== '/' || bDay[5] !== '/') throw {errorMessage: "Birthday must be in the form: mm/dd/yyyy", status: 400};
+    if (day > daysInEachMonth[month]) throw {errorMessage: `Regarding the birthday input, there are not ${day} days in ${monthNames[month]}`, status: 400};
+    if (month < 1 || month > 12) throw {errorMessage: `Regarding the birthday input, ${month} is not a valid month`, status: 400};
 }
 
 function getAge(bDay) {
@@ -80,7 +80,7 @@ function getAge(bDay) {
         age--;
     }
 
-    if (age < 18) throw "You must be at least 18 years old to use this app";
+    if (age < 18) throw {errorMessage: "You must be at least 18 years old to use this app", status: 400};
     return age;
 }
 
@@ -95,82 +95,82 @@ function checkPronouns(pronouns) {
 function checkShowOnProfile(arg, argName) {
     if (Array.isArray(arg)) return arg[1];
     else {
-        if (!arg) throw `\"${argName}\" checkbox malfunction`;
+        if (!arg) throw {errorMessage: `\"${argName}\" checkbox malfunction`, status: 400};
     }
     return arg;
 }
 
 function checkAbout(about) {
     if (about !== "") {
-        if (about.trim() === "") throw "\'About me\' can't contain only spaces";
+        if (about.trim() === "") throw {errorMessage: "\'About me\' can't contain only spaces", status: 400};
     }
 }
 
 function checkInterests(interests) {
-    if (typeof interests === "undefined") throw "Interests doesn't exists";
-    if (!Array.isArray(interests)) throw "Interests should be an array";
-    if (interests.length < 3 || interests.length > 10) throw "You must select 3-10 interests";
+    if (typeof interests === "undefined") throw {errorMessage: "Interests doesn't exists", status: 400};
+    if (!Array.isArray(interests)) throw {errorMessage: "Interests should be an array", status: 400};
+    if (interests.length < 3 || interests.length > 10) throw {errorMessage: "You must select 3-10 interests", status: 400};
     return interests;
 }
 
 function checkEmail(email){
-    if(!email) throw "You must provide an email.";
+    if(!email) throw {errorMessage: "You must provide an email.", status: 400};
     email = String(email).toLowerCase();
     const res = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if(!res.test(email)){
-        throw "Error: you must enter a valid email address.";
+        throw {errorMessage: "Error: you must enter a valid email address.", status: 400};
     }
     return email;
 }
 
 function checkLocation(location) {
-    if (!location.latitude || !location.longitude ||
-        !location.city || !location.principalSubdiv) throw "Could not get user location";
+    if (!location || !location.latitude || !location.longitude ||
+        !location.city || !location.principalSubdiv) throw {errorMessage: "Could not get user location", status: 400};
 
 }
 
 function checkFilters(filters) {
     checkStringErrors(filters.genderInterest, "Gender Interest");
-    if (filters.genderInterest === "Select Gender") throw `You must select what gender you're interested in`;
-    if (filters.maxAge < filters.minAge) throw 'The Max Age must be greater than or equal to the Min Age';
+    if (filters.genderInterest === "Select Gender") throw {errorMessage:`You must select what gender you're interested in`, status: 400};
+    if (filters.maxAge < filters.minAge) throw {errorMessage: 'The Max Age must be greater than or equal to the Min Age', status: 400};
 }
 
 function checkImages(images) {
-    if (typeof images !== "object") throw 'Images should be an object';
-    if (typeof images.profilePic !== 'string') throw 'Error in images format: profile pic should be string';
-    if (typeof images.otherPics !== 'object') throw 'Error in images format: other pics field should be an object';
+    if (typeof images !== "object") throw {errorMessage:'Images should be an object', status: 400}
+    if (typeof images.profilePic !== 'string') throw {errorMessage:'Error in images format: profile pic should be string', status: 400}
+    if (typeof images.otherPics !== 'object') throw {errorMessage:'Error in images format: other pics field should be an object', status: 400}
 }
 
 function checkPassword(password){
     //check if password is provided
     if(!password){
-        throw "Error: you must provide a password.";
+        throw {errorMessage: "Error: you must provide a password.", status: 400};
     }
     
     //trim password and check length if length is atleast 6
     if(password.trim().length < 6){
-        throw "Error: password must be atleast 6 characters long.";
+        throw {errorMessage: "Error: password must be atleast 6 characters long.", status: 400};
     }
 
     //check if password has any spaces
     var checkpass = password.replace(/\s/g,"");
     if(checkpass != password){
-        throw "Error: password cannot have any spaces.";
+        throw {errorMessage: "Error: password cannot have any spaces.", status: 400};
     }
 
     //check if password has at least one uppercase character
     if(!checkForUpperCaseLetter(password)){
-        throw "Error: password must contain at least one uppercase letter.";
+        throw {errorMessage: "Error: password must contain at least one uppercase letter.", status: 400};
     }
 
     //check if password has at least one number
     if(!checkForNumber(password)){
-        throw "Error: password must contain at least one number.";
+        throw {errorMessage: "Error: password must contain at least one number.", status: 400};
     }
 
     //check if password has at least one special character
     if(!checkForSpecialChar(password)){
-        throw "Error: password must contain at least one special character.";
+        throw {errorMessage: "Error: password must contain at least one special character.", status: 400};
     }
 
     //return password as inputted
@@ -206,8 +206,8 @@ function checkForSpecialChar(string){
 }
 
 function checkMatches(matches) {
-    if (typeof matches === "undefined") throw 'Matches doesn\'t exist';
-    if (!Array.isArray(matches)) throw 'Matches should be an array';
+    if (typeof matches === "undefined") throw {errorMessage: 'Matches doesn\'t exist', status: 400};
+    if (!Array.isArray(matches)) throw {errorMessage: 'Matches should be an array', status: 400};
 }
 
 
