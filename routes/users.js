@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios');
 const router = express.Router();
 const data = require('../data');
 const userData = data.users;
@@ -65,7 +66,7 @@ router
   })
   .post(async (req, res) => {
       try {
-          let email = req.body.userEmail;
+          let email = helpers.checkEmail(req.body.userEmail);
           let password = helpers.checkPassword(req.body.userPassword);
           let conPassword = helpers.checkPassword(req.body.conUserPassword);
   
@@ -105,7 +106,24 @@ router
       const requestBody = req.body;
       // console.log(requestBody);
       let updatedObject = {};
-      let userId = await getUserByEmail(req.session.user.email);
+      let userId = null;
+      try{
+        if(req.session.user){
+            helpers.checkEmail(req.session.user.email);
+        }
+        else{
+            return res.status(403).render('errors/error', {title: "Error", error: "Error: Unable to verify user identity."});
+        }    
+      }
+      catch(e){
+            return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
+      }
+      try{
+        userId = await getUserByEmail(req.session.user.email);
+      }
+      catch(e){
+        return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
+      }
       userId = userId._id;
       try {
 
@@ -208,7 +226,6 @@ router
               if (requestBody.firstName) {
                   res.redirect(`/users/onboarding/location`);
               }
-
           } catch (e) {
               return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
           }
@@ -218,10 +235,72 @@ router
       }
   });
 
+// get logout page
+router.patch('/addMatch', async(req,res) =>{
+    const requestBody = req.body;
+    // console.log(requestBody);
+    let updatedObject = {};
+    let userId = null;
+    try{
+        if(req.session.user){
+            helpers.checkEmail(req.session.user.email);
+        }
+        else{
+            return res.status(403).render('errors/error', {title: "Error", error: "Error: Unable to verify user identity."});
+        }
+    }
+    catch(e){
+        return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
+    }
+    try{
+        userId = await getUserByEmail(req.session.user.email);
+    }
+    catch(e){
+        return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
+    }
+    userId = userId._id;
+    try {
+
+        userId = checkId(userId, 'User ID');
+    }
+    catch (e) {
+        return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
+    }
+    // try {
+    //     checkMatches(requestBody.matches);
+    // }
+    // catch (e) {
+    //     return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
+    // }
+    try {
+        const oldUser = await getUserById(userId);
+        if (requestBody.matches !== oldUser.matches) {
+            updatedObject.matches = requestBody.matches;
+        }
+    }
+    catch (e) {
+        return res.status(404).render('errors/error', {title: "User not Found", error: e.toString()});
+    }
+    if (Object.keys(updatedObject).length !== 0) {
+        try {
+            const updatedUser = await updateUser(
+                userId,
+                updatedObject
+            );
+            res.send(req.session.user);
+        } catch (e) {
+            return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+        }
+    } else {
+        let errorMessage = "Error: 'No fields have been changed from their initial values, so no update has occurred";
+        res.status(400).render('errors/error', {title: "Error", error: errorMessage});
+    }
+});
+
 // Create user after they sign up
 router.post('/signup', async (req, res) => {
     try {
-        let email = req.body.userEmail;
+        let email = helpers.checkEmail(req.body.userEmail);
         let password = helpers.checkPassword(req.body.userPassword);
         let conPassword = helpers.checkPassword(req.body.conUserPassword);
 
@@ -233,7 +312,7 @@ router.post('/signup', async (req, res) => {
         if(newUser != null){
             const userId = newUser._id;
             req.session.user = {email: email};
-            res.redirect(`/users/onboarding/${userId}`);
+            res.redirect(`/users/onboarding`);
         }
         else{
             return res.status(500).render('errors/error', {title : "Error", error : e.toString()});
@@ -301,16 +380,15 @@ router.get('/logout', async(req,res) =>{
 });
 
 
-
 // get and post login
-router
+/*router
   .route('/login')
   .get(async (req, res) => { 
     res.render('users/login', {title: "Login", header: "Login"});
   })
   .post(async (req, res) => {
     try{
-        let email = req.body.userEmail;
+        let email = helpers.checkEmail(req.body.userEmail);
         let password = helpers.checkPassword(req.body.userPassword);
         let response = await userData.checkUser(email, password);
         if(response.authenticatedUser === true){
@@ -324,7 +402,7 @@ router
       catch(e){
         res.status(400).render("users/login", {title: "Login", error: e});
       }
-  });
+  });*/
 
 
 
@@ -343,7 +421,24 @@ router
 
 // Get single user
 router.get('/user', async (req, res) => {
-    let userId = await getUserByEmail(req.session.user.email);
+    let userId = null;
+    try{
+        if(req.session.user){
+            helpers.checkEmail(req.session.user.email);
+        }
+        else{
+            return res.status(403).render('errors/error', {title: "Error", error: "Error: Unable to verify user identity."});
+        }    
+    }
+    catch(e){
+        return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
+    }
+    try{
+        userId = await getUserByEmail(req.session.user.email);
+    }
+    catch(e){
+        return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
+    }
     userId = userId._id;
     try {
         userId = helpers.checkId(userId, "User ID");
@@ -363,10 +458,14 @@ router.get('/user', async (req, res) => {
 
 router.get('/compatibleUsers', async (req, res) => {
     try {
-        const user = await userData.getUserByEmail(req.session.user.email);
-        const compatibleUsers = await userData.getAllCompatibleUsers(user);
-        res.json(compatibleUsers);
-
+        if(req.session.user){
+            const user = await userData.getUserByEmail(req.session.user.email);
+            const compatibleUsers = await userData.getAllCompatibleUsers(user);
+            res.json(compatibleUsers);
+        }
+        else{
+            return res.status(403).render('errors/error', {title: "Error", error: "Error: Unable to verify user identity."});
+        }    
     }
     catch (e) {
         return res.status(404).render('errors/userNotFound', {title : "Not Found", error : e.toString()});

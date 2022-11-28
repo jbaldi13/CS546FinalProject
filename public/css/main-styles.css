@@ -147,9 +147,22 @@ nav {
     margin-right: 20%;
 }
 
+/* Login Page */
+.redirect-to-signup {
+    color: white;
+    font-size: 1.75rem;
+    font-weight: bold;
+}
+
 /* Signup Page */
 #signupButton {
     margin-top: 10px;
+}
+
+.redirect-to-login {
+    color: white;
+    font-size: 1.75rem;
+    font-weight: bold;
 }
 
 
@@ -404,6 +417,10 @@ h2 {
 }
 
 /* Dashboard Page */
+.dashboard h3 {
+    font-size: 30px;
+}
+
 .dashboard {
     /*overflow: hidden;*/
     display: flex;
@@ -465,8 +482,35 @@ h2 {
     font-size: 20px;
 }
 
-#matchesList li {
-    width: 10px;
+#matchesListUl {
+    width: min-content;
+    /*border: 2px solid white;*/
+    margin: 1rem;
+    padding: 2rem 2rem;
+    text-align: center;
+}
+
+#matchesListUl div  {
+    width: 170px;
+    display: inline-block;
+    margin: 5px;
+}
+
+#matchesListUl div img {
+    width: 70px;
+    height: auto;
+    float: right;
+    border-radius: 10px;
+    /*margin-bottom: 100px;*/
+}
+
+
+#matchesListUl li {
+    font-size: 25px;
+    width: fit-content;
+    float: left;
+    margin-top: 9px;
+
 }
 
 
