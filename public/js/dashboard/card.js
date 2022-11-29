@@ -136,7 +136,7 @@ class Card {
         }
         if (typeof this.onDislike === 'function' && direction === -1) {
             await this.onDislike();
-            console.log('dislike');
+            // console.log('dislike');
         }
         if (typeof this.onDismiss === 'function') {
             await this.onDismiss();

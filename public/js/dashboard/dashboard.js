@@ -2,53 +2,80 @@ function goToLogout() {
     window.location.href = "/users/logout";
 }
 
+
 const swiper = document.querySelector('#swiper');
 const instructions = document.querySelector('.swipeInstructionDiv');
 async function cards () {
 
     let user = await axios.get('/users/user');
     user = user.data;
+    let match;
 
 
     let compatibleUsers;
     try {
         compatibleUsers = await axios.get(`/users/compatibleUsers`);
         compatibleUsers = compatibleUsers.data;
-        console.log(compatibleUsers);
+        // console.log(compatibleUsers);
     }
     catch (e) {
         console.log(e);
     }
 
 
-    let cardCount = 0;
+    // let cardCount = 0;
 
     const matchedUserIds = user?.matches;
-    console.log(matchedUserIds);
+    // console.log(matchedUserIds);
 
     async function appendNewCard() {
         let card;
         // console.log(compatibleUsers.length);
         if (compatibleUsers.length > 0) {
-            console.log("hi");
-            console.log(compatibleUsers.length);
             card = new Card({
                 imageUrl: compatibleUsers[0].images.profilePic,
                 name: compatibleUsers[0].firstName,
                 onDismiss: appendNewCard,
                 onLike: async () => {
-                    // let a = document.createElement('a');
-                    // let linkText = document.createTextNode(this.name);
-                    // a.appendChild(linkText);
                     matchedUserIds.push(compatibleUsers[0]._id.toString());
-                    // console.log(updatedMatches);
                     let newData = {matches: matchedUserIds};
                     let matchContainer = document.createElement('div');
-                    let li = document.createElement('li');
-                    li.innerHTML = compatibleUsers[0].firstName;
+                    let a = document.createElement('a');
+                    let linkText = document.createTextNode(compatibleUsers[0].firstName);
+                    a.appendChild(linkText);
+                    a.href = "/match";
+                    a.addEventListener('click', async(event) => {
+                        event.preventDefault();
+                        try {
+                            const matchId = a.parentElement.firstChild.textContent;
+                            let {data} = await axios.get(`/users/compatibleUser/${matchId}`);
+                            match = data;
+                            let reqBody = {
+                                matchInterests: match.interests,
+                                firstName: match.firstName
+                            };
+                            // window.location.href = `/users/dashboard/match`;
+
+                            let dateSpots = await axios.post(`/users/dashboard/match`, reqBody);
+                            dateSpots = dateSpots.data;
+                            console.log(`Date spots for you and ${match.firstName}:`);
+                            for (let i = 0; i < dateSpots.length; i++) {
+                                console.log(`Because you both like ${dateSpots[i].interestCategory}...`);
+                                console.log(dateSpots[i].businesses.businesses);
+                            }
+
+                        }
+                        catch (e) {
+                            console.log(e);
+                        }
+                    });
+                    let matchId = document.createElement('p');
+                    matchId.innerHTML = compatibleUsers[0]._id;
+                    matchId.hidden = true;
                     const matchImg = document.createElement('img');
                     matchImg.src = compatibleUsers[0].images.profilePic;
-                    matchContainer.appendChild(li);
+                    matchContainer.appendChild(matchId);
+                    matchContainer.appendChild(a);
                     matchContainer.appendChild(matchImg);
                     matchesListUl.appendChild(matchContainer);
 
@@ -56,8 +83,8 @@ async function cards () {
                         // console.log(compatibleUser._id);
                         return !matchedUserIds.includes(compatibleUser._id);
                     });
-                    console.log(compatibleUsers);
-                    console.log(matchedUserIds);
+                    // console.log(compatibleUsers);
+                    // console.log(matchedUserIds);
                     await axios.patch(`/users/onboarding`, newData);
                 },
                 onDislike: async () => {
@@ -73,7 +100,6 @@ async function cards () {
             });
         }
         else {
-            console.log("bye");
             const noUsers = document.createElement('div');
             noUsers.classList.add('card');
             const name = document.createElement('h3');

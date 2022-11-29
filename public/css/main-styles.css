@@ -515,7 +515,8 @@ h2 {
 }
 
 
-#matchesListUl li {
+#matchesListUl a {
+    color: white;
     font-size: 25px;
     width: fit-content;
     float: left;

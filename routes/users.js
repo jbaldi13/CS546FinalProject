@@ -1,5 +1,4 @@
 const express = require('express');
-const axios = require('axios');
 const router = express.Router();
 const data = require('../data');
 const userData = data.users;
@@ -10,20 +9,38 @@ const {checkId, checkFirstName, checkBirthday, checkInterests, checkGender, chec
     checkImages,
     checkMatches
 } = require("../helpers");
-const {getUserById, updateUser, getUserByEmail} = require("../data/users");
+const {getUserById, updateUser, getUserByEmail, getDateSpots} = require("../data/users");
 const {response} = require("express");
-
-
 
 // Get and post login page
 router
   .route('/login')
   .get(async (req, res) => { 
-    if(!req.session.user){
-        res.render('users/login', {title: "Login", header: "Login"});
-    }
-    else{
-        res.redirect("/users/dashboard");
+    try{
+        if(!req.session.user){
+            res.render('users/login', {title: "Login", header: "Login"});
+        }
+        else{
+            try{
+                await userData.validateOtherUserData(req.session.user.email);
+                res.redirect("/users/dashboard");
+            }catch(e){
+                id = await userData.getUserByEmail(req.session.user.email);
+                await userData.removeUser(id._id);
+                req.session.destroy();
+                return res.render('users/login', {title: "Login", header: "Login"});
+            }  
+        }
+    }catch(e){
+        if(e.status === 404 && e.errorMessage){
+            return res.status(404).render('errors/userNotFound', {title: "User not Found", error: e.errorMessage});
+        }
+        else if(e.status && e.errorMessage){
+            return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
+        }
+        else{
+            return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+        }
     }
   })
   .post(async (req, res) => {
@@ -41,11 +58,23 @@ router
           res.redirect("/users/dashboard");
         }
         else{
-          return res.status(400).render("users/login", {title: "Login", error: e});
+          //User is not authenticated, but checkUser didn't error so it's not because of bad input
+          throw {errorMessage: "Error: Internal Server Error", status: 500};
         }
       }
       catch(e){
-        res.status(400).render("users/login", {title: "Login", error: e});
+        if(e.status === 400 && e.errorMessage){
+            return res.status(400).render('users/login', {title: "Login", error: e.errorMessage});
+        }
+        else if(e.status === 404 && e.errorMessage){
+            return res.status(404).render('errors/userNotFound', {title: "User not Found", error: e.errorMessage});
+        }
+        else if(e.status && e.errorMessage){
+            return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
+        }
+        else{
+            return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+        }
       }
   });
 
@@ -58,12 +87,27 @@ router
             res.render('users/signup', {title : "Create an Account"});
         }
         else{
-            res.redirect("/users/dashboard");
+            try{
+                await userData.validateOtherUserData(req.session.user.email);
+                res.redirect("/users/dashboard");
+              }catch(e){
+                id = await userData.getUserByEmail(req.session.user.email);
+                await userData.removeUser(id._id);
+                req.session.destroy();
+                return res.render('users/signup', {title : "Create an Account"});
+              }
         }
     }
     catch(e){
-        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
-    }
+        if(e.status === 404 && e.errorMessage){
+            return res.status(404).render('errors/userNotFound', {title: "User not Found", error: e.errorMessage});
+        }
+        else if(e.status && e.errorMessage){
+            return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
+        }
+        else{
+            return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+        }      }
   })
   .post(async (req, res) => {
       try {
@@ -72,7 +116,7 @@ router
           let conPassword = helpers.checkPassword(req.body.conUserPassword);
   
           if(password !== conPassword){
-              throw "Error: your passwords do not match";
+              throw {errorMessage: "Error: your passwords do not match", status: 400};
           }
   
           const newUser = await userData.createUser(email, password);
@@ -82,11 +126,22 @@ router
               res.redirect(`/users/onboarding`);
           }
           else{
-              return res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+              throw {errorMessage: "Error: Internal Server Error", status: 500};
           } 
       }
       catch(e){
-          return res.render('users/signup', {title : "Create an Account", error: e});
+        if(e.status === 400 && e.errorMessage){
+            return res.status(400).render('users/signup', {title: "Create an Account", error: e.errorMessage});
+        }
+        else if(e.status === 404 && e.errorMessage){
+            return res.status(404).render('errors/userNotFound', {title: "User not Found", error: e.errorMessage});
+        }
+        else if(e.status && e.errorMessage){
+            return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
+        }
+        else{
+            return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+        }
       }
   });
 
@@ -110,148 +165,131 @@ router
       let userId = null;
       try{
         if(req.session.user){
-            helpers.checkEmail(req.session.user.email);
+            userId = helpers.checkEmail(req.session.user.email);
         }
         else{
-            return res.status(403).render('errors/error', {title: "Error", error: "Error: Unable to verify user identity."});
-        }    
+            throw {errorMessage: "Error: Unable to verify user identity", status: 403};
+        }  
+        userId = await getUserByEmail(userId);
+        userId = userId._id;
+        userId = checkId(userId, 'User ID');  
+        if (requestBody.firstName) {
+            requestBody.firstName = checkFirstName(requestBody.firstName);
+        }
+        if (requestBody.birthday) {
+            requestBody.birthday = checkBirthday(requestBody.birthday);
+        }
+        if (requestBody.gender) {
+            requestBody.gender = checkGender(requestBody.gender);
+        }
+        if (requestBody.showGender) {
+            requestBody.showGender = checkShowOnProfile(requestBody.showGender, "Show gender");
+        }
+        if (requestBody.pronouns) {
+            requestBody.pronouns = checkPronouns(requestBody.pronouns);
+        }
+        if (requestBody.showPronouns) {
+            requestBody.showPronouns = checkShowOnProfile(requestBody.showPronouns, "Show pronouns");
+        }
+        if (requestBody.about) {
+            requestBody.about = checkAbout(requestBody.about);
+        }
+        if (requestBody.interests) {
+            requestBody.interests = checkInterests(requestBody.interests);
+        }
+        if (requestBody.location) {
+            requestBody.location = checkLocation(requestBody.location);
+        }
+        if (requestBody.filters) {
+            requestBody.filters = checkFilters(requestBody.filters);
+        }
+        if (requestBody.images) {
+            requestBody.images = checkImages(requestBody.images);
+        }
+        if (requestBody.matches) {
+            checkMatches(requestBody.matches);
+        }
+        const oldUser = await getUserById(userId);
+        if (requestBody.firstName && requestBody.firstName !== oldUser.firstName) {
+            updatedObject.firstName = requestBody.firstName;
+        }
+        if (requestBody.birthday && requestBody.birthday !== oldUser.birthday) {
+            updatedObject.birthday = requestBody.birthday;
+        }
+        if (requestBody.gender && requestBody.gender !== oldUser.gender) {
+            updatedObject.gender = requestBody.gender;
+        }
+
+        if (requestBody.showGender && requestBody.showGender !== oldUser.showGender) {
+            updatedObject.showGender = requestBody.showGender;
+        }
+
+        if (requestBody.pronouns && requestBody.pronouns !== oldUser.pronouns) {
+            updatedObject.pronouns = requestBody.pronouns;
+        }
+        if (requestBody.showPronouns && requestBody.showPronouns !== oldUser.showPronouns) {
+            updatedObject.showPronouns = requestBody.showPronouns;
+        }
+
+        if (requestBody.about !== undefined && requestBody.about !== oldUser.about) {
+            updatedObject.about = requestBody.about;
+        }
+        if (requestBody.interests && JSON.stringify(requestBody.interests) !== JSON.stringify(oldUser.interests)) {
+            updatedObject.interests = requestBody.interests;
+        }
+        if (requestBody.location) {
+            updatedObject.location = requestBody.location;
+        }
+        if (requestBody.filters && JSON.stringify(requestBody.filters) !== JSON.stringify(oldUser.filters)) {
+            updatedObject.filters = requestBody.filters;
+        }
+        if (requestBody.images && JSON.stringify(requestBody.images) !== JSON.stringify(oldUser.images)) {
+            updatedObject.images = requestBody.images;
+        }
+        if (requestBody.matches && JSON.stringify(requestBody.matches) !== JSON.stringify(oldUser.matches)) {
+            updatedObject.matches = requestBody.matches;
+        }
+              // console.log(updatedObject);
+        if (Object.keys(updatedObject).length !== 0) {
+            const updatedUser = await updateUser(
+                userId,
+                updatedObject
+            );
+
+            if (requestBody.firstName) {
+                res.redirect(`/users/onboarding/location`);
+            }
+            else {
+                res.send(updatedUser);
+            }
+        } else {
+            let errorMessage = "Error: 'No fields have been changed from their initial values, so no update has occurred";
+            throw {errorMessage: errorMessage, status: 400};
+        }
       }
       catch(e){
-            return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
-      }
-      try{
-        userId = await getUserByEmail(req.session.user.email);
-      }
-      catch(e){
-        return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
-      }
-      userId = userId._id;
-      try {
-
-          userId = checkId(userId, 'User ID');
-      }
-      catch (e) {
-          return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
-      }
-      try {
-          if (requestBody.firstName) {
-              checkFirstName(requestBody.firstName);
-          }
-          if (requestBody.birthday) {
-              checkBirthday(requestBody.birthday);
-          }
-          if (requestBody.gender) {
-              checkGender(requestBody.gender);
-          }
-          if (requestBody.showGender) {
-              requestBody.showGender = checkShowOnProfile(requestBody.showGender, "Show gender");
-          }
-          if (requestBody.pronouns) {
-              checkPronouns(requestBody.pronouns);
-          }
-          if (requestBody.showPronouns) {
-              requestBody.showPronouns = checkShowOnProfile(requestBody.showPronouns, "Show pronouns");
-          }
-          if (requestBody.about) {
-              checkAbout(requestBody.about);
-          }
-          if (requestBody.interests) {
-              requestBody.interests = checkInterests(requestBody.interests);
-          }
-          if (requestBody.location) {
-              checkLocation(requestBody.location);
-          }
-          if (requestBody.filters) {
-              checkFilters(requestBody.filters);
-          }
-          if (requestBody.images) {
-              checkImages(requestBody.images);
-          }
-          if (requestBody.matches) {
-              checkMatches(requestBody.matches);
-          }
-      }
-      catch (e) {
-          return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
-      }
-      try {
-          const oldUser = await getUserById(userId);
-          if (requestBody.firstName && requestBody.firstName !== oldUser.firstName) {
-              updatedObject.firstName = requestBody.firstName;
-          }
-          if (requestBody.birthday && requestBody.birthday !== oldUser.birthday) {
-              updatedObject.birthday = requestBody.birthday;
-          }
-          if (requestBody.gender && requestBody.gender !== oldUser.gender) {
-              updatedObject.gender = requestBody.gender;
-          }
-
-          if (requestBody.showGender && requestBody.showGender !== oldUser.showGender) {
-              updatedObject.showGender = requestBody.showGender;
-          }
-
-          if (requestBody.pronouns && requestBody.pronouns !== oldUser.pronouns) {
-              updatedObject.pronouns = requestBody.pronouns;
-          }
-          if (requestBody.showPronouns && requestBody.showPronouns !== oldUser.showPronouns) {
-              updatedObject.showPronouns = requestBody.showPronouns;
-          }
-
-          if (requestBody.about !== undefined && requestBody.about !== oldUser.about) {
-              updatedObject.about = requestBody.about;
-          }
-          if (requestBody.interests && JSON.stringify(requestBody.interests) !== JSON.stringify(oldUser.interests)) {
-              updatedObject.interests = requestBody.interests;
-          }
-          if (requestBody.location) {
-              updatedObject.location = requestBody.location;
-          }
-          if (requestBody.filters && JSON.stringify(requestBody.filters) !== JSON.stringify(oldUser.filters)) {
-              updatedObject.filters = requestBody.filters;
-          }
-          if (requestBody.images && JSON.stringify(requestBody.images) !== JSON.stringify(oldUser.images)) {
-              updatedObject.images = requestBody.images;
-          }
-          if (requestBody.matches && JSON.stringify(requestBody.matches) !== JSON.stringify(oldUser.matches)) {
-              updatedObject.matches = requestBody.matches;
-          }
-      }
-      catch (e) {
-          return res.status(404).render('errors/error', {title: "User not Found", error: e.toString()});
-      }
-      // console.log(updatedObject);
-      if (Object.keys(updatedObject).length !== 0) {
-          try {
-              const updatedUser = await updateUser(
-                  userId,
-                  updatedObject
-              );
-
-              if (requestBody.firstName) {
-                  res.redirect(`/users/onboarding/location`);
-              }
-              else {
-                  res.send(updatedUser);
-              }
-          } catch (e) {
-              return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
-          }
-      } else {
-          let errorMessage = "Error: 'No fields have been changed from their initial values, so no update has occurred";
-          res.status(400).render('errors/error', {title: "Error", error: errorMessage});
+            if(e.status === 404 && e.errorMessage){
+                return res.status(404).render('errors/userNotFound', {title: "User not Found", error: e.errorMessage});
+            }
+            else if(e.status && e.errorMessage){
+                return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
+            }
+            else{
+                return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+            }
       }
   });
 
 
 // Create user after they sign up
-router.post('/signup', async (req, res) => {
+/*router.post('/signup', async (req, res) => {
     try {
         let email = helpers.checkEmail(req.body.userEmail);
         let password = helpers.checkPassword(req.body.userPassword);
         let conPassword = helpers.checkPassword(req.body.conUserPassword);
 
         if(password !== conPassword){
-            throw "Error: your passwords do not match";
+            throw {errorMessage: "Error: your passwords do not match", status: 400}
         }
 
         const newUser = await userData.createUser(email, password);
@@ -267,7 +305,7 @@ router.post('/signup', async (req, res) => {
     catch(e){
         return res.render('users/signup', {title : "Create an Account", error: e});
     }
-});
+});*/
 
 
 // get onboarding/location page
@@ -304,24 +342,87 @@ router.get('/onboarding/images', async (req, res) => {
 });
 
 router.get('/dashboard', async(req,res) =>{
-    if(req.session.user){
-        res.render('dashboard/dashboard', {title: "Dashboard"});
+    try{
+        if(req.session.user){
+            try{
+                await userData.validateOtherUserData(req.session.user.email);
+                res.render('dashboard/dashboard', {title: "Dashboard"});
+            }catch(e){
+                let id = await userData.getUserByEmail(req.session.user.email);
+                await userData.removeUser(id._id);
+                req.session.destroy();
+                return res.redirect("/");
+              }
+        }
+        else{
+            res.redirect("/");
+        }
+    }catch(e){
+        if(e.status && e.errorMessage){
+            return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
+        }
+        else{
+            return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+        }
     }
-    else{
-        res.redirect("/");
+});
+
+router.post('/dashboard/match', async(req,res) =>{
+    let userId;
+    const requestBody = req.body;
+    let user;
+    try{
+        if(req.session.user){
+            try{
+                await userData.validateOtherUserData(req.session.user.email);
+            }catch(e){
+                let id = await userData.getUserByEmail(req.session.user.email);
+                await userData.removeUser(id._id);
+                req.session.destroy();
+                return res.redirect("/");
+            }
+        }
+        else{
+            res.redirect("/");
+        }
+    }catch(e){
+        if(e.status && e.errorMessage){
+            return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
+        }
+        else{
+            return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+        }
+    }
+    try {
+        userId = await getUserByEmail(req.session.user.email);
+        userId = userId._id;
+        userId = checkId(userId, 'User ID');
+        user = await getUserById(userId);
+        let dateSpots = await getDateSpots(user.interests, requestBody.matchInterests,
+            user.location.latitude, user.location.longitude, user.filters.maxDistance);
+
+        console.log(dateSpots);
+        res.send(dateSpots);
+    }
+    catch (e) {
+        console.log(e);
     }
 });
 
 // get logout page
 router.get('/logout', async(req,res) =>{
-    if(req.session.user){
-        let user = req.session.user.email;
-        req.session.destroy();
-        // res.render('users/loggedOut', {title: "Logged Out", user: user});
-        res.redirect('/');
-    }
-    else{
-        res.redirect("/");
+    try{
+        if(req.session.user){
+            let user = req.session.user.email;
+            req.session.destroy();
+            // res.render('users/loggedOut', {title: "Logged Out", user: user});
+            res.redirect('/');
+        }
+        else{
+            res.redirect("/");
+        }
+    }catch(e){
+        return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
     }
 });
 
@@ -367,38 +468,54 @@ router.get('/logout', async(req,res) =>{
 
 // Get single user
 router.get('/user', async (req, res) => {
-    let userId = null;
     try{
+        let userId = null;
         if(req.session.user){
             helpers.checkEmail(req.session.user.email);
         }
         else{
-            return res.status(403).render('errors/error', {title: "Error", error: "Error: Unable to verify user identity."});
-        }    
-    }
-    catch(e){
-        return res.status(400).render('errors/error', {title: "Error", error: e.toString()});
-    }
-    try{
+            throw {errorMessage: "Error: Unable to verify user identity.", status: 403};
+        }
         userId = await getUserByEmail(req.session.user.email);
-    }
-    catch(e){
-        return res.status(404).render('errors/error', {title: "Error", error: e.toString()});
-    }
-    userId = userId._id;
-    try {
+        userId = userId._id;
         userId = helpers.checkId(userId, "User ID");
-    }
-    catch (e) {
-        return res.status(400).render('errors/error', {title : "Error", error : e.toString()});
-    }
-    try {
         const user = await userData.getUserById(userId);
         // res.render('users/userInfo', {title : "User Info", user : user});
         res.json(user);
+    }catch(e){
+        if(e.status === 404 && e.errorMessage){
+            return res.status(404).render('errors/userNotFound', {title: "Not Found", error: e.errorMessage});
+        }
+        else if(e.status && e.errorMessage){
+            return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
+        }
+        else{
+            return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+        }
+    }
+});
+
+router.get('/compatibleUser/:id', async (req, res) => {
+    try {
+        if(req.session.user){
+            const compatibleUserId = checkId(req.params.id, 'Compatible User Id');
+            const compatibleUser = await getUserById(compatibleUserId);
+            res.send(compatibleUser);
+        }
+        else{
+            throw {errorMessage: "Error: Unable to verify user identity.", status: 403};
+        }
     }
     catch (e) {
-        return res.status(404).render('errors/userNotFound', {title : "Not Found", error : e.toString()});
+        if(e.status === 404 && e.errorMessage){
+            return res.status(404).render('errors/userNotFound', {title: "Not Found", error: e.errorMessage});
+        }
+        else if(e.status && e.errorMessage){
+            return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
+        }
+        else{
+            return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+        }
     }
 });
 
@@ -410,11 +527,19 @@ router.get('/compatibleUsers', async (req, res) => {
             res.json(compatibleUsers);
         }
         else{
-            return res.status(403).render('errors/error', {title: "Error", error: "Error: Unable to verify user identity."});
+            throw {errorMessage: "Error: Unable to verify user identity.", status: 403};
         }    
     }
     catch (e) {
-        return res.status(404).render('errors/userNotFound', {title : "Not Found", error : e.toString()});
+        if(e.status === 404 && e.errorMessage){
+            return res.status(404).render('errors/userNotFound', {title: "Not Found", error: e.errorMessage});
+        }
+        else if(e.status && e.errorMessage){
+            return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
+        }
+        else{
+            return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+        }
     }
 });
 
