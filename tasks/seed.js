@@ -89,7 +89,7 @@ async function main() {
         },
         interests: ["lasertag", "rock_climbing", "paintandsip"],
         matches: [],
-        usersSeen: {'63866e453eebcf5d070fcaf1': 'liked'}
+        usersSeen: {}
     };
 
 
