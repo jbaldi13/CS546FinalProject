@@ -10,6 +10,7 @@ async function cards () {
     let user = await axios.get('/users/user');
     user = user.data;
     const matchedUserIds = user?.matches;
+    const usersSeen = user?.usersSeen;
     let match;
 
     function addMatchToPage(match) {
@@ -76,32 +77,48 @@ async function cards () {
     }
 
     async function appendNewCard() {
-        let card;
-        // console.log(compatibleUsers.length);
         if (compatibleUsers.length > 0) {
+            let card;
+            const currCompatUser = compatibleUsers[0];
+            let currCompatUserMatches = currCompatUser.matches;
+            let currCompatUserId = currCompatUser._id;
+            let newData;
             card = new Card({
-                imageUrl: compatibleUsers[0].images.profilePic,
-                name: compatibleUsers[0].firstName,
+                imageUrl: currCompatUser.images.profilePic,
+                name: currCompatUser.firstName,
                 onDismiss: appendNewCard,
                 onLike: async () => {
-                    matchedUserIds.push(compatibleUsers[0]._id.toString());
-                    let newData = {matches: matchedUserIds};
-                    addMatchToPage(compatibleUsers[0]);
 
-                    compatibleUsers = compatibleUsers?.filter(compatibleUser => {
-                        // console.log(compatibleUser._id);
-                        return !matchedUserIds.includes(compatibleUser._id);
-                    });
-                    // console.log(compatibleUsers);
-                    // console.log(matchedUserIds);
+                    compatibleUsers = compatibleUsers.slice(1);
+
+                    usersSeen[currCompatUserId] = "liked";
+                    if (Object.keys(currCompatUser.usersSeen).includes(user._id) &&
+                    currCompatUser.usersSeen[user._id] === 'liked') {
+                        addMatchToPage(currCompatUser);
+                        matchedUserIds.push(currCompatUserId);
+                        currCompatUserMatches.push(user._id);
+                        newData = {
+                            userMatches: matchedUserIds,
+                            currCompatUserId: currCompatUserId,
+                            currCompatUserMatches: currCompatUserMatches,
+                            usersSeen: usersSeen
+                        };
+                    }
+                    else {
+                        newData = {usersSeen: usersSeen};
+                    }
+
                     await axios.patch(`/users/onboarding`, newData);
                 },
                 onDislike: async () => {
                     compatibleUsers = compatibleUsers.slice(1);
+
+                    usersSeen.currCompatUser._id = "disliked";
+                    newData = {usersSeen: usersSeen};
+                    await axios.patch(`/users/onboarding`, newData);
                 }
             });
             swiper.append(card.element);
-            // cardCount++;
 
             const cards = swiper.querySelectorAll('.card:not(.dismissing)');
             cards.forEach((card, index) => {
@@ -116,19 +133,8 @@ async function cards () {
             noUsers.appendChild(name);
             swiper.append(noUsers);
             instructions.remove();
-            // card = new Card({
-            //     imageUrl: "https://thisinterestsme.com/wp-content/uploads/2017/02/tinder-no-one-new-around-yo.jpg",
-            //     name: "Error",
-            //     onDismiss: appendNewCard,
-            // });
         }
-
     }
-
-    // first 5 cards
-    // for (let i = 0; i < compatibleUsers.length; i++) {
-    //     await appendNewCard();
-    // }
     await appendNewCard();
 }
 cards();

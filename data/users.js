@@ -5,14 +5,13 @@ const helpers = require("../helpers");
 const {checkFirstName, checkBirthday, checkInterests, getAge,
     checkGender,
     checkPronouns,
-    checkAbout, checkFilters, checkShowOnProfile, checkImages, checkEmail, checkLocation, checkMatches
+    checkAbout, checkFilters, checkShowOnProfile, checkImages, checkEmail, checkLocation, checkMatches, checkUsersSeen
 } = require("../helpers");
 const bcrypt = require("bcryptjs");
 const axios = require("axios");
 const saltRounds = 16;
 
 const createUser = async (email, password) => {
-    //input error checking (TODO...)
     email = helpers.checkEmail(email);
     password = helpers.checkPassword(password);
 
@@ -42,6 +41,7 @@ const createUser = async (email, password) => {
         images: {profilePic: null, otherPics: []},
         interests: [],
         matches: [],
+        usersSeen: {}
     };
 
     const usersCollection = await users();
@@ -52,8 +52,6 @@ const createUser = async (email, password) => {
     
     const NEW_ID = INSERT_INFO.insertedId.toString();
     return await getUserById(NEW_ID);
-
-    
 };
 
 const checkUser = async (email, password) => { 
@@ -171,7 +169,8 @@ const getAllCompatibleUsers = async (user) => {
 
         return ((distance <= user.filters.maxDistance && distance <= otherUser.filters.maxDistance) &&
             mutualInterestCount >= 3 && !user.matches.includes(otherUser._id) && otherUser._id !== user._id) &&
-            user.gender[0] === otherUser.filters.genderInterest[0];
+            user.gender[0] === otherUser.filters.genderInterest[0] &&
+            !Object.keys(user.usersSeen).includes(otherUser._id);
     });
 
     return userList;
@@ -230,6 +229,9 @@ const updateUser = async (userId, updatedUser) => {
     }
     if (updatedUser.matches) {
         checkMatches(updatedUser.matches);
+    }
+    if (updatedUser.usersSeen) {
+        checkUsersSeen(updatedUser.usersSeen);
     }
 
 
