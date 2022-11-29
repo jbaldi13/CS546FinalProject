@@ -8,6 +8,7 @@ const {checkFirstName, checkBirthday, checkInterests, getAge,
     checkAbout, checkFilters, checkShowOnProfile, checkImages, checkEmail, checkLocation, checkMatches
 } = require("../helpers");
 const bcrypt = require("bcryptjs");
+const axios = require("axios");
 const saltRounds = 16;
 
 const createUser = async (email, password) => {
@@ -19,7 +20,7 @@ const createUser = async (email, password) => {
     const userCollection = await users();
     const userInDB = await userCollection.findOne({email: email});
     if (userInDB != null){
-        throw {errorMessage: "Error: a user already exists with the email "+email, status: 400}
+        throw {errorMessage: "Error: a user already exists with the email "+email, status: 400};
     }
 
     //hash the password
@@ -46,7 +47,7 @@ const createUser = async (email, password) => {
     const usersCollection = await users();
     const INSERT_INFO = await usersCollection.insertOne(newUser);
     if (!INSERT_INFO.acknowledged || !INSERT_INFO.insertedId){
-        throw {errorMessage: 'Error: Could not add user', status: 500}
+        throw {errorMessage: 'Error: Could not add user', status: 500};
     }
     
     const NEW_ID = INSERT_INFO.insertedId.toString();
@@ -74,11 +75,11 @@ const checkUser = async (email, password) => {
         return {authenticatedUser: true};
       }
       else{
-        throw {errorMessage: "Error: Either the username or password is invalid.", status: 400}
+        throw {errorMessage: "Error: Either the username or password is invalid.", status: 400};
       }
     }
     else{
-        throw {errorMessage: "Error: Either the username or password is invalid.", status: 400}
+        throw {errorMessage: "Error: Either the username or password is invalid.", status: 400};
     }
 };
 
@@ -86,7 +87,7 @@ const getUserById = async (userId) => {
     userId = helpers.checkId(userId, "userId");
     const userCollection = await users();
     const user = await userCollection.findOne({_id: ObjectId(userId)});
-    if (user === null) throw {errorMessage: "Error: No user with that id", status: 404}
+    if (user === null) throw {errorMessage: "Error: No user with that id", status: 404};
 
     user._id = user._id.toString();
     return user;
@@ -96,17 +97,18 @@ const getUserByEmail = async (email) => {
     email = checkEmail(email);
     const userCollection = await users();
     const user = await userCollection.findOne({email: email});
-    if (user === null) throw {errorMessage: "Error: No user with that email", status: 404}
+    if (user === null) throw {errorMessage: "Error: No user with that email", status: 404};
 
     user._id = user._id.toString();
     return user;
 };
 
+
 const getAllUsers = async () => {
     const userCollection = await users();
     const userList = await userCollection.find({}).toArray();
 
-    if (!userList) throw {errorMessage: "Error: Could not get all users", status: 500}
+    if (!userList) throw {errorMessage: "Error: Could not get all users", status: 500};
 
     userList.forEach(user => {user._id = user._id.toString();});
     return userList;
@@ -150,7 +152,7 @@ const getAllCompatibleUsers = async (user) => {
     const userCollection = await users();
     let userList = await userCollection.find({gender: gender}).toArray();
 
-    if (!userList) throw {errorMessage: "Error: Could not get compatible users", status: 500}
+    if (!userList) throw {errorMessage: "Error: Could not get compatible users", status: 500};
 
     userList.forEach(user => {user._id = user._id.toString();});
 
@@ -179,7 +181,7 @@ const removeUser = async (userId) => {
     const userCollection = await users();
     const deletionInfo = await userCollection.deleteOne({_id: ObjectId(userId)});
     if (deletionInfo.deletedCount === 0) {
-        throw {errorMessage: `Error: Could not delete movie with id: ${userId}`, status: 500}
+        throw {errorMessage: `Error: Could not delete movie with id: ${userId}`, status: 500};
     }
 
     return `User with id, ${userId}, has been successfully deleted`;
@@ -233,7 +235,7 @@ const updateUser = async (userId, updatedUser) => {
 
 
     if (updatedInfo.modifiedCount === 0) {
-        throw {errorMessage: 'Error: Could not update any information about the user', status: 500}
+        throw {errorMessage: 'Error: Could not update any information about the user', status: 500};
     }
 
     return await getUserById(userId);
@@ -242,7 +244,7 @@ const updateUser = async (userId, updatedUser) => {
 const validateOtherUserData = async(email) => {
     //Validates all userdata besides email & password (handled by checkUser)
 
-    //Get's the user based on their email
+    //Gets the user based on their email
     email = checkEmail(email);
     const userInDB = await getUserByEmail(email);
     try{
@@ -255,34 +257,57 @@ const validateOtherUserData = async(email) => {
         checkShowOnProfile(userInDB.showGender, "Show gender");
         checkShowOnProfile(userInDB.showPronouns, "Show pronouns");
     }catch(e){
-        throw {errorMessage: "Error: General info for the user is invalid or undefined", status: 400}
+        throw {errorMessage: "Error: General info for the user is invalid or undefined", status: 400};
     }
     if(userInDB.age === null || userInDB.showGender === null || userInDB.showPronouns === null){
-        throw {errorMessage: "Error: General info for the user is invalid or undefined", status: 400}
+        throw {errorMessage: "Error: General info for the user is invalid or undefined", status: 400};
     }
     try{
         checkLocation(userInDB.location);
     }catch(e){
-        throw {errorMessage: "Error: Location is invalid or undefined", status: 400}
+        throw {errorMessage: "Error: Location is invalid or undefined", status: 400};
     }
     try{
         checkFilters(userInDB.filters);
     }catch(e){
-        throw {errorMessage: "Error: Filters for the user are invalid or undefined", status: 400}        
+        throw {errorMessage: "Error: Filters for the user are invalid or undefined", status: 400};
     }
     if(typeof userInDB.filters.minAge !== "number" || typeof userInDB.filters.maxAge !== "number" || typeof userInDB.filters.maxDistance !== "number"){
-        throw {errorMessage: "Error: Filters for the user are invalid or undefined", status: 400}        
+        throw {errorMessage: "Error: Filters for the user are invalid or undefined", status: 400};
     }
     try{
         checkImages(userInDB.images);
     }catch(e){
-        throw {errorMessage: "Error: Images for the user are invalid or undefined", status: 400}
+        throw {errorMessage: "Error: Images for the user are invalid or undefined", status: 400};
     }
     try{
         checkImages(userInDB.images);
     }catch(e){
-        throw {errorMessage: "Error: Images for the user are invalid or undefined", status: 400}
+        throw {errorMessage: "Error: Images for the user are invalid or undefined", status: 400};
     }
 };
 
-module.exports = {createUser, checkUser, getUserById, getUserByEmail, getAllUsers, getAllCompatibleUsers, removeUser, updateUser, validateOtherUserData};
+const getMutualInterests = (userInterests, matchInterests) => {
+    return userInterests.filter(userInterest => {
+        return matchInterests.includes(userInterest);
+    });
+};
+
+const getDateSpots = async (userInterests, matchInterests, latitude, longitude, maxDistance) => {
+    let dateSpots = [];
+    const config = {
+        headers: { Authorization: `Bearer ETLfinv9BVg1mjN7Afn4VCXWjFruJIHItswAdyRJEEHhyCvEFoD5ghgr016hD0FpZ3Gpm0R-HiOY64MFbOOFlnye0yTfRXPHfUGNii7RwhY8iHAhaih-n4v_YMBtY3Yx` }
+    };
+    // console.log([userInterests, matchInterests, latitude, longitude, maxDistance]);
+    const mutualInterests = getMutualInterests(userInterests, matchInterests);
+    maxDistance = maxDistance * 1608.344; // convert miles to meters for radius parameter
+    maxDistance = parseInt(maxDistance); // convert radius to whole number bc yelp requires whole # for radius
+    for (let i = 0; i < mutualInterests.length; i++) {
+        const {data} = await axios.get(`https://api.yelp.com/v3/businesses/search?categories=${mutualInterests[i]}&latitude=${latitude}&longitude=${longitude}&radius=${maxDistance}`, config);
+        dateSpots.push({interestCategory: mutualInterests[i], businesses: data});
+    }
+
+    return dateSpots;
+};
+
+module.exports = {getDateSpots, createUser, checkUser, getUserById, getUserByEmail, getAllUsers, getAllCompatibleUsers, removeUser, updateUser, validateOtherUserData};

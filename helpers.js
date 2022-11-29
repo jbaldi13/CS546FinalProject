@@ -140,9 +140,9 @@ function checkFilters(filters) {
 }
 
 function checkImages(images) {
-    if (typeof images !== "object") throw {errorMessage:'Images should be an object', status: 400}
-    if (typeof images.profilePic !== 'string') throw {errorMessage:'Error in images format: profile pic should be string', status: 400}
-    if (typeof images.otherPics !== 'object') throw {errorMessage:'Error in images format: other pics field should be an object', status: 400}
+    if (typeof images !== "object") throw {errorMessage:'Images should be an object', status: 400};
+    if (typeof images.profilePic !== 'string') throw {errorMessage:'Error in images format: profile pic should be string', status: 400};
+    if (typeof images.otherPics !== 'object') throw {errorMessage:'Error in images format: other pics field should be an object', status: 400};
     return images;
 }
 

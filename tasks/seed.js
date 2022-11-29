@@ -50,7 +50,7 @@ async function main() {
                 other3: ""
             }
         },
-        interests: ["musicvenues", "comedyclubs", "pizza", "fondue", "icecream", "paintandsip", "hauntedhouses", "arcades", "bars"],
+        interests: ["lasertag", "rock_climbing", "paintandsip", "coffee", "brazilian", "comedyclubs"],
         matches: []
     };
 
@@ -86,7 +86,7 @@ async function main() {
                 other3: ""
             }
         },
-        interests: ["musicvenues", "comedyclubs", "pizza", "fondue", "icecream", "paintandsip", "hauntedhouses", "arcades", "bars"],
+        interests: ["lasertag", "rock_climbing", "paintandsip"],
         matches: []
     };
 
@@ -122,7 +122,7 @@ async function main() {
                 other3: ""
             }
         },
-        interests: ["musicvenues", "comedyclubs", "pizza", "fondue", "icecream", "paintandsip", "hauntedhouses", "arcades", "bars"],
+        interests: ["coffee", "brazilian", "comedyclubs"],
         matches: []
     };
 
