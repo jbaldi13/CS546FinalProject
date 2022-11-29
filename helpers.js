@@ -159,7 +159,7 @@ function checkPassword(password){
 
     //check if password has any spaces
     var checkpass = password.replace(/\s/g,"");
-    if(checkpass != password){
+    if(checkpass !== password){
         throw {errorMessage: "Error: password cannot have any spaces.", status: 400};
     }
 
@@ -184,7 +184,7 @@ function checkPassword(password){
 
 function checkForUpperCaseLetter(string){
     for (i = 0; i < string.length; i++){
-        if (string.charAt(i) == string.charAt(i).toUpperCase() && string.charAt(i).match(/[a-zA-Z]/i)){
+        if (string.charAt(i) === string.charAt(i).toUpperCase() && string.charAt(i).match(/[a-zA-Z]/i)){
           return true;
         }
     }
@@ -214,10 +214,15 @@ function checkMatches(matches) {
     if (typeof matches === "undefined") throw {errorMessage: 'Matches doesn\'t exist', status: 400};
     if (!Array.isArray(matches)) throw {errorMessage: 'Matches should be an array', status: 400};
 }
-
-
+function checkUsersSeen(usersSeen) {
+    if (typeof usersSeen === "undefined") throw {errorMessage: 'usersSeen doesn\'t exist', status: 400};
+    if (typeof usersSeen !== 'object') throw {errorMessage: 'usersSeen should be an object', status: 400};
+    if (typeof usersSeen === 'function') throw {errorMessage: 'usersSeen should be an object', status: 400};
+    if (Array.isArray(usersSeen)) throw {errorMessage: 'usersSeen should be an object', status: 400};
+}
 
 module.exports = {
+    checkUsersSeen,
     checkMatches,
     checkFilters,
     checkLocation, 

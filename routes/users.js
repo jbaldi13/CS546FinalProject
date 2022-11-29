@@ -7,7 +7,8 @@ const {checkId, checkFirstName, checkBirthday, checkInterests, checkGender, chec
     checkLocation,
     checkFilters,
     checkImages,
-    checkMatches
+    checkMatches,
+    checkUsersSeen
 } = require("../helpers");
 const {getUserById, updateUser, getUserByEmail, getDateSpots} = require("../data/users");
 const {response} = require("express");
@@ -206,8 +207,11 @@ router
         if (requestBody.images) {
             requestBody.images = checkImages(requestBody.images);
         }
-        if (requestBody.matches) {
-            checkMatches(requestBody.matches);
+        if (requestBody.userMatches) { //if userMatches in req body, then the req body also contains the following
+            checkMatches(requestBody.userMatches);
+            checkMatches(requestBody.currCompatUserMatches);
+            requestBody.currCompatUserId = checkId(requestBody.currCompatUserId, 'currCompatUserId');
+            checkUsersSeen(requestBody.usersSeen);
         }
         const oldUser = await getUserById(userId);
         if (requestBody.firstName && requestBody.firstName !== oldUser.firstName) {
@@ -246,15 +250,25 @@ router
         if (requestBody.images && JSON.stringify(requestBody.images) !== JSON.stringify(oldUser.images)) {
             updatedObject.images = requestBody.images;
         }
-        if (requestBody.matches && JSON.stringify(requestBody.matches) !== JSON.stringify(oldUser.matches)) {
-            updatedObject.matches = requestBody.matches;
+        if (requestBody.userMatches && JSON.stringify(requestBody.userMatches) !== JSON.stringify(oldUser.matches)) {
+            updatedObject.matches = requestBody.userMatches;
         }
-              // console.log(updatedObject);
+        if (requestBody.usersSeen && JSON.stringify(requestBody.usersSeen) !== JSON.stringify(oldUser.usersSeen)) {
+            updatedObject.usersSeen = requestBody.usersSeen;
+        }
+
+        // console.log(updatedObject);
         if (Object.keys(updatedObject).length !== 0) {
             const updatedUser = await updateUser(
                 userId,
                 updatedObject
             );
+            if (requestBody.userMatches) {
+                const updatedMatchUser = await updateUser( // update match for other user as well
+                    requestBody.currCompatUserId,
+                    {matches: requestBody.currCompatUserMatches}
+                );
+            }
 
             if (requestBody.firstName) {
                 res.redirect(`/users/onboarding/location`);
