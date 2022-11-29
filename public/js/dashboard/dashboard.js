@@ -2,15 +2,68 @@ function goToLogout() {
     window.location.href = "/users/logout";
 }
 
-
-const swiper = document.querySelector('#swiper');
-const instructions = document.querySelector('.swipeInstructionDiv');
 async function cards () {
+    const swiper = document.querySelector('#swiper');
+    const instructions = document.querySelector('.swipeInstructionDiv');
+
 
     let user = await axios.get('/users/user');
     user = user.data;
+    const matchedUserIds = user?.matches;
     let match;
 
+    function addMatchToPage(match) {
+        let matchContainer = document.createElement('div');
+        let a = document.createElement('a');
+        let linkText = document.createTextNode(match.firstName);
+        a.appendChild(linkText);
+        a.href = "/match";
+        a.addEventListener('click', getMatchPage);
+        let matchId = document.createElement('p');
+        matchId.innerHTML = match._id;
+        matchId.hidden = true;
+        const matchImg = document.createElement('img');
+        matchImg.src = match.images.profilePic;
+        matchContainer.appendChild(matchId);
+        matchContainer.appendChild(a);
+        matchContainer.appendChild(matchImg);
+        matchesListUl.appendChild(matchContainer);
+    }
+
+    if (matchedUserIds.length > 0) {
+        let match;
+        for (let i = 0; i < matchedUserIds.length; i++) {
+            const matchId = matchedUserIds[i];
+            let {data} = await axios.get(`/users/user/${matchId}`);
+            match = data;
+            addMatchToPage(match);
+        }
+    }
+
+    async function getMatchPage(event) {
+        event.preventDefault();
+        try {
+            const matchId = event.target.parentElement.firstChild.textContent;
+            let {data} = await axios.get(`/users/user/${matchId}`);
+            match = data;
+            let reqBody = {
+                matchInterests: match.interests,
+                firstName: match.firstName
+            };
+            // window.location.href = `/users/dashboard/match`;
+
+            let dateSpots = await axios.post(`/users/dashboard/match`, reqBody);
+            dateSpots = dateSpots.data;
+            console.log(`Date spots for you and ${match.firstName}:`);
+            for (let i = 0; i < dateSpots.length; i++) {
+                console.log(`Because you both like ${dateSpots[i].interestCategory}...`);
+                console.log(dateSpots[i].businesses.businesses);
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }
 
     let compatibleUsers;
     try {
@@ -21,12 +74,6 @@ async function cards () {
     catch (e) {
         console.log(e);
     }
-
-
-    // let cardCount = 0;
-
-    const matchedUserIds = user?.matches;
-    // console.log(matchedUserIds);
 
     async function appendNewCard() {
         let card;
@@ -39,45 +86,7 @@ async function cards () {
                 onLike: async () => {
                     matchedUserIds.push(compatibleUsers[0]._id.toString());
                     let newData = {matches: matchedUserIds};
-                    let matchContainer = document.createElement('div');
-                    let a = document.createElement('a');
-                    let linkText = document.createTextNode(compatibleUsers[0].firstName);
-                    a.appendChild(linkText);
-                    a.href = "/match";
-                    a.addEventListener('click', async(event) => {
-                        event.preventDefault();
-                        try {
-                            const matchId = a.parentElement.firstChild.textContent;
-                            let {data} = await axios.get(`/users/compatibleUser/${matchId}`);
-                            match = data;
-                            let reqBody = {
-                                matchInterests: match.interests,
-                                firstName: match.firstName
-                            };
-                            // window.location.href = `/users/dashboard/match`;
-
-                            let dateSpots = await axios.post(`/users/dashboard/match`, reqBody);
-                            dateSpots = dateSpots.data;
-                            console.log(`Date spots for you and ${match.firstName}:`);
-                            for (let i = 0; i < dateSpots.length; i++) {
-                                console.log(`Because you both like ${dateSpots[i].interestCategory}...`);
-                                console.log(dateSpots[i].businesses.businesses);
-                            }
-
-                        }
-                        catch (e) {
-                            console.log(e);
-                        }
-                    });
-                    let matchId = document.createElement('p');
-                    matchId.innerHTML = compatibleUsers[0]._id;
-                    matchId.hidden = true;
-                    const matchImg = document.createElement('img');
-                    matchImg.src = compatibleUsers[0].images.profilePic;
-                    matchContainer.appendChild(matchId);
-                    matchContainer.appendChild(a);
-                    matchContainer.appendChild(matchImg);
-                    matchesListUl.appendChild(matchContainer);
+                    addMatchToPage(compatibleUsers[0]);
 
                     compatibleUsers = compatibleUsers?.filter(compatibleUser => {
                         // console.log(compatibleUser._id);

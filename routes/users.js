@@ -466,7 +466,7 @@ router.get('/logout', async(req,res) =>{
 //     }
 // });
 
-// Get single user
+// Get signed-in user
 router.get('/user', async (req, res) => {
     try{
         let userId = null;
@@ -495,7 +495,8 @@ router.get('/user', async (req, res) => {
     }
 });
 
-router.get('/compatibleUser/:id', async (req, res) => {
+// Get user by ID
+router.get('/user/:id', async (req, res) => {
     try {
         if(req.session.user){
             const compatibleUserId = checkId(req.params.id, 'Compatible User Id');
