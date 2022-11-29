@@ -3,8 +3,8 @@ const data = require('../data/');
 const users = data.users;
 
 async function main() {
-    const db = await dbConnection.dbConnection();
-    await db.dropDatabase();
+    // const db = await dbConnection.dbConnection();
+    // await db.dropDatabase();
 
     let mainUser = await users.createUser(
         "stevensstudent@gmail.com",

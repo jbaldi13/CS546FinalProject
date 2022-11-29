@@ -165,12 +165,15 @@ const getAllCompatibleUsers = async (user) => {
 
         const mutualInterestCount = getMutualInterestCount(user.interests, otherUser.interests);
 
-
+        let otherUserDislikedUser = false;
+        if (Object.keys(otherUser.usersSeen).includes(user._id)) {
+            if (otherUser.usersSeen[user._id] === 'disliked') otherUserDislikedUser = true;
+        }
 
         return ((distance <= user.filters.maxDistance && distance <= otherUser.filters.maxDistance) &&
             mutualInterestCount >= 3 && !user.matches.includes(otherUser._id) && otherUser._id !== user._id) &&
             user.gender[0] === otherUser.filters.genderInterest[0] &&
-            !Object.keys(user.usersSeen).includes(otherUser._id);
+            !Object.keys(user.usersSeen).includes(otherUser._id) && otherUserDislikedUser === false;
     });
 
     return userList;

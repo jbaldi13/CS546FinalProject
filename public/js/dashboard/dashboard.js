@@ -113,7 +113,7 @@ async function cards () {
                 onDislike: async () => {
                     compatibleUsers = compatibleUsers.slice(1);
 
-                    usersSeen.currCompatUser._id = "disliked";
+                    usersSeen[currCompatUserId] = "disliked";
                     newData = {usersSeen: usersSeen};
                     await axios.patch(`/users/onboarding`, newData);
                 }
