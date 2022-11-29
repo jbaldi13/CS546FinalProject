@@ -495,7 +495,7 @@ router.get('/user', async (req, res) => {
     }
 });
 
-// Get user by Id
+// Get user by ID
 router.get('/user/:id', async (req, res) => {
     try {
         if(req.session.user){
@@ -530,30 +530,6 @@ router.get('/compatibleUsers', async (req, res) => {
         else{
             throw {errorMessage: "Error: Unable to verify user identity.", status: 403};
         }    
-    }
-    catch (e) {
-        if(e.status === 404 && e.errorMessage){
-            return res.status(404).render('errors/userNotFound', {title: "Not Found", error: e.errorMessage});
-        }
-        else if(e.status && e.errorMessage){
-            return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
-        }
-        else{
-            return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
-        }
-    }
-});
-
-router.get('/matches', async (req, res) => {
-    try {
-        if(req.session.user){
-            const user = await userData.getUserByEmail(req.session.user.email);
-            const matches = await userData.getMatches(user);
-            res.json(matches);
-        }
-        else{
-            throw {errorMessage: "Error: Unable to verify user identity.", status: 403};
-        }
     }
     catch (e) {
         if(e.status === 404 && e.errorMessage){
