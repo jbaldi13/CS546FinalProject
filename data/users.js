@@ -169,11 +169,17 @@ const getAllCompatibleUsers = async (user) => {
 
 
 
-        return (distance <= user.filters.maxDistance && mutualInterestCount >= 3 &&
-            !user.matches.includes(otherUser._id) && otherUser._id !== user._id);
+        return ((distance <= user.filters.maxDistance && distance <= otherUser.filters.maxDistance) &&
+            mutualInterestCount >= 3 && !user.matches.includes(otherUser._id) && otherUser._id !== user._id) &&
+            user.gender[0] === otherUser.filters.genderInterest[0];
     });
 
     return userList;
+};
+
+const getMatches = async (user) => {
+    const matches = user.matches;
+
 };
 
 const removeUser = async (userId) => {
