@@ -1,5 +1,14 @@
-<nav>
-    <button id="login-button" class="homepage-buttons" onclick="goToLogout();">Sign out</button>
+<nav role="navigation" id="dropdown-nav">
+  <ul id="account-dropdown-container">
+    <li id="account-dropdown">ACCOUNT
+      <ul class="dropdown" aria-label="submenu">
+        <li><a href="/users/settings">Settings</a></li>
+        <li><a href="/users/images">Update Photos</a></li>
+        <li><a href="/users/filters">Update Filters</a></li>
+        <li><a href="/users/logout">Sign Out</a></li>
+      </ul>
+    </li>
+  </ul>
 </nav>
 <h2 class="neon" id="dashH2">DASHBOARD</h2>
 <div class="dashboard">
