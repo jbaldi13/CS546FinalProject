@@ -440,6 +440,70 @@ router.get('/logout', async(req,res) =>{
     }
 });
 
+// get filters page
+router.route('/filters')
+.get(async (req, res) => {
+    try {
+        let user = await userData.getUserByEmail(req.session.user.email);
+        let genderInterest = user.filters.genderInterest.charAt(0).toUpperCase() + user.filters.genderInterest.slice(1);
+        res.render('users/updateFilters', {title : "Filters", genderInterest: genderInterest, minAge: user.filters.minAge,
+                                            maxAge: user.filters.maxAge, maxDistance: user.filters.maxDistance});
+    }
+    catch(e){
+        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+    }
+})
+.patch(async (req, res) => {
+    const requestBody = req.body;
+    let updatedObject = {};
+    let userId = null;
+    try{
+        if(req.session.user){
+            userId = helpers.checkEmail(req.session.user.email);
+        }
+        else{
+            throw {errorMessage: "Error: Unable to verify user identity", status: 403};
+        }  
+        userId = await getUserByEmail(userId);
+        userId = userId._id;
+        userId = checkId(userId, 'User ID');  
+        if (requestBody.filters) {
+            requestBody.filters = checkFilters(requestBody.filters);
+        }
+
+        const oldUser = await getUserById(userId);
+
+        if (requestBody.filters && JSON.stringify(requestBody.filters) !== JSON.stringify(oldUser.filters)) {
+            updatedObject.filters = requestBody.filters;
+        }
+
+            // console.log(updatedObject);
+        if (Object.keys(updatedObject).length !== 0) {
+            const updatedUser = await updateUser(
+                userId,
+                updatedObject
+            );
+
+            res.send(updatedUser);
+            
+        } else {
+            let errorMessage = "Error: 'No fields have been changed from their initial values, so no update has occurred";
+            throw {errorMessage: errorMessage, status: 400};
+        }
+    }
+    catch(e){
+            if(e.status === 404 && e.errorMessage){
+                return res.status(404).render('errors/userNotFound', {title: "User not Found", error: e.errorMessage});
+            }
+            else if(e.status && e.errorMessage){
+                return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
+            }
+            else{
+                return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+            }
+    }
+});
+
 
 // get and post login
 /*router
