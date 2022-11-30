@@ -9,6 +9,43 @@
 </head>
 <body>
 <div class="overlay">
+    <nav class="dropdownNav">
+        <div class="sub-menu-wrap" id="subMenu">
+            <div class="sub-menu">
+                <div class="user-info">
+                    <img src={{imgSrc}}>
+                    <h3>{{name}}</h3>
+                </div>
+                <hr>
+                <a href="/users/dashboard" class="sub-menu-link">
+                    <img src="/public/images/icons/homepage_icon.png">
+                    <p>Home</p>
+                    <span>></span>
+                </a>
+                <a href="/users/onboarding" class="sub-menu-link">
+                    <img src="/public/images/icons/edit_profile_icon.png">
+                    <p>Edit Profile</p>
+                    <span>></span>
+                </a>
+                <a href="/users/onboarding/filters" class="sub-menu-link">
+                    <img src="/public/images/icons/update_filters_icon.png">
+                    <p>Update Filters</p>
+                    <span>></span>
+                </a>
+                <a href="/users/onboarding/images" class="sub-menu-link">
+                    <img src="/public/images/icons/update_photos_icon.webp">
+                    <p>Update Photos</p>
+                    <span>></span>
+                </a>
+                <a href="/users/logout" class="sub-menu-link">
+                    <img src="/public/images/icons/sign_out_icon.png">
+                    <p>Sign Out</p>
+                    <span>></span>
+                </a>
+            </div>
+        </div>
+        <img src="/public/images/Hamburger_menu_icon.jpg" class="hamburgerMenu" onclick="toggleMenu();" hidden>
+    </nav>
     <h1>{{h1}}</h1>
     <main>
         {{{body}}}
@@ -16,3 +53,4 @@
 </div>
 </body>
 </html>
+<script src="/public/js/mainLayout.js"></script>

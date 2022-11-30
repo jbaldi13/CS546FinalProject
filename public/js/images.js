@@ -1,3 +1,24 @@
+let hamburgerMenu = document.querySelector('.hamburgerMenu');
+let submitButton = document.querySelector('.homepage-buttons');
+
+let user;
+
+async function images () {
+    try {
+        user = await axios.get('/users/user');
+        user = user.data;
+    }
+    catch (e) {
+        console.log(e);
+    }
+
+    if (user.images.profilePic !== null) {
+        hamburgerMenu.removeAttribute('hidden');
+        submitButton.innerHTML = "Save Changes";
+    }
+}
+images();
+
 function previewBeforeUpload(id) {
     document.querySelector("#" + id).addEventListener("change", function (e) {
         if (e.target.files.length === 0) {
@@ -71,7 +92,5 @@ async function submitForms() {
         errorTextElement.textContent = `Error: ${message}`;
         errorContainer.classList.remove('hidden');
     }
-
-
-
 }
+

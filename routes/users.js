@@ -151,14 +151,21 @@ router
 router
   .route('/onboarding')
   .get(async (req, res) => {
-    try {
-        res.render('users/onboarding', {title : "Create an Account"});
-
-    }
-    catch(e){
-        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
-    }
-
+      try {
+          let user = await userData.getUserByEmail(req.session.user.email);
+          res.render('users/onboarding', {title : "Create an Account", name: user.firstName, imgSrc: '../public/images/temp_pro_pics/user_pro_pic.png'});
+      }
+      catch (e) {
+          if(e.status === 404 && e.errorMessage){
+              return res.status(404).render('errors/userNotFound', {title: "User not Found", error: e.errorMessage});
+          }
+          else if(e.status && e.errorMessage){
+              return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
+          }
+          else{
+              return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+          }
+      }
   })
   .patch(async (req, res) => {
       const requestBody = req.body;
@@ -272,9 +279,6 @@ router
             }
 
             res.send(updatedUser);
-        } else {
-            let errorMessage = "Error: 'No fields have been changed from their initial values, so no update has occurred";
-            throw {errorMessage: errorMessage, status: 400};
         }
       }
       catch(e){
@@ -332,22 +336,38 @@ router.get('/onboarding/location', async (req, res) => {
 // get onboarding/filters page
 router.get('/onboarding/filters', async (req, res) => {
     try {
-        res.render('users/filters', {title : "Filters"});
-
+        let user = await userData.getUserByEmail(req.session.user.email);
+        res.render('users/filters', {title : "Filters", name: user.firstName, imgSrc: '../../public/images/temp_pro_pics/user_pro_pic.png'});
     }
-    catch(e){
-        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+    catch (e) {
+        if(e.status === 404 && e.errorMessage){
+            return res.status(404).render('errors/userNotFound', {title: "User not Found", error: e.errorMessage});
+        }
+        else if(e.status && e.errorMessage){
+            return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
+        }
+        else{
+            return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+        }
     }
 });
 
 // get onboarding/images page
 router.get('/onboarding/images', async (req, res) => {
     try {
-        res.render('users/images', {title : "Images"});
-
+        let user = await userData.getUserByEmail(req.session.user.email);
+        res.render('users/images', {title : "Images", name: user.firstName, imgSrc: '../../public/images/temp_pro_pics/user_pro_pic.png'});
     }
-    catch(e){
-        res.status(500).render('errors/error', {title : "Error", error : e.toString()});
+    catch (e) {
+        if(e.status === 404 && e.errorMessage){
+            return res.status(404).render('errors/userNotFound', {title: "User not Found", error: e.errorMessage});
+        }
+        else if(e.status && e.errorMessage){
+            return res.status(e.status).render('errors/error', {title: "Error", error: e.errorMessage});
+        }
+        else{
+            return res.status(500).render('errors/error', {title: "Error", error: e.toString()});
+        }
     }
 });
 
@@ -356,13 +376,20 @@ router.get('/dashboard', async(req,res) =>{
         if(req.session.user){
             try{
                 await userData.validateOtherUserData(req.session.user.email);
-                res.render('dashboard/dashboard', {title: "Dashboard"});
-            }catch(e){
+            }
+            catch(e){
                 let id = await userData.getUserByEmail(req.session.user.email);
                 await userData.removeUser(id._id);
                 req.session.destroy();
                 return res.redirect("/");
-              }
+            }
+            try {
+                let user = await userData.getUserByEmail(req.session.user.email);
+                res.render('dashboard/dashboard', {title: "Dashboard", name: user.firstName, imgSrc: '../public/images/temp_pro_pics/user_pro_pic.png'});
+            }
+            catch (e) {
+                return res.status(e.status).render('errors/error', {title: "Error", error: e.toString()});
+            }
         }
         else{
             res.redirect("/");
@@ -386,8 +413,8 @@ router.post('/dashboard/match', async(req,res) =>{
             try{
                 await userData.validateOtherUserData(req.session.user.email);
             }catch(e){
-                let id = await userData.getUserByEmail(req.session.user.email);
-                await userData.removeUser(id._id);
+                let user = await userData.getUserByEmail(req.session.user.email);
+                await userData.removeUser(user._id);
                 req.session.destroy();
                 return res.redirect("/");
             }
@@ -687,7 +714,7 @@ router.get('/user', async (req, res) => {
         userId = helpers.checkId(userId, "User ID");
         const user = await userData.getUserById(userId);
         // res.render('users/userInfo', {title : "User Info", user : user});
-        res.json(user);
+        res.send(user);
     }catch(e){
         if(e.status === 404 && e.errorMessage){
             return res.status(404).render('errors/userNotFound', {title: "Not Found", error: e.errorMessage});
