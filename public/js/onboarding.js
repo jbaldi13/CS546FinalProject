@@ -76,10 +76,6 @@ function checkGender(gender) {
     return checkStringErrors(gender, 'Gender');
 }
 
-function checkShowOnProfile(arg, argName) {
-    if (!arg) throw `\"${argName}\" checkbox malfunction`;
-}
-
 function checkPronouns(pronouns) {
     return checkStringErrors(pronouns, 'Pronouns');
 }
@@ -93,7 +89,7 @@ function checkAbout(about) {
 }
 
 function checkInterests(interests) {
-   if (interests.length < 3 || interests.length > 10) throw "You must select 3-10 interests";
+   if (Object.keys(interests).length < 3 || Object.keys(interests).length > 10) throw "You must select 3-10 interests";
 }
 
 function getRadioValue(name) {
@@ -123,15 +119,16 @@ if (staticForm) {
     let about = document.getElementById('about');
     let interests = document.getElementById('interests');
 
-    staticForm.addEventListener('submit', (event) => {
+    staticForm.addEventListener('submit', async (event) => {
         event.preventDefault();
 
         // hide error container
         errorContainer.classList.add('hidden');
+        let reqBody = {};
         try {
             checkFirstName(firstName.value);
-        }
-        catch (e) {
+            reqBody["firstName"] = firstName.value;
+        } catch (e) {
             const message = typeof e === 'string' ? e : e.message;
             errorTextElement.textContent = `Error: ${message}`;
             errorContainer.classList.remove('hidden');
@@ -142,8 +139,8 @@ if (staticForm) {
         try {
             birthday.value = checkBirthday(birthday.value);
             getAge(birthday.value);
-        }
-        catch (e) {
+            reqBody["birthday"] = birthday.value;
+        } catch (e) {
             const message = typeof e === 'string' ? e : e.message;
             errorTextElement.textContent = `Error: ${message}`;
             errorContainer.classList.remove('hidden');
@@ -154,17 +151,20 @@ if (staticForm) {
         try {
             gender.value = getRadioValue(gender);
             checkGender(gender.value);
-        }
-        catch (e) {
+            reqBody["gender"] = gender.value;
+        } catch (e) {
             const message = typeof e === 'string' ? e : e.message;
             errorTextElement.textContent = `Error: ${message}`;
             errorContainer.classList.remove('hidden');
             return;
         }
         try {
-            checkShowOnProfile(showGender.value, "Show gender");
-        }
-        catch (e) {
+            if (showGender.checked) reqBody["showGender"] = 'on';
+            else {
+                reqBody["showGender"] = 'off' ;
+            }
+
+        } catch (e) {
             const message = typeof e === 'string' ? e : e.message;
             errorTextElement.textContent = `Error: ${message}`;
             errorContainer.classList.remove('hidden');
@@ -174,17 +174,19 @@ if (staticForm) {
         try {
             pronouns.value = getRadioValue(pronouns);
             checkPronouns(pronouns.value);
-        }
-        catch (e) {
+            reqBody["pronouns"] = pronouns.value;
+        } catch (e) {
             const message = typeof e === 'string' ? e : e.message;
             errorTextElement.textContent = `Error: ${message}`;
             errorContainer.classList.remove('hidden');
             return;
         }
         try {
-            checkShowOnProfile(showPronouns.value, "Show pronouns");
-        }
-        catch (e) {
+            if (showPronouns.checked) reqBody["showPronouns"] = 'on';
+            else {
+                reqBody["showPronouns"] = 'off' ;
+            }
+        } catch (e) {
             const message = typeof e === 'string' ? e : e.message;
             errorTextElement.textContent = `Error: ${message}`;
             errorContainer.classList.remove('hidden');
@@ -193,8 +195,8 @@ if (staticForm) {
         }
         try {
             about.value = checkAbout(about.value);
-        }
-        catch (e) {
+            reqBody["about"] = about.value;
+        } catch (e) {
             const message = typeof e === 'string' ? e : e.message;
             errorTextElement.textContent = `Error: ${message}`;
             errorContainer.classList.remove('hidden');
@@ -203,12 +205,17 @@ if (staticForm) {
             return;
         }
         try {
-            let interestsValue = [...interests.selectedOptions]
-                .map(option => option.value);
+            let interestsValue = {};
+            let interestsValueArr = [...interests.selectedOptions];
+            for (let option of interestsValueArr) {
+                interestsValue[option.textContent] = option.value;
+            }
             checkInterests(interestsValue);
-            staticForm.submit();
-        }
-        catch (e) {
+            reqBody["interests"] = interestsValue;
+            console.log(reqBody);
+            let updatedUser = await axios.patch('/users/onboarding', reqBody);
+            window.location.href = '/users/onboarding/location';
+        } catch (e) {
             const message = typeof e === 'string' ? e : e.message;
             errorTextElement.textContent = `Error: ${message}`;
             errorContainer.classList.remove('hidden');

@@ -27,7 +27,6 @@
 
                 <div class="borderInput">
                     <label for="showGender" id="showGenderLabel">Show gender on my profile</label>
-                    <input type="hidden" name="showGender" value="off">
                     <input id="showGender" type="checkbox" name="showGender">
                 </div>
 
@@ -46,7 +45,6 @@
                 <div class="borderInput">
                     <div class="showPronouns">
                         <label for="showPronouns" id="showPronounsLabel">Show pronouns on my profile</label>
-                        <input type="hidden" name="showPronouns" value="off">
                         <input id="showPronouns" type="checkbox" name="showPronouns">
                     </div>
                 </div>
@@ -149,6 +147,7 @@
         </section>
         <input name= '_method' value="patch" type="hidden"/>
     </form>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
             integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
             crossorigin="anonymous"></script>

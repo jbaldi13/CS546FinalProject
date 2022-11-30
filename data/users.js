@@ -39,7 +39,7 @@ const createUser = async (email, password) => {
         location: {latitude: null, longitude: null, city: null, principalSubdiv: null},
         about: null,
         images: {profilePic: null, otherPics: []},
-        interests: [],
+        interests: {},
         matches: [],
         usersSeen: {}
     };
@@ -132,23 +132,36 @@ const distanceBetweenUsers = (lat1, lon1, lat2, lon2) => {
     return d;
 };
 
-const getMutualInterestCount = (user1Interests, user2Interests) => {
-    const matchesArr = user1Interests.filter(e => {
-        return user2Interests.includes(e);
-    });
-
-    return matchesArr.length;
+const getMutualInterests = (userInterests, matchInterests) => {
+    // return userInterests.filter(userInterest => {
+    //     return matchInterests.includes(userInterest);
+    // });
+    let mutualInterests = {};
+    const matchInterestsKeys = Object.keys(matchInterests);
+    for (let userInterestKey in userInterests) {
+        if (matchInterestsKeys.includes(userInterestKey)) {
+            mutualInterests[userInterestKey] = userInterests[userInterestKey];
+        }
+    }
+    return mutualInterests;
 };
 
 const getAllCompatibleUsers = async (user) => {
     const genderInterest = user.filters.genderInterest;
     let gender;
-    if (genderInterest === "women") gender = "woman";
-    else {
-        gender = "man";
-    }
     const userCollection = await users();
-    let userList = await userCollection.find({gender: gender}).toArray();
+    let userList;
+    if (genderInterest === "everyone") {
+        userList = await userCollection.find({}).toArray();
+    }
+    else {
+        if (genderInterest === "women") gender = "woman";
+        else {
+            gender = "man";
+        }
+        userList = await userCollection.find({gender: gender}).toArray();
+    }
+
 
     if (!userList) throw {errorMessage: "Error: Could not get compatible users", status: 500};
 
@@ -163,25 +176,29 @@ const getAllCompatibleUsers = async (user) => {
             otherUser.location.longitude
         );
 
-        const mutualInterestCount = getMutualInterestCount(user.interests, otherUser.interests);
+        const mutualInterestCount = Object.keys(getMutualInterests(user.interests, otherUser.interests)).length;
 
         let otherUserDislikedUser = false;
         if (Object.keys(otherUser.usersSeen).includes(user._id)) {
             if (otherUser.usersSeen[user._id] === 'disliked') otherUserDislikedUser = true;
         }
 
+        let otherUserGenderInterest = otherUser.filters.genderInterest;
+        if (otherUserGenderInterest === "men") {
+            otherUserGenderInterest = 'man';
+            if (user.gender !== otherUserGenderInterest) return false;
+        }
+        else if (otherUserGenderInterest === "women") {
+            otherUserGenderInterest = 'woman';
+            if (user.gender !== otherUserGenderInterest) return false;
+        }
+
         return ((distance <= user.filters.maxDistance && distance <= otherUser.filters.maxDistance) &&
             mutualInterestCount >= 3 && !user.matches.includes(otherUser._id) && otherUser._id !== user._id) &&
-            user.gender[0] === otherUser.filters.genderInterest[0] &&
             !Object.keys(user.usersSeen).includes(otherUser._id) && otherUserDislikedUser === false;
     });
 
     return userList;
-};
-
-const getMatches = async (user) => {
-    const matches = user.matches;
-
 };
 
 const removeUser = async (userId) => {
@@ -291,17 +308,6 @@ const validateOtherUserData = async(email) => {
     }catch(e){
         throw {errorMessage: "Error: Images for the user are invalid or undefined", status: 400};
     }
-    try{
-        checkImages(userInDB.images);
-    }catch(e){
-        throw {errorMessage: "Error: Images for the user are invalid or undefined", status: 400};
-    }
-};
-
-const getMutualInterests = (userInterests, matchInterests) => {
-    return userInterests.filter(userInterest => {
-        return matchInterests.includes(userInterest);
-    });
 };
 
 const getDateSpots = async (userInterests, matchInterests, latitude, longitude, maxDistance) => {
@@ -309,13 +315,13 @@ const getDateSpots = async (userInterests, matchInterests, latitude, longitude, 
     const config = {
         headers: { Authorization: `Bearer ETLfinv9BVg1mjN7Afn4VCXWjFruJIHItswAdyRJEEHhyCvEFoD5ghgr016hD0FpZ3Gpm0R-HiOY64MFbOOFlnye0yTfRXPHfUGNii7RwhY8iHAhaih-n4v_YMBtY3Yx` }
     };
-    // console.log([userInterests, matchInterests, latitude, longitude, maxDistance]);
+
     const mutualInterests = getMutualInterests(userInterests, matchInterests);
     maxDistance = maxDistance * 1608.344; // convert miles to meters for radius parameter
     maxDistance = parseInt(maxDistance); // convert radius to whole number bc yelp requires whole # for radius
-    for (let i = 0; i < mutualInterests.length; i++) {
-        const {data} = await axios.get(`https://api.yelp.com/v3/businesses/search?categories=${mutualInterests[i]}&latitude=${latitude}&longitude=${longitude}&radius=${maxDistance}`, config);
-        dateSpots.push({interestCategory: mutualInterests[i], businesses: data});
+    for (let mutualInterest in mutualInterests) {
+        const {data} = await axios.get(`https://api.yelp.com/v3/businesses/search?categories=${mutualInterests[mutualInterest]}&latitude=${latitude}&longitude=${longitude}&radius=${maxDistance}`, config);
+        dateSpots.push({interestCategory: mutualInterest, businesses: data});
     }
 
     return dateSpots;
