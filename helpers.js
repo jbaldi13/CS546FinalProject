@@ -95,11 +95,7 @@ function checkPronouns(pronouns) {
 }
 
 function checkShowOnProfile(arg, argName) {
-    if (Array.isArray(arg)) return arg[1];
-    else {
-        if (!arg) throw {errorMessage: `\"${argName}\" checkbox malfunction`, status: 400};
-    }
-    return arg;
+    return checkStringErrors(arg, argName);
 }
 
 function checkAbout(about) {
@@ -110,9 +106,11 @@ function checkAbout(about) {
 }
 
 function checkInterests(interests) {
-    if (typeof interests === "undefined") throw {errorMessage: "Interests doesn't exists", status: 400};
-    if (!Array.isArray(interests)) throw {errorMessage: "Interests should be an array", status: 400};
-    if (interests.length < 3 || interests.length > 10) throw {errorMessage: "You must select 3-10 interests", status: 400};
+    if (typeof interests === "undefined") throw {errorMessage: 'interests doesn\'t exist', status: 400};
+    if (typeof interests !== 'object') throw {errorMessage: 'interests should be an object', status: 400};
+    if (typeof interests === 'function') throw {errorMessage: 'interests should be an object', status: 400};
+    if (Array.isArray(interests)) throw {errorMessage: 'interests should be an object', status: 400};
+    if (Object.keys(interests).length < 3 || Object.keys(interests).length > 10) throw {errorMessage: "You must select 3-10 interests", status: 400};
     return interests;
 }
 

@@ -3,6 +3,7 @@ const router = express.Router();
 const data = require('../data');
 const userData = data.users;
 const helpers = require("../helpers");
+const axios = require("axios");
 const {checkId, checkFirstName, checkBirthday, checkInterests, checkGender, checkAbout, checkPronouns, checkShowOnProfile,
     checkLocation,
     checkFilters,
@@ -26,8 +27,8 @@ router
                 await userData.validateOtherUserData(req.session.user.email);
                 res.redirect("/users/dashboard");
             }catch(e){
-                id = await userData.getUserByEmail(req.session.user.email);
-                await userData.removeUser(id._id);
+                let user = await userData.getUserByEmail(req.session.user.email);
+                await userData.removeUser(user._id);
                 req.session.destroy();
                 return res.render('users/login', {title: "Login", header: "Login"});
             }  
@@ -270,12 +271,7 @@ router
                 );
             }
 
-            if (requestBody.firstName) {
-                res.redirect(`/users/onboarding/location`);
-            }
-            else {
-                res.send(updatedUser);
-            }
+            res.send(updatedUser);
         } else {
             let errorMessage = "Error: 'No fields have been changed from their initial values, so no update has occurred";
             throw {errorMessage: errorMessage, status: 400};
