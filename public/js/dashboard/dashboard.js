@@ -1,3 +1,6 @@
+let hamburgerMenu = document.querySelector('.hamburgerMenu');
+hamburgerMenu.removeAttribute('hidden');
+
 function goToLogout() {
     window.location.href = "/users/logout";
 }
@@ -7,8 +10,14 @@ async function cards () {
     const instructions = document.querySelector('.swipeInstructionDiv');
 
 
-    let user = await axios.get('/users/user');
-    user = user.data;
+    let user;
+    try {
+        user = await axios.get('/users/user');
+        user = user.data;
+    }
+    catch (e) {
+        console.log(e);
+    }
     const matchedUserIds = user?.matches;
     const usersSeen = user?.usersSeen;
     let match;

@@ -1,16 +1,41 @@
-<nav role="navigation" id="dropdown-nav">
-  <ul id="account-dropdown-container">
-    <li id="account-dropdown">ACCOUNT
-      <ul class="dropdown" aria-label="submenu">
-        <li><a href="/users/settings">Settings</a></li>
-        <li><a href="/users/images">Update Photos</a></li>
-        <li><a href="/users/filters">Update Filters</a></li>
-        <li><a href="/users/logout">Sign Out</a></li>
-      </ul>
-    </li>
-  </ul>
-</nav>
-<h2 class="neon" id="dashH2">DASHBOARD</h2>
+<!--<nav class="dropdownNav">-->
+<!--    <div class="sub-menu-wrap" id="subMenu">-->
+<!--        <div class="sub-menu">-->
+<!--            <div class="user-info">-->
+<!--                <img src={{imgSrc}}>-->
+<!--                <h3>{{name}}</h3>-->
+<!--            </div>-->
+<!--            <hr>-->
+<!--            <a href="users/dashboard" class="sub-menu-link">-->
+<!--                <img src="/public/images/icons/homepage_icon.png">-->
+<!--                <p>Home</p>-->
+<!--                <span>></span>-->
+<!--            </a>-->
+<!--            <a href="/users/onboarding" class="sub-menu-link">-->
+<!--                <img src="/public/images/icons/edit_profile_icon.png">-->
+<!--                <p>Edit Profile</p>-->
+<!--                <span>></span>-->
+<!--            </a>-->
+<!--            <a href="/users/onboarding/images" class="sub-menu-link">-->
+<!--                <img src="/public/images/icons/update_photos_icon.webp">-->
+<!--                <p>Update Photos</p>-->
+<!--                <span>></span>-->
+<!--            </a>-->
+<!--            <a href="users/onboarding/filters" class="sub-menu-link">-->
+<!--                <img src="/public/images/icons/update_filters_icon.png">-->
+<!--                <p>Update Filters</p>-->
+<!--                <span>></span>-->
+<!--            </a>-->
+<!--            <a href="/users/logout" class="sub-menu-link">-->
+<!--                <img src="/public/images/icons/sign_out_icon.png">-->
+<!--                <p>Sign Out</p>-->
+<!--                <span>></span>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <img src="/public/images/Hamburger_menu_icon.jpg" class="userProPic" onclick="toggleMenu();">-->
+<!--</nav>-->
+<h2 class="neon" id="dashH2">DateSpot</h2>
 <div class="dashboard">
     <div class="matches-container">
         <h3>Matches</h3>
@@ -18,15 +43,12 @@
         </ul>
     </div>
     <div class="swipe-container">
-<!--        <ion-icon id="dislike" name="heart-dislike"></ion-icon>-->
         <div id="swiper">
         </div>
         <div class="swipeInstructionDiv">
             <p>Dislike</p>
             <p>Like</p>
         </div>
-
-<!--        <ion-icon id="like" name="heart"></ion-icon>-->
     </div>
 
 </div>
