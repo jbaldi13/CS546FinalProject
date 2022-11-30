@@ -1,0 +1,165 @@
+<div class="onboarding">
+    <h2 class="neon">Settings</h2>
+    <form id="onboardingForm" method="post">
+        <section>
+            <label for="firstName">
+                First Name
+                <input id="firstName" type="text" name="firstName" value={{firstName}} readonly/>
+            </label>
+
+            <label for="bDay">
+                Birthday (mm/dd/yyyy)
+                <input id="birthday" type="text" name="birthday" value={{birthday}} readonly/>
+            </label>
+
+            <div id="borderContainer">
+                <div class="borderInput">
+                    <label id="genderLabel">Gender</label>
+                    <div class="multipleInputContainer">
+                        <input id="genderMan" type="radio" name="gender" value="man" {{isMan}}/>
+                        <label for="genderMan">Man</label>
+                        <input id="genderWoman" type="radio" name="gender" value="woman" {{isWoman}} required/>
+                        <label for="genderWoman">Woman</label>
+                        <input id="genderOther" type="radio" name="gender" value="other" {{isOther}}/>
+                        <label for="genderOther">Other</label>
+                    </div>
+                </div>
+
+                <div class="borderInput">
+                    <label for="showGender" id="showGenderLabel">Show gender on my profile</label>
+                    <input type="hidden" name="showGender" value={{showGender}}>
+                    <input id="showGender" type="checkbox" name="showGender" {{showGenderBool}}>
+                </div>
+
+                <div class="borderInput">
+                    <label id="pronounsLabel">Pronouns</label>
+                    <div class="multipleInputContainer">
+                        <input id="pronounsMan" type="radio" name="pronouns" value="he/him" {{isHe}}/>
+                        <label for="pronounsMan">He/Him</label>
+                        <input id="pronounsWoman" type="radio" name="pronouns" value="she/her" {{isShe}} required/>
+                        <label for="pronounsWoman">She/Her</label>
+                        <input id="pronounsOther" type="radio" name="pronouns" value="other" {{isOtherPronoun}}/>
+                        <label for="pronounsOther">Other</label>
+                    </div>
+                </div>
+
+                <div class="borderInput">
+                    <div class="showPronouns">
+                        <label for="showPronouns" id="showPronounsLabel">Show pronouns on my profile</label>
+                        <input type="hidden" name="showPronouns" value={{showPronouns}}>
+                        <input id="showPronouns" type="checkbox" name="showPronouns" {{showPronounsBool}}>
+                    </div>
+                </div>
+            </div>
+
+            <label for="about">
+                About me
+                <input id="about" type="text" name="about" value="{{aboutMe}}">
+            </label>
+            <div class="form-group hidden" id="error-container">
+                <div class="alert alert-danger text-goes-here">
+                </div>
+            </div>
+        </section>
+        <section>
+            <div class="multi-select-container">
+                <label for="interests">Interests<br>(Select 3-10)</label>
+                <select id="interests" name="interests" multiple size="33" required>
+                    <optgroup label="Active Life">
+                        <option value="amusementparks">Amusement Parks</option>
+                        <option value="aquariums">Aquariums</option>
+                        <option value="beaches">Beaches</option>
+                        <option value="bowling">Bowling</option>
+                        <option value="escapegames">Escape Games</option>
+                        <option value="gokarts">Go Karts</option>
+                        <option value="hiking">Hiking</option>
+                        <option value="horsebackriding">Horseback Riding</option>
+                        <option value="lakes">Lakes</option>
+                        <option value="lasertag">Laser Tag</option>
+                        <option value="rock_climbing">Rock Climbing</option>
+                        <option value="skatingrinks">Skating Rinks</option>
+                        <option value="tennis">Tennis</option>
+                        <option value="trampoline">Trampoline Parks</option>
+                        <option value="waterparks">Water Parks</option>
+                        <option value="zoos">Zoos</option>
+                    </optgroup>
+                    <optgroup label="Arts & Entertainment">
+                        <option value="arcades">Arcades</option>
+                        <option value="galleries">Art Galleries</option>
+                        <option value="gardens">Botanical Gardens</option>
+                        <option value="movietheaters">Cinema</option>
+                        <option value="festivals">Festivals</option>
+                        <option value="hauntedhouses">Haunted Houses</option>
+                        <option value="museums">Museums</option>
+                        <option value="musicvenues">Music Venues</option>
+                        <option value="paintandsip">Paint & Sip</option>
+                        <option value="theater">Performing Arts</option>
+                        <option value="sportsteams">Professional Sports</option>
+                        <option value="psychic_astrology">Supernatural Readings</option>
+                        <option value="virtualrealitycenters">Virtual Reality Centers</option>
+                    </optgroup>
+                    <optgroup label="Food">
+                        <option value="acaibowls">Acai Bowls</option>
+                        <option value="bagels">Bagels</option>
+                        <option value="bubbletea">Bubble Tea</option>
+                        <option value="coffee">Coffee & Tea</option>
+                        <option value="farmersmarket">Farmers Market</option>
+                        <option value="foodtrucks">Food Trucks</option>
+                        <option value="icecream">Ice Cream & Frozen Yogurt</option>
+                        <option value="juicebars">Juice Bars & Smoothies</option>
+                        <option value="shavedice">Shaved Ice</option>
+                    </optgroup>
+                    <optgroup label="Restaurants">
+                        <option value="tradamerican">American</option>
+                        <option value="asianfusion">Asian Fusion</option>
+                        <option value="bbq">Barbeque</option>
+                        <option value="brazilian">Brazilian</option>
+                        <option value="breakfast_brunch">Breakfast & Brunch</option>
+                        <option value="burgers">Burgers</option>
+                        <option value="fondue">Fondue</option>
+                        <option value="french">French</option>
+                        <option value="greek">Greek</option>
+                        <option value="indpak">Indian</option>
+                        <option value="italian">Italian</option>
+                        <option value="japanese">Japanese</option>
+                        <option value="korean">Korean</option>
+                        <option value="mexican">Mexican</option>
+                        <option value="pizza">Pizza</option>
+                        <option value="sandwiches">Sandwiches</option>
+                        <option value="seafood">Seafood</option>
+                        <option value="sushi">Sushi</option>
+                        <option value="tapasmallplates">Tapas/Small Plates</option>
+                    </optgroup>
+                    <optgroup label="Nightlife">
+                        <option value="bars">Bars</option>
+                        <option value="beergardens">Beer Gardens</option>
+                        <option value="comedyclubs">Comedy Clubs</option>
+                        <option value="danceclubs">Dance Clubs</option>
+                        <option value="jazzandblues">Jazz & Blues</option>
+                        <option value="karaoke">Karaoke</option>
+                        <option value="musicvenues">Music Venues</option>
+                        <option value="pianobars">Piano Bars</option>
+                        <option value="poolhalls">Pool Halls</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div>
+                <button id="onboardingButton" type="submit" class="homepage-buttons">Save</button><br>
+                <a href="/users/dashboard" class="redirect-to-login">Back to dashboard</a>
+            </div>
+            <input name= '_method' value="patch" type="hidden"/>
+        </section>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+            integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
+            crossorigin="anonymous"></script>
+    <script src="/public/js/updateSettings.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"
+            integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS"
+            crossorigin="anonymous"></script>
+</div>
+
+
+
+
