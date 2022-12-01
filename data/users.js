@@ -133,9 +133,6 @@ const distanceBetweenUsers = (lat1, lon1, lat2, lon2) => {
 };
 
 const getMutualInterests = (userInterests, matchInterests) => {
-    // return userInterests.filter(userInterest => {
-    //     return matchInterests.includes(userInterest);
-    // });
     let mutualInterests = {};
     const matchInterestsKeys = Object.keys(matchInterests);
     for (let userInterestKey in userInterests) {
@@ -193,9 +190,16 @@ const getAllCompatibleUsers = async (user) => {
             if (user.gender !== otherUserGenderInterest) return false;
         }
 
+        let areAgePrefsSatisfied = false;
+        if (otherUser.age >= user.filters.minAge && otherUser.age <= user.filters.maxAge &&
+        user.age >= otherUser.filters.minAge && user.age <= otherUser.filters.maxAge) {
+            areAgePrefsSatisfied = true;
+        }
+
         return ((distance <= user.filters.maxDistance && distance <= otherUser.filters.maxDistance) &&
             mutualInterestCount >= 3 && !user.matches.includes(otherUser._id) && otherUser._id !== user._id) &&
-            !Object.keys(user.usersSeen).includes(otherUser._id) && otherUserDislikedUser === false;
+            !Object.keys(user.usersSeen).includes(otherUser._id) && otherUserDislikedUser === false &&
+            areAgePrefsSatisfied === true;
     });
 
     return userList;
