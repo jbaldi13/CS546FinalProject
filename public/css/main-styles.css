@@ -172,6 +172,18 @@ nav {
     font-weight: bold;
 }
 
+.password-information {
+    position: absolute;
+    top: 200px;
+    left: 70%;
+    width: 50px;
+    height: 50px;
+    color: white;
+    font-size: 1.75rem;
+    font-weight: bold;
+    text-align: left;
+}
+
 
 /* Onboarding Page */
 #interests {
