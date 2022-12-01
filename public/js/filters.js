@@ -1,5 +1,7 @@
 let hamburgerMenu = document.querySelector('.hamburgerMenu');
 let submitButton = document.querySelector('.homepage-buttons');
+let h2 = document.querySelector('.neon');
+let filtersH2 = document.querySelector('#filtersH2');
 let user;
 
 async function filters () {
@@ -15,6 +17,8 @@ async function filters () {
     if (user.filters.minAge !== null) {
         hamburgerMenu.removeAttribute('hidden');
         submitButton.innerHTML = "Save Changes";
+        h2.innerHTML = "UPDATE FILTERS";
+        filtersH2.remove();
     }
 
 

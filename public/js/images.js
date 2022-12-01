@@ -1,6 +1,7 @@
 let hamburgerMenu = document.querySelector('.hamburgerMenu');
 let submitButton = document.querySelector('.homepage-buttons');
-
+let h2 = document.querySelector('.neon');
+let imagesH2 = document.querySelector('#imagesH2');
 let user;
 
 async function images () {
@@ -15,6 +16,8 @@ async function images () {
     if (user.images.profilePic !== null) {
         hamburgerMenu.removeAttribute('hidden');
         submitButton.innerHTML = "Save Changes";
+        h2.innerHTML = "UPDATE PHOTOS";
+        imagesH2.remove();
     }
 }
 images();

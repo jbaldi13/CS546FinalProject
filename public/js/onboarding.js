@@ -1,6 +1,6 @@
 let hamburgerMenu = document.querySelector('.hamburgerMenu');
 let submitButton = document.querySelector('.homepage-buttons');
-
+let h2 = document.querySelector('.neon');
 let user;
 
 async function onboarding () {
@@ -15,6 +15,7 @@ async function onboarding () {
     if (user.firstName !== null) {
         hamburgerMenu.removeAttribute('hidden');
         submitButton.innerHTML = "Save Changes";
+        h2.innerHTML = "EDIT PROFILE";
     }
 
     function checkStringErrors(arg, argName) {
