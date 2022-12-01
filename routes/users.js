@@ -378,10 +378,11 @@ router.get('/dashboard', async(req,res) =>{
     }
 });
 
-router.post('/dashboard/match', async(req,res) =>{
+router.get('/dashboard/:id', async(req,res) =>{
     let userId;
-    const requestBody = req.body;
+    let matchId;
     let user;
+    let match;
     try{
         if(req.session.user){
             try{
@@ -409,11 +410,22 @@ router.post('/dashboard/match', async(req,res) =>{
         userId = userId._id;
         userId = checkId(userId, 'User ID');
         user = await getUserById(userId);
-        let dateSpots = await getDateSpots(user.interests, requestBody.matchInterests,
+
+        matchId = checkId(req.params.id, 'Match ID');
+        match = await getUserById(matchId);
+
+        let dateSpots = await getDateSpots(user.interests, match.interests,
             user.location.latitude, user.location.longitude, user.filters.maxDistance);
 
-        console.log(dateSpots);
-        res.send(dateSpots);
+        dateSpots = JSON.stringify(dateSpots);
+        // console.log(dateSpots);
+
+        res.render('dashboard/match', {'proPic': match.images.profilePic,
+            'firstName': match.firstName, 'city': match.location.city,
+            'state': match.location.principalSubdiv, 'age': match.age, 'gender': match.gender,
+            'showGender': match.showGender, 'pronouns': match.pronouns, 'showPronouns': match.showPronouns,
+            'about': match.about, 'interests': Object.keys(match.interests)
+        });
     }
     catch (e) {
         console.log(e);

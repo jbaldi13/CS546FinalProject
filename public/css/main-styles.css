@@ -501,8 +501,9 @@ h2 {
 }
 
 .swipeInstructionDiv {
-    width: 315px;
-    margin-top: 20px;
+    width: 310px;
+    margin-top: 30px;
+    margin-left: 0;
     display: flex;
     justify-content: space-between;
 }
@@ -672,6 +673,11 @@ h2 {
 
 .sub-menu-link:hover p{
     font-weight: 600;
+}
+
+/* Match Page */
+.dl {
+    color: white;
 }
 
 

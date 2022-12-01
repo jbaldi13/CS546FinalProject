@@ -14,6 +14,9 @@ const handlebarsInstance = exphbs.create({
                 return new Handlebars.SafeString(JSON.stringify(obj, null, spacing));
 
             return new Handlebars.SafeString(JSON.stringify(obj));
+        },
+        showGender: function (value) {
+            return value === 'on';
         }
     }
 });

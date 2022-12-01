@@ -62,7 +62,7 @@ async function cards () {
             };
             // window.location.href = `/users/dashboard/match`;
 
-            let dateSpots = await axios.post(`/users/dashboard/match`, reqBody);
+            window.location.href = `/users/dashboard/${matchId}`;
             dateSpots = dateSpots.data;
             console.log(`Date spots for you and ${match.firstName}:`);
             for (let i = 0; i < dateSpots.length; i++) {
