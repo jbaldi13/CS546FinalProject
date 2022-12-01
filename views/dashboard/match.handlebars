@@ -1,3 +1,28 @@
-<img src="{{proPic}}" alt="Profile Pic">
-<h2>{{firstName}}</h2>
-<p>{{dateSpots}}</p>
+
+
+<!--<p>{{dateSpots}}</p>-->
+
+<dl class="dl">
+    <dd><img src="{{proPic}}"></dd>
+    <dt>First Name</dt>
+    <dd>{{firstName}}</dd>
+    <dt>Location</dt>
+    <dd>{{city}}, {{state}}</dd>
+    <dt>Age</dt>
+    <dd>{{age}}</dd>
+    {{#if (showGender showGender)}}
+        <dt>Gender</dt>
+        <dd>{{gender}}</dd>
+    {{/if}}
+    {{#if showPronouns}}
+        <dt>Pronouns</dt>
+        <dd>{{pronouns}}</dd>
+    {{/if}}
+    {{#if about}}
+        <dt>About</dt>
+        <dd>{{about}}</dd>
+    {{/if}}
+    <dt>Interests</dt>
+    <dd>{{interests}}</dd>
+</dl>
+<script src="/public/js/dashboard/match.js"></script>
