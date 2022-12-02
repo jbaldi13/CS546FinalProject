@@ -150,9 +150,9 @@ function checkPassword(password){
         throw {errorMessage: "Error: you must provide a password.", status: 400};
     }
     
-    //trim password and check length if length is atleast 6
+    //trim password and check length if length is at least 6
     if(password.trim().length < 6){
-        throw {errorMessage: "Error: password must be atleast 6 characters long.", status: 400};
+        throw {errorMessage: "Error: password must be at least 6 characters long.", status: 400};
     }
 
     //check if password has any spaces
