@@ -420,7 +420,7 @@ router.get('/dashboard/:id', async(req,res) =>{
         dateSpots = JSON.stringify(dateSpots);
         // console.log(dateSpots);
 
-        res.render('dashboard/match', {'proPic': match.images.profilePic,
+        res.render('dashboard/match', {'proPic': '/public/images/temp_pro_pics/sydney_pro_pic.png',
             'firstName': match.firstName, 'city': match.location.city,
             'state': match.location.principalSubdiv, 'age': match.age, 'gender': match.gender,
             'showGender': match.showGender, 'pronouns': match.pronouns, 'showPronouns': match.showPronouns,
