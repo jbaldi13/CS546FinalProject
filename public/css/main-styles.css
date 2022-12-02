@@ -676,14 +676,24 @@ h2 {
 }
 
 /* Match Page */
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
 .profileCard {
-    margin-top: 50px;
+    float: left;
+    margin-top: 40px;
     box-shadow: 0 18px 200px -60px black;
     border-radius: 50px;
     width: 400px;
     position: relative;
     backdrop-filter: blur(5px);
     margin-left: 20px;
+}
+
+.profile-card-info {
+    margin-top: 30px;
 }
 
 .profileCard h2 {
@@ -698,10 +708,6 @@ h2 {
 .machButton {
     height: min-content;
 }
-
-/*.profileCard img:hover {*/
-/*    width: 200px;*/
-/*}*/
 
 .profile-card-info {
     color: white;
@@ -719,6 +725,10 @@ h2 {
 
 .dlDiv {
     margin: 10px 0;
+}
+
+#dateSpotsContainer {
+   float: right;
 }
 
 
