@@ -683,7 +683,7 @@ h2 {
 
 .profileCard {
     float: left;
-    margin-top: 40px;
+    margin-top: 80px;
     box-shadow: 0 18px 200px -60px black;
     border-radius: 50px;
     width: 400px;
@@ -701,7 +701,8 @@ h2 {
 }
 
 .profileCard img {
-    width: 60%;
+    width: 200px;
+    height: 200px;
     border-radius: 50px;
 }
 

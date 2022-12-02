@@ -20,6 +20,11 @@ const handlebarsInstance = exphbs.create({
         },
         aboutExists: function (value) {
             return value !== '';
+        },
+        stringifyObject: function (value) {
+            value = Object.keys(value);
+            value = value.join(', ');
+            return value;
         }
     }
 });
@@ -37,7 +42,7 @@ const rewriteUnsupportedBrowserMethods = (req, res, next) => {
     next();
 };
 
-app.use;
+
 app.use('/public', static);
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));

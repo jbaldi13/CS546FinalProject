@@ -28,40 +28,41 @@
 <div class="wrapper">
     <div class="profileCard">
         <figure class="profile-card-img">
-            <img src="{{proPic}}">
+<!--            <img src="{{match.images.profilePic}}">-->
+            <img src="../../public/images/temp_pro_pics/user_pro_pic.png">
         </figure>
-        <h2>{{firstName}}</h2>
+        <h2>{{match.firstName}}</h2>
         <div class="profile-card-info">
             <dl class="dl">
                 <div class="dlDiv">
                     <dt>Location</dt>
-                    <dd>{{city}}, {{state}}</dd>
+                    <dd>{{match.location.city}}, {{match.location.principalSubdiv}}</dd>
                 </div>
                 <div class="dlDiv">
                     <dt>Age</dt>
-                    <dd>{{age}}</dd>
+                    <dd>{{match.age}}</dd>
                 </div>
                 <div class="dlDiv">
-                    {{#if (showOnProfile showGender)}}
+                    {{#if (showOnProfile match.showGender)}}
                         <dt>Gender</dt>
-                        <dd>{{gender}}</dd>
+                        <dd>{{match.gender}}</dd>
                     {{/if}}
                 </div>
                 <div class="dlDiv">
-                    {{#if (showOnProfile showPronouns)}}
+                    {{#if (showOnProfile match.showPronouns)}}
                         <dt>Pronouns</dt>
-                        <dd>{{pronouns}}</dd>
+                        <dd>{{match.pronouns}}</dd>
                     {{/if}}
                 </div>
                 <div class="dlDiv">
-                    {{#if (aboutExists about)}}
+                    {{#if (aboutExists match.about)}}
                         <dt>About</dt>
-                        <dd>{{about}}</dd>
+                        <dd>{{match.about}}</dd>
                     {{/if}}
                 </div>
                 <div class="dlDiv">
                     <dt>Interests</dt>
-                    <dd>{{interests}}</dd>
+                    <dd>{{stringifyObject match.interests}}</dd>
 
                 </div>
             </dl>
