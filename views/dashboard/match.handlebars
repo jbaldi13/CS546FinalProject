@@ -25,49 +25,53 @@
 <!--    <dd>{{interests}}</dd>-->
 <!--</dl>-->
 <h2 class="neon" id="dashH2">DateSpot</h2>
-<div class="profileCard">
-    <figure class="profile-card-img">
-        <img src="{{proPic}}">
-    </figure>
-    <h2>{{firstName}}</h2>
-    <div class="profile-card-info">
-        <dl class="dl">
-            <div class="dlDiv">
-                <dt>Location</dt>
-                <dd>{{city}}, {{state}}</dd>
-            </div>
-            <div class="dlDiv">
-                <dt>Age</dt>
-                <dd>{{age}}</dd>
-            </div>
-            <div class="dlDiv">
-                {{#if (showOnProfile showGender)}}
-                    <dt>Gender</dt>
-                    <dd>{{gender}}</dd>
-                {{/if}}
-            </div>
-            <div class="dlDiv">
-                {{#if (showOnProfile showPronouns)}}
-                    <dt>Pronouns</dt>
-                    <dd>{{pronouns}}</dd>
-                {{/if}}
-            </div>
-            <div class="dlDiv">
-                {{#if (aboutExists about)}}
-                    <dt>About</dt>
-                    <dd>{{about}}</dd>
-                {{/if}}
-            </div>
-            <div class="dlDiv">
-                <dt>Interests</dt>
-                <dd>{{interests}}</dd>
+<div class="wrapper">
+    <div class="profileCard">
+        <figure class="profile-card-img">
+            <img src="{{proPic}}">
+        </figure>
+        <h2>{{firstName}}</h2>
+        <div class="profile-card-info">
+            <dl class="dl">
+                <div class="dlDiv">
+                    <dt>Location</dt>
+                    <dd>{{city}}, {{state}}</dd>
+                </div>
+                <div class="dlDiv">
+                    <dt>Age</dt>
+                    <dd>{{age}}</dd>
+                </div>
+                <div class="dlDiv">
+                    {{#if (showOnProfile showGender)}}
+                        <dt>Gender</dt>
+                        <dd>{{gender}}</dd>
+                    {{/if}}
+                </div>
+                <div class="dlDiv">
+                    {{#if (showOnProfile showPronouns)}}
+                        <dt>Pronouns</dt>
+                        <dd>{{pronouns}}</dd>
+                    {{/if}}
+                </div>
+                <div class="dlDiv">
+                    {{#if (aboutExists about)}}
+                        <dt>About</dt>
+                        <dd>{{about}}</dd>
+                    {{/if}}
+                </div>
+                <div class="dlDiv">
+                    <dt>Interests</dt>
+                    <dd>{{interests}}</dd>
 
+                </div>
+            </dl>
+            <div class="machButton">
+                <button type="submit" class="homepage-buttons">Message</button>
             </div>
-        </dl>
-        <div class="machButton">
-            <button type="submit" class="homepage-buttons">Message</button>
         </div>
     </div>
-</div>
+    <div class="dateSpotsContainer">
 
+    </div>
+</div>
 <script src="/public/js/dashboard/match.js"></script>
