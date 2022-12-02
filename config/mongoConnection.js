@@ -2,6 +2,7 @@ const MongoClient = require('mongodb').MongoClient;
 const settings = require('./settings');
 const mongoConfig = settings.mongoConfig;
 
+
 let _connection = undefined;
 let _db = undefined;
 

@@ -378,6 +378,7 @@ router.get('/dashboard', async(req,res) =>{
     }
 });
 
+// match page
 router.get('/dashboard/:id', async(req,res) =>{
     let userId;
     let matchId;
@@ -420,12 +421,7 @@ router.get('/dashboard/:id', async(req,res) =>{
         dateSpots = JSON.stringify(dateSpots);
         // console.log(dateSpots);
 
-        res.render('dashboard/match', {'proPic': '/public/images/temp_pro_pics/sydney_pro_pic.png',
-            'firstName': match.firstName, 'city': match.location.city,
-            'state': match.location.principalSubdiv, 'age': match.age, 'gender': match.gender,
-            'showGender': match.showGender, 'pronouns': match.pronouns, 'showPronouns': match.showPronouns,
-            'about': match.about, 'interests': Object.keys(match.interests)
-        });
+        res.render('dashboard/match', {'proPic': '/public/images/temp_pro_pics/sydney_pro_pic.png', match: match});
     }
     catch (e) {
         console.log(e);
