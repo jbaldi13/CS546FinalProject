@@ -30,7 +30,23 @@ async function match () {
     let profileCardInfo = document.querySelector('.profile-card-info');
     let chatContainer = document.querySelector('.chatContainer');
     let back = document.querySelector('.back');
+    let arrows = document.getElementsByClassName('arrow');
+    let businessDivDiv = document.getElementsByClassName('businessDivDiv');
 
+    for (let i = 0; i < arrows.length; i++) {
+        arrows[i].addEventListener('click', function() {
+            if (arrows[i].classList.contains('right')) {
+                arrows[i].classList.remove('right');
+                arrows[i].classList.add('down');
+                businessDivDiv[i].style.display = 'block';
+            }
+            else {
+                arrows[i].classList.remove('down');
+                arrows[i].classList.add('right');
+                businessDivDiv[i].style.display = 'none';
+            }
+        });
+    }
 
     messageButton.addEventListener('click',  (event) => {
         profileCardInfo.replaceWith(chatContainer);
