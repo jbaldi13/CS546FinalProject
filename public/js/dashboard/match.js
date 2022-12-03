@@ -31,6 +31,7 @@ async function match () {
     let chatContainer = document.querySelector('.chatContainer');
     let back = document.querySelector('.back');
 
+
     messageButton.addEventListener('click',  (event) => {
         profileCardInfo.replaceWith(chatContainer);
         chatContainer.removeAttribute('hidden');
