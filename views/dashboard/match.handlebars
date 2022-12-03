@@ -75,23 +75,28 @@
             {{#each dateSpots}}
                 <li>
                     <h3>Because you both like {{interestCategory}}...</h3>
-                {{#each businesses.businesses}}
-                    <div id="businessDiv">
-                        {{#if image_url}}
-                            <img src={{image_url}}>
-                        {{else}}
-                            <img src='../../public/images/no_preview.jpeg'>
-                        {{/if}}
-                        <div id="businessInfo">
-                            <a href="{{url}}">{{name}}</a>
-                            {{#if price}}
-                            <p>Price: <span class="price">{{price}}</span></p>
-                            {{/if}}
-                            <p>{{location.address1}}</p>
-                            <p>{{location.city}}, {{location.state}} {{location.zip_code}}</p>
+                    <div>
+                        <i class="arrow right"></i>
+                        <div class="businessDivDiv" style="display: none">
+                            {{#each businesses.businesses}}
+                                <div class="businessDiv">
+                                    {{#if image_url}}
+                                        <img src={{image_url}}>
+                                    {{else}}
+                                        <img src='../../public/images/no_preview.jpeg'>
+                                    {{/if}}
+                                    <div class="businessInfo">
+                                        <a href="{{url}}">{{name}}</a>
+                                        {{#if price}}
+                                            <p>Price: <span class="price">{{price}}</span></p>
+                                        {{/if}}
+                                        <p>{{location.address1}}</p>
+                                        <p>{{location.city}}, {{location.state}} {{location.zip_code}}</p>
+                                    </div>
+                                </div>
+                            {{/each}}
                         </div>
                     </div>
-                {{/each}}
                 </li>
             {{/each}}
         </div>
