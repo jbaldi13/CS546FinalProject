@@ -14,14 +14,9 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const messages = mongoCollections.messages;
 
-io.on('connection', (socket) => {
-    console.log('yooo');
-});
-
 
 // Connect to Socket.io
 io.on('connection', async function (socket) {
-    console.log('yurr');
 
     // Create function to send status
     let sendStatus = function (s) {
@@ -41,7 +36,6 @@ io.on('connection', async function (socket) {
 
     // Handle input events
     socket.on('input', function (data) {
-        console.log('yoo');
         let name = data.name;
         let message = data.message;
 

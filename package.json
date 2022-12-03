@@ -4,7 +4,7 @@
   "description": "CS 546 Final Project",
   "main": "index.js",
   "scripts": {
-    "seed": "nodemon tasks/seed.js",
+    "seed": "node tasks/seed.js",
     "start": "nodemon app.js"
   },
   "repository": {
