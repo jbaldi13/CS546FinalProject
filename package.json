@@ -4,7 +4,7 @@
   "description": "CS 546 Final Project",
   "main": "index.js",
   "scripts": {
-    "seed": "node tasks/seed.js",
+    "seed": "nodemon tasks/seed.js",
     "start": "nodemon app.js"
   },
   "repository": {
@@ -29,6 +29,7 @@
     "mongodb": "^4.11.0",
     "node-watch": "^0.7.3",
     "nodemon": "^2.0.20",
-    "socket.io": "^4.5.4"
+    "socket.io": "^4.5.4",
+    "ws": "^8.11.0"
   }
 }

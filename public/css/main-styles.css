@@ -692,13 +692,15 @@ h2 {
 
 .profileCard {
     float: left;
-    margin-top: 80px;
+    margin-top: 30px;
     box-shadow: 0 18px 200px -60px black;
     border-radius: 50px;
-    width: 400px;
+    width: 425px;
     position: relative;
     backdrop-filter: blur(5px);
     margin-left: 20px;
+    padding: 15px;
+    overflow: scroll;
 }
 
 .profile-card-info {
@@ -715,9 +717,6 @@ h2 {
     border-radius: 50px;
 }
 
-.machButton {
-    height: min-content;
-}
 
 .profile-card-info {
     color: white;
@@ -740,6 +739,52 @@ h2 {
 #dateSpotsContainer {
    float: right;
 }
+
+
+/* Chat */
+.chatContainer h3 {
+    margin: 0;
+}
+
+
+#messages {
+    border-radius: 10px;
+    height: 300px;
+    background: white;
+    overflow: scroll;
+}
+
+.chat-message {
+    color: black;
+    font-size: 17px;
+}
+
+#status {
+    color: white;
+}
+
+.backContainer {
+    display: flex;
+}
+
+.back {
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.back, .right {
+    flex: 1;
+}
+
+
+
+
+
+
+
+
 
 
 
