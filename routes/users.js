@@ -418,10 +418,17 @@ router.get('/dashboard/:id', async(req,res) =>{
         let dateSpots = await getDateSpots(user.interests, match.interests,
             user.location.latitude, user.location.longitude, user.filters.maxDistance);
 
-        dateSpots = JSON.stringify(dateSpots);
+        // dateSpots = JSON.stringify(dateSpots);
         // console.log(dateSpots);
+        for (let i = 0; i < dateSpots.length; i++) {
+            console.log(`Because you both like ${dateSpots[i].interestCategory}...`);
+            console.log(dateSpots[i].businesses.businesses);
+        }
 
-        res.render('dashboard/match', {'proPic': '/public/images/temp_pro_pics/sydney_pro_pic.png', match: match});
+        res.render('dashboard/match', {'proPic': '../public/images/temp_pro_pics/sydney_pro_pic.png',
+            match: match, name: user.firstName,
+            imgSrc: '../../public/images/temp_pro_pics/user_pro_pic.png',
+            dateSpots: dateSpots});
     }
     catch (e) {
         console.log(e);

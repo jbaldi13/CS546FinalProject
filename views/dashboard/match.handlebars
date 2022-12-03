@@ -1,12 +1,11 @@
 
-<!--<p>{{dateSpots}}</p>-->
 
 <h2 class="neon" id="dashH2">DateSpot</h2>
 <div class="wrapper">
     <div class="profileCard">
         <figure class="profile-card-img">
 <!--            <img src="{{match.images.profilePic}}">-->
-            <img src="../../public/images/temp_pro_pics/user_pro_pic.png">
+            <img src="../../public/images/temp_pro_pics/sydney_pro_pic.png">
         </figure>
         <h2>{{match.firstName}}</h2>
         <div class="profile-card-info">
@@ -70,7 +69,33 @@
         </div>
 
     </div>
-    <div class="dateSpotsContainer">
+    <div id="dateSpotsContainer" class="profileCard">
+        <h2>Date Ideas for You and {{match.firstName}}:</h2>
+
+        <div id="dateSpotsContainer2">
+            {{#each dateSpots}}
+                <li>
+                    <h3>Because you both like {{interestCategory}}...</h3>
+                {{#each businesses.businesses}}
+                    <div id="businessDiv">
+                        {{#if image_url}}
+                            <img src={{image_url}}>
+                        {{else}}
+                            <img src='../../public/images/no_preview.jpeg'>
+                        {{/if}}
+                        <div id="businessInfo">
+                            <a href="{{url}}">{{name}}</a>
+                            {{#if price}}
+                            <p>Price: <span class="price">{{price}}</span></p>
+                            {{/if}}
+                            <p>{{location.address1}}</p>
+                            <p>{{location.city}}, {{location.state}} {{location.zip_code}}</p>
+                        </div>
+                    </div>
+                {{/each}}
+                </li>
+            {{/each}}
+        </div>
 
     </div>
 </div>

@@ -84,7 +84,7 @@ const handlebarsInstance = exphbs.create({
             value = Object.keys(value);
             value = value.join(', ');
             return value;
-        }
+        },
     }
 });
 
