@@ -37,6 +37,7 @@ async function cards () {
         matchContainer.appendChild(matchId);
         matchContainer.appendChild(a);
         matchContainer.appendChild(matchImg);
+
         matchesListUl.appendChild(matchContainer);
     }
 
