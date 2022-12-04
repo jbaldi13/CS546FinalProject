@@ -525,6 +525,7 @@ h2 {
 #matchesListUl div  {
     width: 170px;
     display: inline-block;
+    justify-content: space-between;
     margin: 5px;
 }
 
@@ -704,6 +705,7 @@ h2 {
     /*height: auto;*/
     width: 75%;
     height: auto;
+    max-height: 450px;
 
     border-radius: 50px;
 }
