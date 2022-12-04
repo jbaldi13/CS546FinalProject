@@ -38,6 +38,8 @@ io.on('connection', async function (socket) {
     socket.on('input', function (data) {
         let name = data.name;
         let message = data.message;
+        let fromUserId = data.fromUserId;
+        let toUserId = data.toUserId;
 
         // Check for name and message
         if (message === '') {
@@ -45,7 +47,8 @@ io.on('connection', async function (socket) {
             sendStatus('Please enter a name and message');
         } else {
             // Insert message
-            messagesCollection.insert({name: name, message: message}, function () {
+            messagesCollection.insert({name: name, fromUserId: fromUserId,
+                toUserId: toUserId, message: message}, function () {
                 io.emit('output', [data]);
 
                 // Send status object
