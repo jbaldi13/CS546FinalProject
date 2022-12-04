@@ -44,7 +44,7 @@ io.on('connection', async function (socket) {
         // Check for name and message
         if (message === '') {
             // Send error status
-            sendStatus('Please enter a name and message');
+            sendStatus('No message was entered');
         } else {
             // Insert message
             messagesCollection.insert({name: name, fromUserId: fromUserId,
