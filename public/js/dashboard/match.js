@@ -32,6 +32,7 @@ async function match () {
     let back = document.querySelector('.back');
     let arrows = document.getElementsByClassName('arrow');
     let businessDivDiv = document.getElementsByClassName('businessDivDiv');
+    let matchId = element('matchId').textContent;
 
     for (let i = 0; i < arrows.length; i++) {
         arrows[i].addEventListener('click', function() {
@@ -83,10 +84,25 @@ async function match () {
             if (data.length) {
                 for (let x = 0; x < data.length; x++) {
                     // Build out message div
-                    let message = document.createElement('div');
-                    message.setAttribute('class', 'chat-message');
-                    message.textContent = data[x].name + ": " + data[x].message;
-                    messages.appendChild(message);
+                    if ((data[x].fromUserId === matchId && data[x].toUserId === user._id) ||
+                        (data[x].fromUserId === user._id && data[x].toUserId === matchId)) {
+                        let message = document.createElement('div');
+                        message.setAttribute('class', 'chat-message');
+                        message.textContent = data[x].name + ": " + data[x].message;
+                        if (data[x].fromUserId === matchId && data[x].toUserId === user._id) {
+                            message.style.textAlign = 'left';
+                            message.style.marginLeft = '10px';
+                            message.style.marginRight = '30%';
+                        }
+                        else  {
+                            message.style.textAlign = 'right';
+                            message.style.marginRight = '10px';
+                            message.style.marginLeft = '30%';
+                        }
+                        message.style.marginTop = '5px';
+                        message.style.overflowWrap = 'break-word';
+                        messages.appendChild(message);
+                    }
                 }
             }
         });
@@ -104,7 +120,9 @@ async function match () {
                 console.log(textarea.value);
                 socket.emit('input', {
                     name: user.firstName,
-                    message: textarea.value
+                    fromUserId: user._id,
+                    toUserId: matchId,
+                    message: textarea.value,
                 });
 
                 event.preventDefault();
