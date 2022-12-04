@@ -277,9 +277,12 @@ router
                     {matches: requestBody.currCompatUserMatches}
                 );
             }
-
             res.send(updatedUser);
         }
+        else {
+            res.send('');
+        }
+
       }
       catch(e){
             if(e.status === 404 && e.errorMessage){
@@ -418,12 +421,6 @@ router.get('/dashboard/:id', async(req,res) =>{
         let dateSpots = await getDateSpots(user.interests, match.interests,
             user.location.latitude, user.location.longitude, user.filters.maxDistance);
 
-        // dateSpots = JSON.stringify(dateSpots);
-        // console.log(dateSpots);
-        for (let i = 0; i < dateSpots.length; i++) {
-            console.log(`Because you both like ${dateSpots[i].interestCategory}...`);
-            console.log(dateSpots[i].businesses.businesses);
-        }
 
         res.render('dashboard/match', {'proPic': '../public/images/temp_pro_pics/sydney_pro_pic.png',
             match: match, name: user.firstName,

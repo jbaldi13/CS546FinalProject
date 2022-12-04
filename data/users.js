@@ -202,6 +202,8 @@ const getAllCompatibleUsers = async (user) => {
             areAgePrefsSatisfied === true;
     });
 
+    console.log(userList);
+
     return userList;
 };
 
