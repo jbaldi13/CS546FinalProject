@@ -508,7 +508,7 @@ h2 {
     font-size: 50px;
     border-radius: 50%;
     position: relative;
-    /*z-index: 1;*/
+    z-index: 1;
     color: white;
     top: 50%;
     animation-name: iconAnimation1;
@@ -723,6 +723,7 @@ h2 {
     align-items: center;
     padding: 40px;
     visibility: hidden;
+    z-index: 2;
 }
 
 .popup.active {

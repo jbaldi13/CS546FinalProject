@@ -9,6 +9,7 @@ let popupMatchImg2 = document.querySelector('#popupMatchImg2');
 let like = document.querySelector('#like');
 let dislike = document.querySelector('#dislike');
 
+
 function goToLogout() {
     window.location.href = "/users/logout";
 }

@@ -38,6 +38,7 @@ class Card {
         card.appendChild(name);
         const img = document.createElement('img');
         img.src = this.imageUrl;
+        img.ondragstart = function () {return false;};
         card.append(img);
 
         this.element = card;
