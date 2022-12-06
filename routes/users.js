@@ -362,14 +362,14 @@ router.get('/dashboard', async(req,res) =>{
             }
             try {
                 let user = await userData.getUserByEmail(req.session.user.email);
-                res.render('dashboard/dashboard', {title: "Dashboard", name: user.firstName, imgSrc: '../public/images/temp_pro_pics/user_pro_pic.png'});
+                res.render('dashboard/dashboard', {title: "Dashboard", name: user.firstName, userProPic: '../public/images/temp_pro_pics/user_pro_pic.png'});
             }
             catch (e) {
                 return res.status(e.status).render('errors/error', {title: "Error", error: e.toString()});
             }
         }
         else{
-            res.redirect("/");
+            return res.redirect("/");
         }
     }catch(e){
         if(e.status && e.errorMessage){
@@ -399,7 +399,7 @@ router.get('/dashboard/:id', async(req,res) =>{
             }
         }
         else{
-            res.redirect("/");
+            return res.redirect("/");
         }
     }catch(e){
         if(e.status && e.errorMessage){
