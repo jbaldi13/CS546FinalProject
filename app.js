@@ -47,7 +47,7 @@ io.on('connection', async function (socket) {
             sendStatus('No message was entered');
         } else {
             // Insert message
-            messagesCollection.insert({name: name, fromUserId: fromUserId,
+            messagesCollection.insertOne({name: name, fromUserId: fromUserId,
                 toUserId: toUserId, message: message}, function () {
                 io.emit('output', [data]);
 
