@@ -668,6 +668,128 @@ h2 {
     font-size: 25px;
 }
 
+.popup {
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    width: 450px;
+    height: 300px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.1),
+    0 0 0 1000px rgba(255,255,255,0.75);
+    display: block;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    visibility: hidden;
+}
+
+.popup.active {
+    visibility: visible;
+}
+
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px 20px;
+    background: #f00;
+    color: #fff;
+    cursor: pointer;
+    opacity: 1;
+
+}
+
+.popup h2 {
+    color: black;
+}
+
+#my-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 100000;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+#my-canvas.active {
+   visibility: visible;
+}
+
+#popupInnerDiv {
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between;
+}
+
+
+@keyframes slide-left {
+    from {
+        margin-right: 0;
+    }
+    to {
+        margin-right: 23%;
+    }
+}
+
+@keyframes slide-right {
+    from {
+        margin-left: 0;
+    }
+    to {
+        margin-left: 23%;
+    }
+}
+
+@keyframes slide-back-right {
+    from {
+        margin-right: 23%;
+    }
+    to {
+        margin-right: 0;
+    }
+}
+
+@keyframes slide-back-left {
+    from {
+        margin-left: 23%;
+    }
+    to {
+        margin-left: 0;
+    }
+}
+
+@keyframes slide-right {
+    from {
+        margin-left: 0;
+    }
+    to {
+        margin-left: 23%;
+    }
+}
+
+#popupMatchImg1 {
+    animation-name: slide-right;
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+}
+
+#popupMatchImg2 {
+    animation-name: slide-left;
+    animation-duration: 3s;
+    animation-fill-mode: forwards;
+}
+
+.popup img {
+    width: 100px;
+    height: 95px;
+    border-radius: 50%;
+}
+
 /* Match Page */
 .wrapper {
     display: flex;
@@ -777,10 +899,6 @@ h2 {
     overflow-wrap: break-word;
     overflow-y: auto;
 }
-
-/*#dateSpotsContainer2 {*/
-/*    margin-top: 40px;*/
-/*}*/
 
 #dateSpotsContainer h3 {
     margin-top: 30px;

@@ -1,9 +1,29 @@
 let hamburgerMenu = document.querySelector('.hamburgerMenu');
 hamburgerMenu.removeAttribute('hidden');
+let popup = document.querySelector('.popup');
+let close = document.querySelector('.close');
+let confetti2 = document.querySelector('#my-canvas');
+let popupH2 = document.querySelector('#popupH2');
+let popupMatchImg1 = document.querySelector('#popupMatchImg1');
+let popupMatchImg2 = document.querySelector('#popupMatchImg2');
 
 function goToLogout() {
     window.location.href = "/users/logout";
 }
+
+close.onclick = function() {
+    popup.classList.remove('active');
+    confetti2.classList.remove('active');
+    popupMatchImg1.style.animationName = 'slide-back-left';
+    popupMatchImg1.style.animationDuration = '0';
+    popupMatchImg2.style.animationName = 'slide-back-right';
+    popupMatchImg2.style.animationDuration = '0';
+};
+
+let confettiSettings = { target: 'my-canvas' };
+let confetti = new ConfettiGenerator(confettiSettings);
+confetti.render();
+
 
 async function cards () {
     const swiper = document.querySelector('#swiper');
@@ -61,15 +81,8 @@ async function cards () {
                 matchInterests: match.interests,
                 firstName: match.firstName
             };
-            // window.location.href = `/users/dashboard/match`;
 
             window.location.href = `/users/dashboard/${matchId}`;
-            dateSpots = dateSpots.data;
-            console.log(`Date spots for you and ${match.firstName}:`);
-            for (let i = 0; i < dateSpots.length; i++) {
-                console.log(`Because you both like ${dateSpots[i].interestCategory}...`);
-                console.log(dateSpots[i].businesses.businesses);
-            }
         }
         catch (e) {
             console.log(e);
@@ -104,6 +117,12 @@ async function cards () {
                     usersSeen[currCompatUserId] = "liked";
                     if (Object.keys(currCompatUser.usersSeen).includes(user._id) &&
                     currCompatUser.usersSeen[user._id] === 'liked') {
+                        popupH2.innerHTML = `You and ${currCompatUser.firstName} matched!`;
+                        popupMatchImg2.src = currCompatUser.images.profilePic;
+                        popupMatchImg1.style.animationName = 'slide-right';
+                        popupMatchImg2.style.animationName = 'slide-left';
+                        popup.classList.add('active');
+                        confetti2.classList.add('active');
                         addMatchToPage(currCompatUser);
                         matchedUserIds.push(currCompatUserId);
                         currCompatUserMatches.push(user._id);
