@@ -153,7 +153,7 @@ router
   .get(async (req, res) => {
       try {
           let user = await userData.getUserByEmail(req.session.user.email);
-          res.render('users/onboarding', {title : "Create an Account", name: user.firstName, imgSrc: '../public/images/temp_pro_pics/user_pro_pic.png'});
+          res.render('users/onboarding', {title : "Create an Account", name: user.firstName, userProPic: '../public/images/temp_pro_pics/user_pro_pic.png'});
       }
       catch (e) {
           if(e.status === 404 && e.errorMessage){
@@ -314,7 +314,7 @@ router.get('/onboarding/location', async (req, res) => {
 router.get('/onboarding/filters', async (req, res) => {
     try {
         let user = await userData.getUserByEmail(req.session.user.email);
-        res.render('users/filters', {title : "Filters", name: user.firstName, imgSrc: '../../public/images/temp_pro_pics/user_pro_pic.png'});
+        res.render('users/filters', {title : "Filters", name: user.firstName, userProPic: '../../public/images/temp_pro_pics/user_pro_pic.png'});
     }
     catch (e) {
         if(e.status === 404 && e.errorMessage){
@@ -333,7 +333,7 @@ router.get('/onboarding/filters', async (req, res) => {
 router.get('/onboarding/images', async (req, res) => {
     try {
         let user = await userData.getUserByEmail(req.session.user.email);
-        res.render('users/images', {title : "Images", name: user.firstName, imgSrc: '../../public/images/temp_pro_pics/user_pro_pic.png'});
+        res.render('users/images', {title : "Images", name: user.firstName, userProPic: '../../public/images/temp_pro_pics/user_pro_pic.png'});
     }
     catch (e) {
         if(e.status === 404 && e.errorMessage){
@@ -424,7 +424,7 @@ router.get('/dashboard/:id', async(req,res) =>{
 
         res.render('dashboard/match', {'proPic': '../public/images/temp_pro_pics/sydney_pro_pic.png',
             match: match, name: user.firstName,
-            imgSrc: '../../public/images/temp_pro_pics/user_pro_pic.png',
+            userProPic: '../../public/images/temp_pro_pics/user_pro_pic.png',
             dateSpots: dateSpots});
     }
     catch (e) {

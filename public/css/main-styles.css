@@ -763,23 +763,15 @@ h2 {
     }
 }
 
-@keyframes slide-right {
-    from {
-        margin-left: 0;
-    }
-    to {
-        margin-left: 23%;
-    }
-}
 
 #popupMatchImg1 {
-    animation-name: slide-right;
+    /*animation-name: slide-right;*/
     animation-duration: 3s;
     animation-fill-mode: forwards;
 }
 
 #popupMatchImg2 {
-    animation-name: slide-left;
+    /*animation-name: slide-left;*/
     animation-duration: 3s;
     animation-fill-mode: forwards;
 }
