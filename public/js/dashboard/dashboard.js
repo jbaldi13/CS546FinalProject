@@ -6,6 +6,8 @@ let confetti2 = document.querySelector('#my-canvas');
 let popupH2 = document.querySelector('#popupH2');
 let popupMatchImg1 = document.querySelector('#popupMatchImg1');
 let popupMatchImg2 = document.querySelector('#popupMatchImg2');
+let like = document.querySelector('#like');
+let dislike = document.querySelector('#dislike');
 
 function goToLogout() {
     window.location.href = "/users/logout";
@@ -101,6 +103,8 @@ async function cards () {
 
     async function appendNewCard() {
         if (compatibleUsers.length > 0) {
+            like.style.visibility = 'visible';
+            dislike.style.visibility = 'visible';
             let card;
             const currCompatUser = compatibleUsers[0];
             let currCompatUserMatches = currCompatUser.matches;
@@ -111,6 +115,8 @@ async function cards () {
                 name: currCompatUser.firstName,
                 onDismiss: appendNewCard,
                 onLike: async () => {
+                    like.style.animationPlayState = 'running';
+                    like.classList.toggle('trigger');
 
                     compatibleUsers = compatibleUsers.slice(1);
 
@@ -140,6 +146,9 @@ async function cards () {
                     await axios.patch(`/users/onboarding`, newData);
                 },
                 onDislike: async () => {
+                    dislike.style.animationPlayState = 'running';
+                    dislike.classList.toggle('trigger');
+
                     compatibleUsers = compatibleUsers.slice(1);
 
                     usersSeen[currCompatUserId] = "disliked";
@@ -155,6 +164,8 @@ async function cards () {
             });
         }
         else {
+            like.style.visibility = 'hidden';
+            dislike.style.visibility = 'hidden';
             const noUsers = document.createElement('div');
             noUsers.classList.add('card');
             const name = document.createElement('h3');
