@@ -42,11 +42,8 @@ class Card {
         card.append(img);
 
         this.element = card;
-        if (this.#isTouchDevice()) {
-            this.#listenToTouchEvents();
-        } else {
-            this.#listenToMouseEvents();
-        }
+        this.#listenToTouchEvents();
+        this.#listenToMouseEvents();
     };
 
     #listenToTouchEvents = () => {
