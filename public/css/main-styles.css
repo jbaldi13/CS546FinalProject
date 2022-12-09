@@ -827,7 +827,7 @@ h2 {
 /* Match Page */
 .swiper {
     width: 100%;
-    max-height: 350px;
+    max-height: 300px;
     text-align: center;
     display: inline-block;
     vertical-align: top;
@@ -869,13 +869,16 @@ h2 {
 
 .profileCard h2 {
     font-size: 35px;
-    margin-top: 0;
+}
+
+#matchName {
+    margin-top: 20px;
 }
 
 .profileCard img {
     width: 75%;
     height: auto;
-    max-height: 350px;
+    max-height: 300px;
     border-radius: 50px;
 }
 
@@ -903,6 +906,10 @@ h2 {
 }
 
 /* Chat */
+#chat {
+    margin-bottom: 30px;
+}
+
 .chatContainer {
     margin-top: 50px;
 }
