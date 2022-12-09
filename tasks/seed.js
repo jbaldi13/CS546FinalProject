@@ -97,7 +97,7 @@ async function main() {
             },
             about: "",
             images: {
-                profilePic: '../public/images/temp_pro_pics/sydney_pro_pic.png',
+                profilePic: '../../public/images/temp_pro_pics/sydney_pro_pic.png',
                 otherPics: {
                     other1: "",
                     other2: "",
