@@ -877,6 +877,9 @@ h2 {
     height: auto;
     max-height: 350px;
     border-radius: 50px;
+}
+
+.swiperImg {
     margin: auto;
     cursor: pointer;
 }

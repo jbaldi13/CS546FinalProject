@@ -10,12 +10,12 @@
             <div class="swiper-wrapper">
                 <!-- Add a div for each image in the slider -->
                 <div class="swiper-slide">
-                    <img src={{match.images.profilePic}}>
+                    <img src={{match.images.profilePic}} class="swiperImg">
                 </div>
                 {{#each match.images.otherPics}}
                     {{#if this}}
                         <div class="swiper-slide">
-                            <img src={{this}}>
+                            <img src={{this}} class="swiperImg">
                         </div>
                     {{/if}}
                 {{/each}}
