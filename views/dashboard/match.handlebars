@@ -1,12 +1,31 @@
-
+<!-- Include the Swiper.js library and CSS styles -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+<script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 
 <h2 class="neon" id="dashH2">DateSpot</h2>
 <p id="matchId" hidden>{{match._id}}</p>
 <div class="wrapper">
     <div class="profileCard">
-        <figure class="profile-card-img">
-            <img src="../{{match.images.profilePic}}">
-        </figure>
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <!-- Add a div for each image in the slider -->
+                <div class="swiper-slide">
+                    <img src={{match.images.profilePic}}>
+                </div>
+                {{#each match.images.otherPics}}
+                    <div class="swiper-slide">
+                        <img src={{this}}>
+                    </div>
+                {{/each}}
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+
+<!--            &lt;!&ndash; If we need navigation buttons &ndash;&gt;-->
+<!--            <div class="swiper-button-prev"></div>-->
+<!--            <div class="swiper-button-next"></div>-->
+
+        </div>
         <h2>{{match.firstName}}</h2>
         <div class="profile-card-info">
             <dl class="dl">
@@ -67,7 +86,6 @@
                 </div>
             </div>
         </div>
-
     </div>
     <div id="dateSpotsContainer" class="profileCard">
         <h2>Date Ideas for You and {{match.firstName}}:</h2>
