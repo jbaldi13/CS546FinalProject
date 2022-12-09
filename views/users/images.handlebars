@@ -1,12 +1,11 @@
 <div id="imagesContainer">
-
     <h2 class="neon">CREATE ACCOUNT</h2>
     <h2 id="imagesH2">Now it's time to upload some photos</h2>
     <div id="imagesContainer2">
         <h3>Profile Picture</h3>
-        <form id="form1" class="grid">
-            <div class="form-element">
-                <input type="file" id="file-0" accept="image/*" required>
+        <form id="form1" class="grid" enctype="multipart/form-data">
+            <div id="proPicContainer" class="form-element">
+                <input name="proPicFile" type="file" id="file-0" accept="image/*"  tabindex="0">
                 <label for="file-0" id="file-0-preview">
                     <img src="../../../public/images/image-placeholder.png">
                     <div>
@@ -14,44 +13,44 @@
                     </div>
                 </label>
             </div>
+            <h3 id="addPhotos">Additional Photos</h3>
+            <div class="otherPicsContainer">
+                <div class="form-element">
+                    <input type="file" id="file-1" accept="image/*">
+                    <label for="file-1" id="file-1-preview">
+                        <img src="../../../public/images/image-placeholder.png">
+                        <div>
+                            <span>+</span>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-element">
+                    <input type="file" id="file-2" accept="image/*">
+                    <label for="file-2" id="file-2-preview">
+                        <img src="../../../public/images/image-placeholder.png">
+                        <div>
+                            <span>+</span>
+                        </div>
+                    </label>
+                </div>
+                <div class="form-element">
+                    <input type="file" id="file-3" accept="image/*">
+                    <label for="file-3" id="file-3-preview">
+                        <img src="../../../public/images/image-placeholder.png">
+                        <div>
+                            <span>+</span>
+                        </div>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group hidden" id="error-container">
+                <div class="alert alert-danger text-goes-here">
+                </div>
+            </div>
+            <div>
+                <button id="imagesButton" type="submit" class="homepage-buttons">Submit</button>
+            </div>
         </form>
-        <h3>Additional Photos</h3>
-        <form id="form2" class="grid">
-            <div class="form-element">
-                <input type="file" id="file-1" accept="image/*">
-                <label for="file-1" id="file-1-preview">
-                    <img src="../../../public/images/image-placeholder.png">
-                    <div>
-                        <span>+</span>
-                    </div>
-                </label>
-            </div>
-            <div class="form-element">
-                <input type="file" id="file-2" accept="image/*">
-                <label for="file-2" id="file-2-preview">
-                    <img src="../../../public/images/image-placeholder.png">
-                    <div>
-                        <span>+</span>
-                    </div>
-                </label>
-            </div>
-            <div class="form-element">
-                <input type="file" id="file-3" accept="image/*">
-                <label for="file-3" id="file-3-preview">
-                    <img src="../../../public/images/image-placeholder.png">
-                    <div>
-                        <span>+</span>
-                    </div>
-                </label>
-            </div>
-        </form>
-        <div class="form-group hidden" id="error-container">
-            <div class="alert alert-danger text-goes-here">
-            </div>
-        </div>
-        <div>
-            <button id="imagesButton" type="button" class="homepage-buttons" onclick="submitForms();">Submit</button>
-        </div>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

@@ -6,7 +6,7 @@ const users = data.users;
 async function main() {
     // const db = await dbConnection.dbConnection();
     // await db.dropDatabase();
-    console.log("Starting seeding the database. This may take a bit.")
+    console.log("Starting seeding the database. This may take a bit.");
     try {
         let mainUser = await users.createUser(
             "stevensstudent@gmail.com",
