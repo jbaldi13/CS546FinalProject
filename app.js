@@ -5,6 +5,7 @@ const static = express.static(__dirname + '/public');
 const configRoutes = require('./routes');
 const exphbs = require('express-handlebars');
 const mongoCollections = require('./config/mongoCollections');
+const Multer = require("multer");
 // const http = require("http");
 // const httpServer = http.createServer(app);
 // let socketIo = require('socket.io');

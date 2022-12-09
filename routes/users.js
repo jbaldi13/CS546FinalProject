@@ -3,7 +3,6 @@ const router = express.Router();
 const data = require('../data');
 const userData = data.users;
 const helpers = require("../helpers");
-const axios = require("axios");
 const {checkId, checkFirstName, checkBirthday, checkInterests, checkGender, checkAbout, checkPronouns, checkShowOnProfile,
     checkLocation,
     checkFilters,
@@ -12,12 +11,14 @@ const {checkId, checkFirstName, checkBirthday, checkInterests, checkGender, chec
     checkUsersSeen
 } = require("../helpers");
 const {getUserById, updateUser, getUserByEmail, getDateSpots} = require("../data/users");
-const {response} = require("express");
+const {Storage} = require("@google-cloud/storage");
+const Multer = require("multer");
+const mongodb = require('mongodb');
 
 // Get and post login page
 router
   .route('/login')
-  .get(async (req, res) => { 
+  .get(async (req, res) => {
     try{
         if(!req.session.user){
             res.render('users/login', {title: "Login", header: "Login"});
@@ -31,7 +32,7 @@ router
                 await userData.removeUser(user._id);
                 req.session.destroy();
                 return res.render('users/login', {title: "Login", header: "Login"});
-            }  
+            }
         }
     }catch(e){
         if(e.status === 404 && e.errorMessage){
@@ -48,7 +49,7 @@ router
   .post(async (req, res) => {
     try{
         //shouldnt do input error checking on log in for security reasons
-        //let email = helpers.checkEmail(req.body.userEmail) 
+        //let email = helpers.checkEmail(req.body.userEmail)
         //let password = helpers.checkPassword(req.body.userPassword)
 
         let email = req.body.userEmail.toLowerCase();
@@ -116,11 +117,11 @@ router
           let email = helpers.checkEmail(req.body.userEmail);
           let password = helpers.checkPassword(req.body.userPassword);
           let conPassword = helpers.checkPassword(req.body.conUserPassword);
-  
+
           if(password !== conPassword){
               throw {errorMessage: "Error: your passwords do not match", status: 400};
           }
-  
+
           const newUser = await userData.createUser(email, password);
           if(newUser != null){
               const userId = newUser._id;
@@ -129,7 +130,7 @@ router
           }
           else{
               throw {errorMessage: "Error: Internal Server Error", status: 500};
-          } 
+          }
       }
       catch(e){
         if(e.status === 400 && e.errorMessage){
@@ -154,7 +155,7 @@ router
       try {
         if(req.session.user){
             let user = await userData.getUserByEmail(req.session.user.email);     
-            res.render('users/onboarding', {title : "Create an Account", name: user.firstName, userProPic: '../public/images/temp_pro_pics/user_pro_pic.png'});   
+            res.render('users/onboarding', {title : "Create an Account", name: user.firstName, userProPic: user.images.profilePic});
         }
         else{
             res.redirect("/");
@@ -186,7 +187,7 @@ router
         }  
         userId = await getUserByEmail(userId);
         userId = userId._id;
-        userId = checkId(userId, 'User ID');  
+        userId = checkId(userId, 'User ID');
         if (requestBody.firstName) {
             requestBody.firstName = checkFirstName(requestBody.firstName);
         }
@@ -325,7 +326,7 @@ router.get('/onboarding/filters', async (req, res) => {
     try {
         if(req.session.user){
             let user = await userData.getUserByEmail(req.session.user.email);
-            res.render('users/filters', {title : "Filters", name: user.firstName, userProPic: '../../public/images/temp_pro_pics/user_pro_pic.png'}); 
+            res.render('users/filters', {title : "Filters", name: user.firstName, userProPic: user.images.profilePic});
         }
         else{
             res.redirect("/");
@@ -349,7 +350,7 @@ router.get('/onboarding/images', async (req, res) => {
     try {
         if(req.session.user){
             let user = await userData.getUserByEmail(req.session.user.email);
-            res.render('users/images', {title : "Images", name: user.firstName, userProPic: '../../public/images/temp_pro_pics/user_pro_pic.png'});
+            res.render('users/images', {title : "Images", name: user.firstName, userProPic: user.images.profilePic});
         }
         else{
             res.redirect("/");
@@ -368,6 +369,92 @@ router.get('/onboarding/images', async (req, res) => {
     }
 });
 
+let projectId = 'datespot-370921';
+let keyFileName = 'myKey.json';
+
+const storage = new Storage({
+    projectId,
+    keyFileName
+});
+const multer =  Multer({
+    storage: Multer.memoryStorage(),
+    limits: {
+        fileSize: 5 * 1024 * 1024 // no files larger than 5mb (changeable)
+    }
+});
+
+const bucket = storage.bucket('datespot_image_storage');
+router.post('/onboarding/images', multer.array('images'),  async (req, res) => {
+    // console.log(req.files);
+    try {
+        if (req.files) {
+            console.log('Files found; trying to upload');
+            // Get the uploaded files from the request body
+            const files = req.files;
+
+            // Create an array to hold the promises for each file upload
+            const uploadPromises = [];
+
+            // Loop through the uploaded files
+            for (const file of files) {
+                // Create a new Storage bucket file object
+                const blob = bucket.file(file.originalname);
+
+                // Create a promise for uploading the file to the bucket
+                const uploadPromise = new Promise((resolve, reject) => {
+                    // Create a write stream for the file
+                    const blobStream = blob.createWriteStream();
+
+                    // When the write stream finishes, resolve the promise
+                    blobStream.on('finish', () => {
+                        console.log(`Successfully uploaded ${file.originalname}`);
+                        resolve();
+                    });
+
+                    // If there is an error, reject the promise
+                    blobStream.on('error', err => {
+                        reject(err);
+                    });
+
+                    // Start uploading the file to the bucket
+                    blobStream.end(file.buffer);
+                });
+
+                // Add the promise to the array of promises
+                uploadPromises.push(uploadPromise);
+            }
+
+            // Wait for all the files to finish uploading
+            await Promise.all(uploadPromises);
+            console.log('Successfully uploaded all files');
+
+            // Send a GET request to get the images from Google Cloud
+            const results = await bucket.getFiles();
+
+            // Get the list of files from the results
+            const getFiles = results[0];
+
+            // Create an array to hold the URLs of the images
+            const imageObjects = [];
+
+            // Loop through the files in the bucket
+            for (const file of getFiles) {
+                console.log(file.name);
+
+                // Add the URL to the array of image URLs
+                imageObjects.push(file);
+            }
+
+            // Send the array of image URLs as the response
+            res.send(imageObjects);
+        }
+    }
+    catch (e) {
+        console.log(e.toString());
+    }
+});
+
+
 router.get('/dashboard', async(req,res) =>{
     try{
         if(req.session.user){
@@ -382,7 +469,7 @@ router.get('/dashboard', async(req,res) =>{
             }
             try {
                 let user = await userData.getUserByEmail(req.session.user.email);
-                res.render('dashboard/dashboard', {title: "Dashboard", name: user.firstName, userProPic: '../public/images/temp_pro_pics/user_pro_pic.png'});
+                res.render('dashboard/dashboard', {title: "Dashboard", name: user.firstName, userProPic: user.images.profilePic});
             }
             catch (e) {
                 return res.status(e.status).render('errors/error', {title: "Error", error: e.toString()});
@@ -448,9 +535,9 @@ router.get('/dashboard/:id', async(req,res) =>{
             user.location.latitude, user.location.longitude, user.filters.maxDistance);
 
 
-        res.render('dashboard/match', {'proPic': '../public/images/temp_pro_pics/sydney_pro_pic.png',
+        res.render('dashboard/match', {
             match: match, name: user.firstName,
-            userProPic: '../../public/images/temp_pro_pics/user_pro_pic.png',
+            userProPic: user.images.profilePic,
             dateSpots: dateSpots});
     }
     catch (e) {
@@ -475,17 +562,6 @@ router.get('/logout', async(req,res) =>{
     }
 });
 
-// // Get all users
-// router.get('/', async (req, res) => {
-//     try {
-//         const userList = await userData.getAllUsers();
-//
-//         // res.render('users/allUserInfo', {title : "All Users", users : userList});
-//     }
-//     catch (e) {
-//         res.status().render('error', {title : "Error", error : e.toString()});
-//     }
-// });
 
 // Get signed-in user
 router.get('/user', async (req, res) => {
