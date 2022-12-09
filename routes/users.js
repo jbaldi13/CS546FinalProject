@@ -152,8 +152,13 @@ router
   .route('/onboarding')
   .get(async (req, res) => {
       try {
-          let user = await userData.getUserByEmail(req.session.user.email);
-          res.render('users/onboarding', {title : "Create an Account", name: user.firstName, userProPic: '../public/images/temp_pro_pics/user_pro_pic.png'});
+        if(req.session.user){
+            let user = await userData.getUserByEmail(req.session.user.email);     
+            res.render('users/onboarding', {title : "Create an Account", name: user.firstName, userProPic: '../public/images/temp_pro_pics/user_pro_pic.png'});   
+        }
+        else{
+            res.redirect("/");
+        }
       }
       catch (e) {
           if(e.status === 404 && e.errorMessage){
@@ -177,7 +182,7 @@ router
             userId = helpers.checkEmail(req.session.user.email);
         }
         else{
-            throw {errorMessage: "Error: Unable to verify user identity", status: 403};
+            res.redirect("/");
         }  
         userId = await getUserByEmail(userId);
         userId = userId._id;
@@ -302,8 +307,13 @@ router
 // get onboarding/location page
 router.get('/onboarding/location', async (req, res) => {
     try {
-        res.render('users/location', {title : "Location"});
-
+        //req.session.user isn't directly used here, but it's to check if there's user data in AuthCookie & therefore if a user should have access to the page
+        if(req.session.user){
+            res.render('users/location', {title : "Location"});
+        }
+        else{
+            res.redirect("/");
+        }
     }
     catch(e){
         res.status(500).render('errors/error', {title : "Error", error : e.toString()});
@@ -313,8 +323,13 @@ router.get('/onboarding/location', async (req, res) => {
 // get onboarding/filters page
 router.get('/onboarding/filters', async (req, res) => {
     try {
-        let user = await userData.getUserByEmail(req.session.user.email);
-        res.render('users/filters', {title : "Filters", name: user.firstName, userProPic: '../../public/images/temp_pro_pics/user_pro_pic.png'});
+        if(req.session.user){
+            let user = await userData.getUserByEmail(req.session.user.email);
+            res.render('users/filters', {title : "Filters", name: user.firstName, userProPic: '../../public/images/temp_pro_pics/user_pro_pic.png'}); 
+        }
+        else{
+            res.redirect("/");
+        }
     }
     catch (e) {
         if(e.status === 404 && e.errorMessage){
@@ -332,8 +347,13 @@ router.get('/onboarding/filters', async (req, res) => {
 // get onboarding/images page
 router.get('/onboarding/images', async (req, res) => {
     try {
-        let user = await userData.getUserByEmail(req.session.user.email);
-        res.render('users/images', {title : "Images", name: user.firstName, userProPic: '../../public/images/temp_pro_pics/user_pro_pic.png'});
+        if(req.session.user){
+            let user = await userData.getUserByEmail(req.session.user.email);
+            res.render('users/images', {title : "Images", name: user.firstName, userProPic: '../../public/images/temp_pro_pics/user_pro_pic.png'});
+        }
+        else{
+            res.redirect("/");
+        }
     }
     catch (e) {
         if(e.status === 404 && e.errorMessage){
@@ -410,7 +430,13 @@ router.get('/dashboard/:id', async(req,res) =>{
         }
     }
     try {
-        userId = await getUserByEmail(req.session.user.email);
+        userId = null;
+        if(req.session.user){
+            userId = await getUserByEmail(req.session.user.email);
+        }
+        else{
+            res.redirect("/");
+        }
         userId = userId._id;
         userId = checkId(userId, 'User ID');
         user = await getUserById(userId);
@@ -469,7 +495,7 @@ router.get('/user', async (req, res) => {
             helpers.checkEmail(req.session.user.email);
         }
         else{
-            throw {errorMessage: "Error: Unable to verify user identity.", status: 403};
+            res.redirect("/");
         }
         userId = await getUserByEmail(req.session.user.email);
         userId = userId._id;
@@ -499,7 +525,7 @@ router.get('/user/:id', async (req, res) => {
             res.send(compatibleUser);
         }
         else{
-            throw {errorMessage: "Error: Unable to verify user identity.", status: 403};
+            res.redirect("/");
         }
     }
     catch (e) {
@@ -523,7 +549,7 @@ router.get('/compatibleUsers', async (req, res) => {
             res.json(compatibleUsers);
         }
         else{
-            throw {errorMessage: "Error: Unable to verify user identity.", status: 403};
+            res.redirect("/");
         }    
     }
     catch (e) {
