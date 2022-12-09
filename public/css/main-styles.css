@@ -381,31 +381,27 @@ h2 {
 }
 
 /* Images Page */
-
 .grid {
     margin-top: 25px;
-    display: flex;
-    justify-content: space-around;
+    display: grid;
+    justify-content: center;
+    justify-items: center;
 }
 
 .grid .form-element img {
     width: 250px;
     height: 201px;
     object-fit: cover;
-    /*max-width: 100%;*/
-    /*max-height: 250px;*/
 
 }
 
 .grid .form-element {
-    /*width: 200px;*/
-    /*height: 200px;*/
-    /*box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.2);*/
+
     width: 250px;
     min-height: 120px;
     max-height: fit-content;
     float: left;
-    margin: 3px;
+    margin: 10px;
     padding: 3px;
 }
 
@@ -438,10 +434,17 @@ h2 {
 #imagesContainer2 {
     margin-top: 50px;
     height: min-content;
+    /*display: flex;*/
+    /*align-items: center;*/
 }
 
 #imagesButton {
     margin-top: 15px;
+}
+
+.otherPicsContainer {
+    display: flex;
+    justify-content: center;
 }
 
 /* Dashboard Page */
@@ -858,7 +861,7 @@ h2 {
     /*height: auto;*/
     width: 75%;
     height: auto;
-    max-height: 450px;
+    max-height: 350px;
 
     border-radius: 50px;
 }
