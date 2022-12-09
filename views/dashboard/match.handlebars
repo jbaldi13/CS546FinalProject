@@ -13,17 +13,16 @@
                     <img src={{match.images.profilePic}}>
                 </div>
                 {{#each match.images.otherPics}}
-                    <div class="swiper-slide">
-                        <img src={{this}}>
-                    </div>
+                    {{#if this}}
+                        <div class="swiper-slide">
+                            <img src={{this}}>
+                        </div>
+                    {{/if}}
                 {{/each}}
             </div>
             <!-- If we need pagination -->
             <div class="swiper-pagination"></div>
 
-<!--            &lt;!&ndash; If we need navigation buttons &ndash;&gt;-->
-<!--            <div class="swiper-button-prev"></div>-->
-<!--            <div class="swiper-button-next"></div>-->
 
         </div>
         <h2>{{match.firstName}}</h2>

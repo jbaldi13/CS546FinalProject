@@ -3,7 +3,6 @@ const router = express.Router();
 const data = require('../data');
 const userData = data.users;
 const helpers = require("../helpers");
-const axios = require("axios");
 const {checkId, checkFirstName, checkBirthday, checkInterests, checkGender, checkAbout, checkPronouns, checkShowOnProfile,
     checkLocation,
     checkFilters,
@@ -15,9 +14,7 @@ const {getUserById, updateUser, getUserByEmail, getDateSpots} = require("../data
 const {Storage} = require("@google-cloud/storage");
 const Multer = require("multer");
 const mongodb = require('mongodb');
-const fs = require('fs');
-const db = require('../config/mongoConnection');
-const {GridFSBucket} = require("mongodb");
+
 // Get and post login page
 router
   .route('/login')
