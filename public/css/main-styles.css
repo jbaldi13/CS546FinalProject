@@ -874,6 +874,7 @@ h2 {
     max-height: 350px;
     border-radius: 50px;
     margin: auto;
+    cursor: pointer;
 }
 
 
