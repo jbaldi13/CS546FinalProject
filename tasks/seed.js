@@ -58,9 +58,9 @@ async function main() {
             },
             about: "Hi, I'm Mike",
             images: {
-                profilePic: "",
+                profilePic: "https://storage.googleapis.com/datespot_image_storage/Insta%20Pro%20Pic.JPG",
                 otherPics: {
-                    other1: "",
+                    other1: "https://storage.googleapis.com/datespot_image_storage/me.jpeg",
                     other2: "",
                     other3: ""
                 }
@@ -97,10 +97,10 @@ async function main() {
             },
             about: "",
             images: {
-                profilePic: '../../public/images/temp_pro_pics/sydney_pro_pic.png',
+                profilePic: 'https://storage.googleapis.com/datespot_image_storage/IMG_5365.jpg',
                 otherPics: {
-                    other1: "",
-                    other2: "",
+                    other1: "https://storage.googleapis.com/datespot_image_storage/IMG_5367.jpg",
+                    other2: "https://storage.googleapis.com/datespot_image_storage/IMG_5366.jpg",
                     other3: ""
                 }
             },
@@ -138,11 +138,11 @@ async function main() {
             },
             about: "",
             images: {
-                profilePic: "../public/images/temp_pro_pics/jessica_pro_pic.png",
+                profilePic: "https://storage.googleapis.com/datespot_image_storage/Jessica_1.jpg",
                 otherPics: {
-                    other1: "",
-                    other2: "",
-                    other3: ""
+                    other1: "https://storage.googleapis.com/datespot_image_storage/Jessica_2.jpg",
+                    other2: "https://storage.googleapis.com/datespot_image_storage/Jessica_3.jpg",
+                    other3: "https://storage.googleapis.com/datespot_image_storage/Jessica_4.jpg"
                 }
             },
             interests: {"Coffee & Tea": "coffee", "Brazilian": "brazilian", "Comedy Clubs": "comedyclubs"},
@@ -157,7 +157,7 @@ async function main() {
         // await updateUser(newUser2._id, {usersSeen: obj});
 
         updatedUser = {
-            firstName: "Stacey",
+            firstName: "Luna",
             birthday: "06/02/1992",
             age: 30,
             gender: "woman",
@@ -178,10 +178,10 @@ async function main() {
             },
             about: "",
             images: {
-                profilePic: "../public/images/temp_pro_pics/stacey_pro_pic.png",
+                profilePic: "https://storage.googleapis.com/datespot_image_storage/Luna_1.jpg",
                 otherPics: {
-                    other1: "",
-                    other2: "",
+                    other1: "https://storage.googleapis.com/datespot_image_storage/Luna_2.jpg",
+                    other2: "https://storage.googleapis.com/datespot_image_storage/Luna_3.jpg",
                     other3: ""
                 }
             },
@@ -218,10 +218,10 @@ async function main() {
             },
             about: "",
             images: {
-                profilePic: "../public/images/temp_pro_pics/jackie_pro_pic.png",
+                profilePic: "https://storage.googleapis.com/datespot_image_storage/Jackie_1.jpg",
                 otherPics: {
-                    other1: "",
-                    other2: "",
+                    other1: "https://storage.googleapis.com/datespot_image_storage/Jackie_2.jpg",
+                    other2: "https://storage.googleapis.com/datespot_image_storage/Jackie_3.jpg",
                     other3: ""
                 }
             },
@@ -258,10 +258,10 @@ async function main() {
             },
             about: "",
             images: {
-                profilePic: "../public/images/temp_pro_pics/alexa_pro_pic.png",
+                profilePic: "https://storage.googleapis.com/datespot_image_storage/alexa_1.jpg",
                 otherPics: {
-                    other1: "",
-                    other2: "",
+                    other1: "https://storage.googleapis.com/datespot_image_storage/alexa_2.jpg",
+                    other2: "https://storage.googleapis.com/datespot_image_storage/alexa_3.jpg",
                     other3: ""
                 }
             },
