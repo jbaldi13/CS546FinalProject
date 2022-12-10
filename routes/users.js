@@ -225,7 +225,7 @@ router
             checkMatches(requestBody.userMatches);
             checkMatches(requestBody.currCompatUserMatches);
             requestBody.currCompatUserId = checkId(requestBody.currCompatUserId, 'currCompatUserId');
-            checkUsersSeen(requestBody.usersSeen);
+            if (requestBody.usersSeen) checkUsersSeen(requestBody.usersSeen);
         }
         const oldUser = await getUserById(userId);
         if (requestBody.firstName && requestBody.firstName !== oldUser.firstName) {
@@ -271,7 +271,6 @@ router
             updatedObject.usersSeen = requestBody.usersSeen;
         }
 
-        // console.log(updatedObject);
         if (Object.keys(updatedObject).length !== 0) {
             const updatedUser = await updateUser(
                 userId,

@@ -501,9 +501,8 @@ h2 {
 }
 
 .matches-container {
-    width: 200px;
+    width: min-content;
     color: white;
-    float: left;
     margin-left: 100px;
 }
 
@@ -557,37 +556,41 @@ h2 {
 }
 
 #matchesListUl {
-    width: min-content;
-    /*border: 2px solid white;*/
+    width: auto;
     margin: 1rem;
     padding: 2rem 2rem;
     text-align: center;
-    overflow-y: auto;
+    /*overflow-y: auto;*/
 }
 
 #matchesListUl div  {
-    width: 170px;
-    display: inline-block;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
     justify-content: space-between;
-    margin: 5px;
+    margin: 25px 0;
+    cursor: pointer;
 }
 
 #matchesListUl div img {
     width: 60px;
     height: 55px;
-    float: right;
     border-radius: 25%;
-    /*margin-bottom: 100px;*/
+    margin: 0 15px;
+}
+
+#matchesListUl div button {
+    background-color: red;
+    color: white;
+    font-size: 18px;
+    border: none;
+    padding: 10px 10px;
 }
 
 
 #matchesListUl a {
     color: white;
     font-size: 25px;
-    width: fit-content;
-    float: left;
-    margin-top: 8px;
-
 }
 
 /* Dropdown Nav */

@@ -30,7 +30,6 @@ confetti.render();
 
 async function cards () {
     const swiper = document.querySelector('#swiper');
-    const instructions = document.querySelector('.swipeInstructionDiv');
 
 
     let user;
@@ -46,20 +45,99 @@ async function cards () {
     let match;
 
     function addMatchToPage(match) {
+        let matchMatches = match.matches;
+        let newData;
+        let index;
         let matchContainer = document.createElement('div');
         let a = document.createElement('a');
         let linkText = document.createTextNode(match.firstName);
         a.appendChild(linkText);
         a.href = "/match";
         a.addEventListener('click', getMatchPage);
+        a.draggable = false;
         let matchId = document.createElement('p');
         matchId.innerHTML = match._id;
         matchId.hidden = true;
         const matchImg = document.createElement('img');
         matchImg.src = match.images.profilePic;
+        matchImg.draggable = false;
+        let unmatchButton = document.createElement('button');
+        unmatchButton.innerHTML = 'Unmatch';
+        unmatchButton.style.display = 'none';
         matchContainer.appendChild(matchId);
         matchContainer.appendChild(a);
         matchContainer.appendChild(matchImg);
+        matchContainer.appendChild(unmatchButton);
+
+        let mouseDown = false;
+        let startX;
+        function onMouseMove(event) {
+            // Check if the matchContainer has been moved to the left by at least 50 pixels
+            if (event.pageX < startX - 50) {
+                // If it has, reveal the unmatchButton
+                unmatchButton.style.display = 'block';
+
+            }
+            else if (event.pageX > startX + 50) {
+                unmatchButton.style.display = 'none';
+            }
+        }
+
+
+        // Add event listener for mousedown event on the matchContainer
+        matchContainer.addEventListener('mousedown', (event) => {
+            // Store the starting position of the matchContainer
+            startX = event.pageX;
+
+            mouseDown = true;
+
+            matchContainer.addEventListener('mousemove', onMouseMove);
+        });
+
+        matchContainer.addEventListener('mouseup', (event) => {
+            mouseDown = false;
+            matchContainer.removeEventListener('mousemove', onMouseMove);
+        });
+
+        unmatchButton.addEventListener('click', async (event) => {
+            let result = confirm(`Are you sure you want to unmatch with ${match.firstName}?`);
+
+            if (result === true) {
+                let parentMatchContainer = unmatchButton.parentElement;
+                matchesListUl.removeChild(parentMatchContainer);
+
+                index = matchedUserIds.indexOf(match._id);
+                if (index !== -1) {
+                    matchedUserIds.splice(index, 1);
+                }
+
+                index = matchMatches.indexOf(user._id);
+                console.log(matchMatches);
+                if (index !== -1) {
+                    matchMatches.splice(index, 1);
+                }
+
+                newData = {
+                    userMatches: matchedUserIds,
+                    currCompatUserId: match._id,
+                    currCompatUserMatches: matchMatches,
+                };
+
+                console.log(matchedUserIds);
+                console.log(match._id);
+                console.log(matchMatches);
+
+                try {
+                    await axios.patch(`/users/onboarding`, newData);
+                }
+                catch (e) {
+                    console.log(e.toString());
+                }
+            }
+        });
+
+
+
 
         matchesListUl.appendChild(matchContainer);
     }
@@ -173,7 +251,6 @@ async function cards () {
             name.innerHTML = "There's no one around you";
             noUsers.appendChild(name);
             swiper.append(noUsers);
-            instructions.remove();
         }
     }
     await appendNewCard();
