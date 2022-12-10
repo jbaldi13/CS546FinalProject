@@ -134,6 +134,9 @@ async function cards () {
                     console.log(e.toString());
                 }
             }
+            else {
+                unmatchButton.style.display = 'none';
+            }
         });
 
 
