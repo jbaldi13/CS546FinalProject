@@ -65,9 +65,9 @@ async function main() {
                     other3: ""
                 }
             },
-            interests: {"Laser Tag": "lasertag", "Rock Climbing": "rock_climbing",
-                "Paint & Sip": "paintandsip", "Coffee & Tea": "coffee", "Brazilian": "brazilian",
-                "Comedy Clubs": "comedyclubs"},
+            interests: {"Lakes": "lakes", "Rock Climbing": "rock_climbing",
+                "Italian": "italian", "Coffee & Tea": "coffee", "Bars": "bars",
+                "Comedy Clubs": "comedyclubs", "Brazilian": "brazilian"},
             matches: [],
             usersSeen: {}
         };
@@ -104,7 +104,7 @@ async function main() {
                     other3: ""
                 }
             },
-            interests: {"Laser Tag": "lasertag", "Rock Climbing": "rock_climbing", "Paint & Sip": "paintandsip"},
+            interests: {"Lakes": "lakes", "Bars": "bars", "Rock Climbing": "rock_climbing", "Italian": "italian"},
             matches: [],
             usersSeen: {}
         };
@@ -145,7 +145,7 @@ async function main() {
                     other3: "https://storage.googleapis.com/datespot_image_storage/Jessica_4.jpg"
                 }
             },
-            interests: {"Coffee & Tea": "coffee", "Brazilian": "brazilian", "Comedy Clubs": "comedyclubs"},
+            interests: {"Coffee & Tea": "coffee", "Lakes": "lakes", "Bars": "bars", "Italian": "italian"},
             matches: [],
             usersSeen: {}
         };
