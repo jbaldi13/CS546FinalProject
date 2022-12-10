@@ -119,7 +119,7 @@ async function main() {
         updatedUser = {
             firstName: "Jessica",
             birthday: "06/02/1992",
-            age: 30,
+            age: 23,
             gender: "woman",
             showGender: "off",
             pronouns: "she/her",
@@ -159,7 +159,7 @@ async function main() {
         updatedUser = {
             firstName: "Luna",
             birthday: "06/02/1992",
-            age: 30,
+            age: 24,
             gender: "woman",
             showGender: "off",
             pronouns: "she/her",
@@ -199,7 +199,7 @@ async function main() {
         updatedUser = {
             firstName: "Jackie",
             birthday: "06/02/1992",
-            age: 30,
+            age: 27,
             gender: "woman",
             showGender: "off",
             pronouns: "she/her",
@@ -239,7 +239,7 @@ async function main() {
         updatedUser = {
             firstName: "Alexa",
             birthday: "06/02/1992",
-            age: 30,
+            age: 21,
             gender: "woman",
             showGender: "off",
             pronouns: "she/her",
