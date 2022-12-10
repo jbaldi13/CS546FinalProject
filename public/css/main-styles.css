@@ -496,7 +496,7 @@ h2 {
 .swipe-container {
     display: flex;
     float: right;
-    margin-left: 175px;
+    margin-left: 100px;
     width: 400px;
 }
 
@@ -560,7 +560,7 @@ h2 {
     margin: 1rem;
     padding: 2rem 2rem;
     text-align: center;
-    /*overflow-y: auto;*/
+    overflow-y: auto;
 }
 
 #matchesListUl div  {
@@ -649,6 +649,7 @@ h2 {
     background: linear-gradient(to bottom, rgb(76, 0, 19), black);
     padding: 10px;
     margin: 10px 28px 0 0;
+    overflow-x: auto;
 }
 
 
