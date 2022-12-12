@@ -12,7 +12,7 @@ async function onboarding () {
         console.log(e);
     }
 
-    if (user.firstName !== null) {
+    if (user.firstName !== null && user.images.profilePic !== null) {
         hamburgerMenu.removeAttribute('hidden');
         submitButton.innerHTML = "Save Changes";
         h2.innerHTML = "EDIT PROFILE";

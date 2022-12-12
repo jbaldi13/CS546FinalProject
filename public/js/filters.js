@@ -14,7 +14,7 @@ async function filters () {
     }
 
 
-    if (user.filters.minAge !== null) {
+    if (user.filters.minAge !== null && user.images.profilePic !== null) {
         hamburgerMenu.removeAttribute('hidden');
         submitButton.innerHTML = "Save Changes";
         h2.innerHTML = "UPDATE FILTERS";
