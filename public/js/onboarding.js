@@ -120,6 +120,14 @@ async function onboarding () {
         }
     }
 
+    let interests = document.getElementById('interests');
+    // Pre-populate all the values of select menu;
+    for (let option of interests.options) {
+        if (Object.keys(user.interests).includes(option.textContent)) {
+            option.selected = true;
+        }
+    }
+
     const staticForm = document.getElementById('onboardingForm');
 
 
@@ -137,7 +145,6 @@ async function onboarding () {
         let pronouns = document.getElementsByName('pronouns');
         let showPronouns = document.getElementById('showPronouns');
         let about = document.getElementById('about');
-        let interests = document.getElementById('interests');
 
         staticForm.addEventListener('submit', async (event) => {
             event.preventDefault();

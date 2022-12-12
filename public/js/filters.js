@@ -35,7 +35,23 @@ async function filters () {
     maxAgeLabel.innerHTML = maxAge.value;
     maxDistanceLabel.innerHTML = `${maxDistance.value} miles`;
 
-// Update the current slider value (each time you drag the slider handle)
+    // Pre-populate values of filters
+    for (let option of genderInterest.options) {
+        if (user.filters.genderInterest !== null) {
+            if (user.filters.genderInterest === option.value) {
+                option.selected = true;
+            }
+            minAge.value = user.filters.minAge;
+            minAgeLabel.innerHTML = user.filters.minAge;
+            maxAge.value = user.filters.maxAge;
+            maxAgeLabel.innerHTML = user.filters.maxAge;
+            maxDistance.value = user.filters.maxDistance;
+            maxDistanceLabel.innerHTML = `${user.filters.maxDistance} miles`;
+        }
+
+    }
+
+    // Update the current slider value (each time you drag the slider handle)
     minAge.oninput = function() {
         minAgeLabel.innerHTML = this.value;
     };
