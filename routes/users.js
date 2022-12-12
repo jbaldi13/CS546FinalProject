@@ -155,7 +155,7 @@ router
       try {
         if(req.session.user){
             let user = await userData.getUserByEmail(req.session.user.email);     
-            res.render('users/onboarding', {title : "Create an Account", name: user.firstName, userProPic: user.images.profilePic});
+            res.render('users/onboarding', {title : "Create an Account", user: user});
         }
         else{
             res.redirect("/");
@@ -325,7 +325,7 @@ router.get('/onboarding/filters', async (req, res) => {
     try {
         if(req.session.user){
             let user = await userData.getUserByEmail(req.session.user.email);
-            res.render('users/filters', {title : "Filters", name: user.firstName, userProPic: user.images.profilePic});
+            res.render('users/filters', {title : "Filters", user: user});
         }
         else{
             res.redirect("/");
@@ -349,7 +349,7 @@ router.get('/onboarding/images', async (req, res) => {
     try {
         if(req.session.user){
             let user = await userData.getUserByEmail(req.session.user.email);
-            res.render('users/images', {title : "Images", name: user.firstName, userProPic: user.images.profilePic});
+            res.render('users/images', {title : "Images", user: user});
         }
         else{
             res.redirect("/");
@@ -468,7 +468,7 @@ router.get('/dashboard', async(req,res) =>{
             }
             try {
                 let user = await userData.getUserByEmail(req.session.user.email);
-                res.render('dashboard/dashboard', {title: "Dashboard", name: user.firstName, userProPic: user.images.profilePic});
+                res.render('dashboard/dashboard', {title: "Dashboard", user: user});
             }
             catch (e) {
                 return res.status(e.status).render('errors/error', {title: "Error", error: e.toString()});
@@ -535,8 +535,7 @@ router.get('/dashboard/:id', async(req,res) =>{
 
 
         res.render('dashboard/match', {
-            match: match, name: user.firstName,
-            userProPic: user.images.profilePic,
+            match: match, user: user,
             dateSpots: dateSpots});
     }
     catch (e) {

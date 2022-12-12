@@ -83,6 +83,16 @@ const handlebarsInstance = exphbs.create({
             value = value.join(', ');
             return value;
         },
+        radioChecked: function (variableName, value) {
+            return variableName === value ? 'checked' : '';
+        },
+        checkboxChecked: function (value) {
+            return value === 'on';
+        },
+        selectChecked: function (value, options) {
+
+        }
+
     }
 });
 

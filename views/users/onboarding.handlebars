@@ -4,40 +4,43 @@
         <section>
             <label for="firstName">
                 First Name
-                <input id="firstName" type="text" name="firstName" placeholder="First Name" required/>
+                <input id="firstName" type="text" name="firstName" placeholder="First Name" value="{{user.firstName}}" required/>
             </label>
 
             <label for="bDay">
                 Birthday (mm/dd/yyyy)
-                <input id="birthday" type="text" name="birthday" placeholder="mm/dd/yyyy" required/>
+                <input id="birthday" type="text" name="birthday" placeholder="mm/dd/yyyy" value="{{user.birthday}}" required/>
             </label>
 
             <div id="borderContainer">
                 <div class="borderInput">
                     <label id="genderLabel">Gender</label>
                     <div class="multipleInputContainer">
-                        <input id="genderMan" type="radio" name="gender" value="man"/>
+                        <input id="genderMan" type="radio" name="gender" value="man" {{radioChecked 'man' user.gender}}/>
                         <label for="genderMan">Man</label>
-                        <input id="genderWoman" type="radio" name="gender" value="woman" required/>
+                        <input id="genderWoman" type="radio" name="gender" value="woman" {{radioChecked 'woman' user.gender}} required/>
                         <label for="genderWoman">Woman</label>
-                        <input id="genderOther" type="radio" name="gender" value="other"/>
+                        <input id="genderOther" type="radio" name="gender" value="other" {{radioChecked 'other' user.gender}}/>
                         <label for="genderOther">Other</label>
                     </div>
                 </div>
 
                 <div class="borderInput">
                     <label for="showGender" id="showGenderLabel">Show gender on my profile</label>
-                    <input id="showGender" type="checkbox" name="showGender">
+                    <input id="showGender" type="checkbox" name="showGender"
+                    {{#if (checkboxChecked user.showGender)}}
+                        checked
+                    {{/if}}>
                 </div>
 
                 <div class="borderInput">
                     <label id="pronounsLabel">Pronouns</label>
                     <div class="multipleInputContainer">
-                        <input id="pronounsMan" type="radio" name="pronouns" value="he/him"/>
+                        <input id="pronounsMan" type="radio" name="pronouns" value="he/him" {{radioChecked 'he/him' user.pronouns}}/>
                         <label for="pronounsMan">He/Him</label>
-                        <input id="pronounsWoman" type="radio" name="pronouns" value="she/her" required/>
+                        <input id="pronounsWoman" type="radio" name="pronouns" value="she/her" {{radioChecked 'she/her' user.pronouns}} required/>
                         <label for="pronounsWoman">She/Her</label>
-                        <input id="pronounsOther" type="radio" name="pronouns" value="other"/>
+                        <input id="pronounsOther" type="radio" name="pronouns" value="other" {{radioChecked 'other' user.pronouns}}/>
                         <label for="pronounsOther">Other</label>
                     </div>
                 </div>
@@ -45,14 +48,17 @@
                 <div class="borderInput">
                     <div class="showPronouns">
                         <label for="showPronouns" id="showPronounsLabel">Show pronouns on my profile</label>
-                        <input id="showPronouns" type="checkbox" name="showPronouns">
+                        <input id="showPronouns" type="checkbox" name="showPronouns"
+                        {{#if (checkboxChecked user.showPronouns)}}
+                           checked
+                        {{/if}}>>
                     </div>
                 </div>
             </div>
 
             <label for="about">
                 About me
-                <input id="about" type="text" name="about" placeholder="Just a guy looking for love...">
+                <input id="about" type="text" name="about" placeholder="Just a guy looking for love..." value="{{user.about}}">
             </label>
             <div class="form-group hidden" id="error-container">
                 <div class="alert alert-danger text-goes-here">

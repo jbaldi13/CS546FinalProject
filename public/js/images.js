@@ -8,6 +8,15 @@ async function images () {
     try {
         user = await axios.get('/users/user');
         user = user.data;
+        // Pre-populate the image values
+        if (user.images.profilePic !== null) {
+            document.querySelector('#file-0' + '-preview img').src = user.images.profilePic;
+        }
+        if (user.images.otherPics.length > 0) {
+            for (let i = 0, j = 1; i < user.images.otherPics.length; i++, j++) {
+                document.querySelector(`#file-${j}` + '-preview img').src = user.images.otherPics[i];
+            }
+        }
     }
     catch (e) {
         console.log(e);
@@ -21,6 +30,7 @@ async function images () {
     }
 }
 images();
+
 
 function previewBeforeUpload(id) {
     document.querySelector("#" + id).addEventListener("change", function (e) {
@@ -74,7 +84,6 @@ const errorContainer = document.getElementById('error-container');
 const errorTextElement = errorContainer.getElementsByClassName(
     'text-goes-here'
 )[0];
-
 
 
 form1.addEventListener('submit', async (event) => {
