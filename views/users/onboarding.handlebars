@@ -4,12 +4,18 @@
         <section>
             <label for="firstName">
                 First Name
-                <input id="firstName" type="text" name="firstName" placeholder="First Name" value="{{user.firstName}}" required/>
+                <input id="firstName" type="text" name="firstName" placeholder="First Name" value="{{user.firstName}}" 
+                {{#if user.firstName}} readonly
+                {{else}} required
+                {{/if}}/>
             </label>
 
             <label for="bDay">
                 Birthday (mm/dd/yyyy)
-                <input id="birthday" type="text" name="birthday" placeholder="mm/dd/yyyy" value="{{user.birthday}}" required/>
+                <input id="birthday" type="text" name="birthday" placeholder="mm/dd/yyyy" value="{{user.birthday}}" 
+                {{#if user.birthday}} readonly
+                {{else}} required
+                {{/if}}/>
             </label>
 
             <div id="borderContainer">
