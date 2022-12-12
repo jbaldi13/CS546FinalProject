@@ -69,14 +69,13 @@ async function cards () {
         matchContainer.appendChild(matchImg);
         matchContainer.appendChild(unmatchButton);
 
-        let mouseDown = false;
+
         let startX;
         function onMouseMove(event) {
             // Check if the matchContainer has been moved to the left by at least 50 pixels
             if (event.pageX < startX - 50) {
                 // If it has, reveal the unmatchButton
                 unmatchButton.style.display = 'block';
-
             }
             else if (event.pageX > startX + 50) {
                 unmatchButton.style.display = 'none';
@@ -89,13 +88,11 @@ async function cards () {
             // Store the starting position of the matchContainer
             startX = event.pageX;
 
-            mouseDown = true;
 
             matchContainer.addEventListener('mousemove', onMouseMove);
         });
 
-        matchContainer.addEventListener('mouseup', (event) => {
-            mouseDown = false;
+        document.addEventListener('mouseup', (event) => {
             matchContainer.removeEventListener('mousemove', onMouseMove);
         });
 
