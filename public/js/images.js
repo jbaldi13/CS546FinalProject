@@ -99,11 +99,37 @@ form1.addEventListener('submit', async (event) => {
     }
     try {
         const formData = new FormData();
+        //Rendering any images with a base name not seen before just breaks if there's no image with just that base name in the google cloud, so we have to upload it twice,
+        //once as the base name & once with the modified name to handle duplicate image names. Only the modified name appears to be used.
+        formData.append('images', proPic.files[0]);  
+        formData.append('images', addPic1.files[0]);  
+        formData.append('images', addPic2.files[0]);  
+        formData.append('images', addPic3.files[0]);  
 
-        formData.append('images', proPic.files[0]);
-        formData.append('images', addPic1.files[0]);
-        formData.append('images', addPic2.files[0]);
-        formData.append('images', addPic3.files[0]);
+
+        if(proPic.files[0]){
+            picName = proPic.files[0].name.substring(0, proPic.files[0].name.lastIndexOf('.'));
+            picType = proPic.files[0].name.substring(proPic.files[0].name.lastIndexOf('.'));
+            formData.append('images', proPic.files[0], picName + "-" + user._id.toString() + picType);  
+        }
+
+        if(addPic1.files[0]){
+            picName = addPic1.files[0].name.substring(0, addPic1.files[0].name.lastIndexOf('.'));
+            picType = addPic1.files[0].name.substring(addPic1.files[0].name.lastIndexOf('.'));
+            formData.append('images', addPic1.files[0], picName + "-" + user._id.toString() + picType);
+        }
+
+        if(addPic2.files[0]){
+            picName = addPic2.files[0].name.substring(0, addPic2.files[0].name.lastIndexOf('.'));
+            picType = addPic2.files[0].name.substring(addPic2.files[0].name.lastIndexOf('.'));
+            formData.append('images', addPic2.files[0], picName + "-" + user._id.toString() + picType);
+        }
+
+        if(addPic3.files[0]){
+            picName = addPic3.files[0].name.substring(0, addPic3.files[0].name.lastIndexOf('.'));
+            picType = addPic3.files[0].name.substring(addPic3.files[0].name.lastIndexOf('.'));
+            formData.append('images', addPic3.files[0], picName + "-" + user._id.toString() + picType);
+        }
 
         let res = await fetch('/users/onboarding/images', {
             method: 'POST',
@@ -121,14 +147,16 @@ form1.addEventListener('submit', async (event) => {
 
         for (const url of imageUrls) {
             currUrlId = url.id.replace(/%20/g, ' ');
+            picName = url.id.substring(0, url.id.lastIndexOf('.'));
+            picType = url.id.substring(url.id.lastIndexOf('.'));
             if (currUrlId === proPic.files[0]?.name) {
-                currUrl = url.storage.apiEndpoint + '/' +  url.bucket.name + '/' + url.id;
+                currUrl = url.storage.apiEndpoint + '/' +  url.bucket.name + '/' + picName + "-" + user._id.toString() + picType;
                 newData.images.profilePic = currUrl;
             }
             else if (currUrlId === addPic1.files[0]?.name ||
                 currUrlId === addPic2.files[0]?.name ||
                 currUrlId === addPic3.files[0]?.name) {
-                currUrl = url.storage.apiEndpoint + '/' +  url.bucket.name + '/' + url.id;
+                currUrl = url.storage.apiEndpoint + '/' +  url.bucket.name + '/' + picName + "-" + user._id.toString() + picType;
                 newData.images.otherPics.push(currUrl);
             }
         }
@@ -139,8 +167,8 @@ form1.addEventListener('submit', async (event) => {
 
     }
     catch (e) {
-        const message = typeof e === 'string' ? e : e.message;
-        errorTextElement.textContent = `Error: ${message}`;
+        //const message = typeof e === 'string' ? e : e.message;
+        errorTextElement.textContent = `Error: ${e}`;
         errorContainer.classList.remove('hidden');
     }
 });
