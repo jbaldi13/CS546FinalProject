@@ -59,11 +59,11 @@ async function main() {
             about: "Hi, I'm Mike",
             images: {
                 profilePic: "https://storage.googleapis.com/datespot_image_storage/Insta%20Pro%20Pic.JPG",
-                otherPics: {
-                    other1: "https://storage.googleapis.com/datespot_image_storage/me.jpeg",
-                    other2: "",
-                    other3: ""
-                }
+                otherPics: [
+                    "https://storage.googleapis.com/datespot_image_storage/me.jpeg",
+                    "",
+                    ""
+                ]
             },
             interests: {"Lakes": "lakes", "Rock Climbing": "rock_climbing",
                 "Italian": "italian", "Coffee & Tea": "coffee", "Bars": "bars",
@@ -98,11 +98,11 @@ async function main() {
             about: "",
             images: {
                 profilePic: 'https://storage.googleapis.com/datespot_image_storage/IMG_5365.jpg',
-                otherPics: {
-                    other1: "https://storage.googleapis.com/datespot_image_storage/IMG_5367.jpg",
-                    other2: "https://storage.googleapis.com/datespot_image_storage/IMG_5366.jpg",
-                    other3: ""
-                }
+                otherPics: [
+                    "https://storage.googleapis.com/datespot_image_storage/IMG_5367.jpg",
+                    "https://storage.googleapis.com/datespot_image_storage/IMG_5366.jpg",
+                    ""
+                ]
             },
             interests: {"Lakes": "lakes", "Bars": "bars", "Rock Climbing": "rock_climbing", "Italian": "italian"},
             matches: [],
@@ -139,11 +139,11 @@ async function main() {
             about: "",
             images: {
                 profilePic: "https://storage.googleapis.com/datespot_image_storage/Jessica_1.jpg",
-                otherPics: {
-                    other1: "https://storage.googleapis.com/datespot_image_storage/Jessica_2.jpg",
-                    other2: "https://storage.googleapis.com/datespot_image_storage/Jessica_3.jpg",
-                    other3: "https://storage.googleapis.com/datespot_image_storage/Jessica_4.jpg"
-                }
+                otherPics: [
+                    "https://storage.googleapis.com/datespot_image_storage/Jessica_2.jpg",
+                    "https://storage.googleapis.com/datespot_image_storage/Jessica_3.jpg",
+                    "https://storage.googleapis.com/datespot_image_storage/Jessica_4.jpg"
+                ]
             },
             interests: {"Coffee & Tea": "coffee", "Lakes": "lakes", "Bars": "bars", "Italian": "italian"},
             matches: [],
@@ -179,11 +179,11 @@ async function main() {
             about: "",
             images: {
                 profilePic: "https://storage.googleapis.com/datespot_image_storage/Luna_1.jpg",
-                otherPics: {
-                    other1: "https://storage.googleapis.com/datespot_image_storage/Luna_2.jpg",
-                    other2: "https://storage.googleapis.com/datespot_image_storage/Luna_3.jpg",
-                    other3: ""
-                }
+                otherPics: [
+                    "https://storage.googleapis.com/datespot_image_storage/Luna_2.jpg",
+                    "https://storage.googleapis.com/datespot_image_storage/Luna_3.jpg",
+                    ""
+                ]
             },
             interests: {"Coffee & Tea": "coffee", "Brazilian": "brazilian", "Comedy Clubs": "comedyclubs"},
             matches: [],
@@ -219,11 +219,11 @@ async function main() {
             about: "",
             images: {
                 profilePic: "https://storage.googleapis.com/datespot_image_storage/Jackie_1.jpg",
-                otherPics: {
-                    other1: "https://storage.googleapis.com/datespot_image_storage/Jackie_2.jpg",
-                    other2: "https://storage.googleapis.com/datespot_image_storage/Jackie_3.jpg",
-                    other3: ""
-                }
+                otherPics: [
+                    "https://storage.googleapis.com/datespot_image_storage/Jackie_2.jpg",
+                    "https://storage.googleapis.com/datespot_image_storage/Jackie_3.jpg",
+                    ""
+                ]
             },
             interests: {"Coffee & Tea": "coffee", "Brazilian": "brazilian", "Comedy Clubs": "comedyclubs"},
             matches: [],
@@ -259,11 +259,11 @@ async function main() {
             about: "",
             images: {
                 profilePic: "https://storage.googleapis.com/datespot_image_storage/alexa_1.jpg",
-                otherPics: {
-                    other1: "https://storage.googleapis.com/datespot_image_storage/alexa_2.jpg",
-                    other2: "https://storage.googleapis.com/datespot_image_storage/alexa_3.jpg",
-                    other3: ""
-                }
+                otherPics: [
+                    "https://storage.googleapis.com/datespot_image_storage/alexa_2.jpg",
+                    "https://storage.googleapis.com/datespot_image_storage/alexa_3.jpg",
+                    ""
+                ]
             },
             interests: {"Coffee & Tea": "coffee", "Brazilian": "brazilian", "Comedy Clubs": "comedyclubs"},
             matches: [],

@@ -14,6 +14,8 @@ const {getUserById, updateUser, getUserByEmail, getDateSpots} = require("../data
 const {Storage} = require("@google-cloud/storage");
 const Multer = require("multer");
 const mongodb = require('mongodb');
+const xss = require('xss');
+const { request } = require('express');
 
 // Get and post login page
 router
@@ -52,8 +54,8 @@ router
         //let email = helpers.checkEmail(req.body.userEmail)
         //let password = helpers.checkPassword(req.body.userPassword)
 
-        let email = req.body.userEmail.toLowerCase();
-        let password = req.body.userPassword;
+        let email = xss(req.body.userEmail.toLowerCase());
+        let password = xss(req.body.userPassword);
         let response = await userData.checkUser(email, password);
         if(response.authenticatedUser === true){
           req.session.user = {email: email};
@@ -114,9 +116,9 @@ router
   })
   .post(async (req, res) => {
       try {
-          let email = helpers.checkEmail(req.body.userEmail);
-          let password = helpers.checkPassword(req.body.userPassword);
-          let conPassword = helpers.checkPassword(req.body.conUserPassword);
+          let email = helpers.checkEmail(xss(req.body.userEmail));
+          let password = helpers.checkPassword(xss(req.body.userPassword));
+          let conPassword = helpers.checkPassword(xss(req.body.conUserPassword));
 
           if(password !== conPassword){
               throw {errorMessage: "Error: your passwords do not match", status: 400};
@@ -189,9 +191,11 @@ router
         userId = userId._id;
         userId = checkId(userId, 'User ID');
         if (requestBody.firstName) {
+            requestBody.firstname = xss(requestBody.firstName); 
             requestBody.firstName = checkFirstName(requestBody.firstName);
         }
         if (requestBody.birthday) {
+            requestBody.birthday = xss(requestBody.birthday); 
             requestBody.birthday = checkBirthday(requestBody.birthday);
         }
         if (requestBody.gender) {
@@ -207,6 +211,7 @@ router
             requestBody.showPronouns = checkShowOnProfile(requestBody.showPronouns, "Show pronouns");
         }
         if (requestBody.about) {
+            requestBody.about = xss(requestBody.about); 
             requestBody.about = checkAbout(requestBody.about);
         }
         if (requestBody.interests) {
@@ -219,6 +224,12 @@ router
             requestBody.filters = checkFilters(requestBody.filters);
         }
         if (requestBody.images) {
+            requestBody.images.profilePic = xss(requestBody.images.profilePic); 
+            if(requestBody.images.otherPics){
+                for(i = 0; i<requestBody.images.otherPics.length; i++){
+                    requestBody.images.otherPics[i] = xss(requestBody.images.otherPics[i]); 
+                } 
+            }
             requestBody.images = checkImages(requestBody.images);
         }
         if (requestBody.userMatches) { //if userMatches in req body, then the req body also contains the following
