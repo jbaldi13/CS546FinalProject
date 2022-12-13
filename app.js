@@ -14,6 +14,7 @@ const Multer = require("multer");
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const messages = mongoCollections.messages;
+const xss = require('xss');
 
 
 // Connect to Socket.io
@@ -37,8 +38,8 @@ io.on('connection', async function (socket) {
 
     // Handle input events
     socket.on('input', function (data) {
-        let name = data.name;
-        let message = data.message;
+        let name = xss(data.name);
+        let message = xss(data.message);
         let fromUserId = data.fromUserId;
         let toUserId = data.toUserId;
 
