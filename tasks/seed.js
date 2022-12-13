@@ -59,11 +59,7 @@ async function main() {
             about: "Hi, I'm Mike",
             images: {
                 profilePic: "https://storage.googleapis.com/datespot_image_storage/Insta%20Pro%20Pic.JPG",
-                otherPics: [
-                    "https://storage.googleapis.com/datespot_image_storage/me.jpeg",
-                    "",
-                    ""
-                ]
+                otherPics: ["https://storage.googleapis.com/datespot_image_storage/me.jpeg"]
             },
             interests: {"Lakes": "lakes", "Rock Climbing": "rock_climbing",
                 "Italian": "italian", "Coffee & Tea": "coffee", "Bars": "bars",
@@ -99,9 +95,8 @@ async function main() {
             images: {
                 profilePic: 'https://storage.googleapis.com/datespot_image_storage/IMG_5365.jpg',
                 otherPics: [
-                    "https://storage.googleapis.com/datespot_image_storage/IMG_5367.jpg",
+                   "https://storage.googleapis.com/datespot_image_storage/IMG_5367.jpg",
                     "https://storage.googleapis.com/datespot_image_storage/IMG_5366.jpg",
-                    ""
                 ]
             },
             interests: {"Lakes": "lakes", "Bars": "bars", "Rock Climbing": "rock_climbing", "Italian": "italian"},
@@ -182,7 +177,6 @@ async function main() {
                 otherPics: [
                     "https://storage.googleapis.com/datespot_image_storage/Luna_2.jpg",
                     "https://storage.googleapis.com/datespot_image_storage/Luna_3.jpg",
-                    ""
                 ]
             },
             interests: {"Coffee & Tea": "coffee", "Brazilian": "brazilian", "Comedy Clubs": "comedyclubs"},
@@ -222,7 +216,6 @@ async function main() {
                 otherPics: [
                     "https://storage.googleapis.com/datespot_image_storage/Jackie_2.jpg",
                     "https://storage.googleapis.com/datespot_image_storage/Jackie_3.jpg",
-                    ""
                 ]
             },
             interests: {"Coffee & Tea": "coffee", "Brazilian": "brazilian", "Comedy Clubs": "comedyclubs"},
@@ -262,7 +255,6 @@ async function main() {
                 otherPics: [
                     "https://storage.googleapis.com/datespot_image_storage/alexa_2.jpg",
                     "https://storage.googleapis.com/datespot_image_storage/alexa_3.jpg",
-                    ""
                 ]
             },
             interests: {"Coffee & Tea": "coffee", "Brazilian": "brazilian", "Comedy Clubs": "comedyclubs"},
