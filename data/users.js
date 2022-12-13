@@ -10,6 +10,8 @@ const {checkFirstName, checkBirthday, checkInterests, getAge,
 const bcrypt = require("bcryptjs");
 const axios = require("axios");
 const saltRounds = 16;
+const requestIp = require('request-ip');
+const ipInfo = require('ipinfo');
 
 const createUser = async (email, password) => {
     email = helpers.checkEmail(email);
@@ -329,4 +331,22 @@ const getDateSpots = async (userInterests, matchInterests, latitude, longitude, 
     return dateSpots;
 };
 
-module.exports = {getDateSpots, createUser, checkUser, getUserById, getUserByEmail, getAllUsers, getAllCompatibleUsers, removeUser, updateUser, validateOtherUserData};
+async function getLocation() {
+    // Make a GET request to the API endpoint, passing in the IP address as a query parameter
+    const response = await fetch(`http://api.ipapi.com/96.225.87.238?access_key=ee331d210a776af89a3b7ed188fcf77e`);
+
+    // Parse the JSON response
+    const data = await response.json();
+
+    return {
+        location: {
+            latitude: data.latitude,
+            longitude: data.longitude,
+            city: data.city,
+            principalSubdiv: data.region_name
+        }
+    };
+}
+
+
+module.exports = {getLocation, getDateSpots, createUser, checkUser, getUserById, getUserByEmail, getAllUsers, getAllCompatibleUsers, removeUser, updateUser, validateOtherUserData};

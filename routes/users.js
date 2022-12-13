@@ -10,9 +10,10 @@ const {checkId, checkFirstName, checkBirthday, checkInterests, checkGender, chec
     checkMatches,
     checkUsersSeen
 } = require("../helpers");
-const {getUserById, updateUser, getUserByEmail, getDateSpots} = require("../data/users");
+const {getUserById, updateUser, getUserByEmail, getDateSpots, getLocation} = require("../data/users");
 const {Storage} = require("@google-cloud/storage");
 const Multer = require("multer");
+const axios = require("axios");
 const mongodb = require('mongodb');
 
 // Get and post login page
@@ -46,6 +47,7 @@ router
         }
     }
   })
+// const response = await axios.patch(`/users/onboarding`, newLocationData);
   .post(async (req, res) => {
     try{
         //shouldnt do input error checking on log in for security reasons
@@ -55,10 +57,13 @@ router
         let email = req.body.userEmail.toLowerCase();
         let password = req.body.userPassword;
         let response = await userData.checkUser(email, password);
-        if(response.authenticatedUser === true){
-          req.session.user = {email: email};
-          console.log(req.session.user);
-          res.redirect("/users/dashboard");
+        if (response.authenticatedUser === true) {
+            req.session.user = {email: email};
+            let updatedLocationData = await getLocation();
+            updatedLocationData.sessionData = req.session;
+            let response = await axios.patch('http://localhost:3000/users/onboarding', updatedLocationData);
+            res.redirect("/users/dashboard");
+
         }
         else{
           //User is not authenticated, but checkUser didn't error so it's not because of bad input
@@ -175,16 +180,20 @@ router
   })
   .patch(async (req, res) => {
       const requestBody = req.body;
-      // console.log(requestBody);
+      console.log(requestBody);
       let updatedObject = {};
       let userId = null;
       try{
-        if(req.session.user){
-            userId = helpers.checkEmail(req.session.user.email);
+        if(req.session.user || req.body.sessionData){
+            if (req.body.sessionData) userId = helpers.checkEmail(req.body.sessionData.user.email);
+            else {
+                userId = helpers.checkEmail(req.session.user.email);
+            }
+
         }
         else{
             res.redirect("/");
-        }  
+        }
         userId = await getUserByEmail(userId);
         userId = userId._id;
         userId = checkId(userId, 'User ID');
@@ -255,7 +264,7 @@ router
         if (requestBody.interests && JSON.stringify(requestBody.interests) !== JSON.stringify(oldUser.interests)) {
             updatedObject.interests = requestBody.interests;
         }
-        if (requestBody.location) {
+        if (requestBody.location && JSON.stringify(requestBody.location) !== JSON.stringify(oldUser.location)) {
             updatedObject.location = requestBody.location;
         }
         if (requestBody.filters && JSON.stringify(requestBody.filters) !== JSON.stringify(oldUser.filters)) {
