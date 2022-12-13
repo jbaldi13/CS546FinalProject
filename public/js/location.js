@@ -41,6 +41,7 @@ async function getLocation() {
 
         try {
             const res = await axios.patch(`/users/onboarding`, newData);
+            window.location.href = `/users/onboarding/filters`;
         }
         catch (e) {
             loader.hidden = true;
