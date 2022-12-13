@@ -33,7 +33,7 @@ async function getLocation() {
         locationData = await locationData.then();
         console.log(locationData);
 
-        let city = locationData.city;
+        let city = locationData.locality;
         let principalSubdiv = locationData.principalSubdivision;
         const newData = {
             location: {latitude: latitude, longitude: longitude, city: city, principalSubdiv: principalSubdiv}
