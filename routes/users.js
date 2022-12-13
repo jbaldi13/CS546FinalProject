@@ -194,9 +194,7 @@ router
         else{
             res.redirect("/");
         }
-        console.log('1');
         userId = await getUserByEmail(userId);
-        console.log('2');
         userId = userId._id;
         userId = checkId(userId, 'User ID');
         if (requestBody.firstName) {
@@ -287,7 +285,6 @@ router
                 userId,
                 updatedObject
             );
-            console.log(3);
             if (requestBody.userMatches) {
                 const updatedMatchUser = await updateUser( // update match for other user as well
                     requestBody.currCompatUserId,
