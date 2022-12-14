@@ -87,33 +87,37 @@
     <div id="dateSpotsContainer" class="profileCard">
         <h2>Date Ideas for You and {{match.firstName}}:</h2>
         <div id="dateSpotsContainer2">
-            {{#each dateSpots}}
-                <li>
-                    <h3>Because you both like {{interestCategory}}...</h3>
-                    <div>
-                        <i class="arrow right"></i>
-                        <div class="businessDivDiv" style="display: none">
-                            {{#each businesses.businesses}}
-                                <div class="businessDiv">
-                                    {{#if image_url}}
-                                        <img src={{image_url}}>
-                                    {{else}}
-                                        <img src='../../public/images/no_preview.jpeg'>
-                                    {{/if}}
-                                    <div class="businessInfo">
-                                        <a href="{{url}}">{{name}}</a>
-                                        {{#if price}}
-                                            <p>Price: <span class="price">{{price}}</span></p>
+            {{#if dateSpots}}
+                {{#each dateSpots}}
+                    <li>
+                        <h3>Because you both like {{interestCategory}}...</h3>
+                        <div>
+                            <i class="arrow right"></i>
+                            <div class="businessDivDiv" style="display: none">
+                                {{#each businesses.businesses}}
+                                    <div class="businessDiv">
+                                        {{#if image_url}}
+                                            <img src={{image_url}}>
+                                        {{else}}
+                                            <img src='../../public/images/no_preview.jpeg'>
                                         {{/if}}
-                                        <p>{{location.address1}}</p>
-                                        <p>{{location.city}}, {{location.state}} {{location.zip_code}}</p>
+                                        <div class="businessInfo">
+                                            <a href="{{url}}">{{name}}</a>
+                                            {{#if price}}
+                                                <p>Price: <span class="price">{{price}}</span></p>
+                                            {{/if}}
+                                            <p>{{location.address1}}</p>
+                                            <p>{{location.city}}, {{location.state}} {{location.zip_code}}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            {{/each}}
+                                {{/each}}
+                            </div>
                         </div>
-                    </div>
-                </li>
-            {{/each}}
+                    </li>
+                {{/each}}
+            {{else}}
+                <p>There are no date ideas to show because either you or {{match.firstName}} changed their interests since matching</p>
+            {{/if}}
         </div>
 
     </div>
