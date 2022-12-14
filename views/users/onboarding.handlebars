@@ -7,7 +7,7 @@
                 <input id="firstName" type="text" name="firstName" placeholder="First Name" value="{{user.firstName}}" required/>
             </label>
 
-            <label for="bDay">
+            <label for="birthday">
                 Birthday (mm/dd/yyyy)
                 <input id="birthday" type="text" name="birthday" placeholder="mm/dd/yyyy" value="{{user.birthday}}" required/>
             </label>
@@ -51,7 +51,7 @@
                         <input id="showPronouns" type="checkbox" name="showPronouns"
                         {{#if (checkboxChecked user.showPronouns)}}
                            checked
-                        {{/if}}>>
+                        {{/if}}>
                     </div>
                 </div>
             </div>
