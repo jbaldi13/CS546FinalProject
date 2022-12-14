@@ -182,7 +182,7 @@ router
   })
   .patch(async (req, res) => {
       const requestBody = req.body;
-      console.log(requestBody);
+      // console.log(requestBody);
       let updatedObject = {};
       let userId = null;
       try{
@@ -551,7 +551,8 @@ router.get('/dashboard/:id', async(req,res) =>{
         match = await getUserById(matchId);
 
         let dateSpots = await getDateSpots(user.interests, match.interests,
-            user.location.latitude, user.location.longitude, user.filters.maxDistance);
+            user.location.latitude, user.location.longitude, match.location.latitude,
+            match.location.longitude);
 
 
         res.render('dashboard/match', {
