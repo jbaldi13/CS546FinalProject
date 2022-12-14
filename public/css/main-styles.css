@@ -3,6 +3,7 @@
 html, body {
     margin: 0;
     padding: 0;
+    background-color: rgb(76, 0, 19)     /*Never visibile because of background image, but necessary to pass tota11y because otherwise it assumes the background is white*/
 }
 
 * {
@@ -170,6 +171,13 @@ nav {
     color: white;
     font-size: 1.75rem;
     font-weight: bold;
+}
+
+/*Color of sign-up & login links when hovered over
+  Originally a different color but I cannot for the life of me
+  find where it is.*/
+.redirect-to-login:hover, .redirect-to-signup:hover {
+    color: rgb(0, 155, 167);
 }
 
 .password-information {

@@ -13,38 +13,38 @@
         <div class="sub-menu-wrap" id="subMenu">
             <div class="sub-menu">
                 <div class="sub-menu-link">
-                    <img id="profileImg" src={{user.images.profilePic}}>
+                    <img id="profileImg" alt="Your profile picture" src={{user.images.profilePic}}>
                     <p id="profileP">{{user.firstName}}</p>
                 </div>
                 <hr>
                 <a href="/users/dashboard" class="sub-menu-link">
-                    <img src="/public/images/icons/homepage_icon.png">
+                    <img src="/public/images/icons/homepage_icon.png" alt="Return to Homepage">
                     <p>Home</p>
                     <span>></span>
                 </a>
                 <a href="/users/onboarding" class="sub-menu-link">
-                    <img src="/public/images/icons/edit_profile_icon.png">
+                    <img src="/public/images/icons/edit_profile_icon.png" alt="Edit Profile">
                     <p>Edit Profile</p>
                     <span>></span>
                 </a>
                 <a href="/users/onboarding/filters" class="sub-menu-link">
-                    <img src="/public/images/icons/update_filters_icon.png">
+                    <img src="/public/images/icons/update_filters_icon.png" alt="Edit Dating Filters">
                     <p>Update Filters</p>
                     <span>></span>
                 </a>
                 <a href="/users/onboarding/images" class="sub-menu-link">
-                    <img src="/public/images/icons/update_photos_icon.webp">
+                    <img src="/public/images/icons/update_photos_icon.webp" alt="Edit Photos">
                     <p>Update Photos</p>
                     <span>></span>
                 </a>
                 <a href="/users/logout" class="sub-menu-link">
-                    <img src="/public/images/icons/sign_out_icon.png">
+                    <img src="/public/images/icons/sign_out_icon.png" alt="Logout">
                     <p>Sign Out</p>
                     <span>></span>
                 </a>
             </div>
         </div>
-        <img src="/public/images/Hamburger_menu_icon.jpg" class="hamburgerMenu" onclick="toggleMenu();" hidden>
+        <img alt="Menu Button" src="/public/images/Hamburger_menu_icon.jpg" class="hamburgerMenu" onclick="toggleMenu();" hidden>
     </nav>
     <h1>{{h1}}</h1>
     <main>
