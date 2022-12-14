@@ -12,6 +12,7 @@ const axios = require("axios");
 const saltRounds = 16;
 const requestIp = require('request-ip');
 const ipInfo = require('ipinfo');
+const fetch = require('node-fetch');
 
 const createUser = async (email, password) => {
     email = helpers.checkEmail(email);
