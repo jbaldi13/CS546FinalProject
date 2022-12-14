@@ -1,0 +1,24 @@
+<h2>{{user.firstName}}</h2>
+<img src="{{user.proPic}}" alt="Profile Pic">
+<dl>
+    <dt>ID</dt>
+    <dd>{{user._id}}</dd>
+    <dt>First Name</dt>
+    <dd>{{user.firstName}}</dd>
+    <dt>Email</dt>
+    <dd>{{user.email}}</dd>
+    <dt>Location</dt>
+    <dd>{{user.location}}</dd>
+    <dt>Birthday</dt>
+    <dd>{{user.dobMonth}}/{{user.dobDay}}/{{user.dobYear}}</dd>
+    {{#if user.showGender}}  
+        <dt>Gender</dt>
+        <dd>{{user.gender}}</dd>
+    {{/if}}
+    <dt>Sexual Orientation</dt>
+    <dd>{{user.sexualOrientation}}</dd>
+    <dt>About</dt>
+    <dd>{{user.about}}</dd>
+    
+
+</dl> 
