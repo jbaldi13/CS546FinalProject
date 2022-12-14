@@ -31,10 +31,12 @@
     "method-override": "^3.0.0",
     "mongodb": "^4.11.0",
     "multer": "^1.4.5-lts.1",
+    "node-fetch": "^2.6.1",
     "node-watch": "^0.7.3",
     "nodemon": "^2.0.20",
     "request-ip": "^3.3.0",
     "socket.io": "^4.5.4",
-    "ws": "^8.11.0"
+    "ws": "^8.11.0",
+    "xss": "^1.0.14"
   }
 }

@@ -12,7 +12,8 @@ const axios = require("axios");
 const saltRounds = 16;
 const requestIp = require('request-ip');
 const ipInfo = require('ipinfo');
-const haversine = require('haversine-distance');
+const fetch = require('node-fetch');
+
 
 const createUser = async (email, password) => {
     email = helpers.checkEmail(email);
