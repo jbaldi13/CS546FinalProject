@@ -12,6 +12,7 @@ const axios = require("axios");
 const saltRounds = 16;
 const requestIp = require('request-ip');
 const ipInfo = require('ipinfo');
+const haversine = require('haversine-distance');
 
 const createUser = async (email, password) => {
     email = helpers.checkEmail(email);
@@ -314,17 +315,76 @@ const validateOtherUserData = async(email) => {
     }
 };
 
-const getDateSpots = async (userInterests, matchInterests, latitude, longitude, maxDistance) => {
+function toRadians(degrees) {
+    return degrees * (Math.PI / 180);
+}
+
+function toDegrees(radians) {
+    return radians * (180 / Math.PI);
+}
+
+
+function getMidpoint(lat1, lng1, lat2, lng2) {
+    // // Calculate the great-circle distance between the two coordinates
+    // // using the Haversine formula
+    // const distance = haversine({latitude: lat1, longitude: lng1}, {latitude: lat2, longitude: lng2});
+    // console.log(distance);
+    //
+    // // Calculate the bearing between the two coordinates
+    // const y = Math.sin(lng2 - lng1) * Math.cos(lat2);
+    // const x = Math.cos(lat1) * Math.sin(lat2) -
+    //     Math.sin(lat1) * Math.cos(lat2) * Math.cos(lng2 - lng1);
+    // const bearing = Math.atan2(y, x);
+    //
+    // // Calculate the midpoint using the distance and bearing
+    // const lat3 = Math.asin(Math.sin(lat1) * Math.cos(distance / 2) +
+    //     Math.cos(lat1) * Math.sin(distance / 2) * Math.cos(bearing));
+    // const lng3 = lng1 + Math.atan2(Math.sin(bearing) * Math.sin(distance / 2) * Math.cos(lat1),
+    //     Math.cos(distance / 2) - Math.sin(lat1) * Math.sin(lat3));
+    //
+    // return [lat3, lng3];
+    // Convert latitude and longitude to radians
+    lat1 = lat1 * (Math.PI / 180);
+    lng1 = lng1 * (Math.PI / 180);
+    lat2 = lat2 * (Math.PI / 180);
+    lng2 = lng2 * (Math.PI / 180);
+
+    // Calculate the delta values for latitude and longitude
+    const dLat = lat2 - lat1;
+    const dLng = lng2 - lng1;
+
+    // Calculate the midpoint using the Haversine formula
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(lat1) * Math.cos(lat2) *
+        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const d = 6371 * c;
+
+    const lat3 = lat1 + (dLat / 2);
+    const lng3 = lng1 + (dLng / 2);
+
+    // Convert the midpoint from radians back to degrees
+    return [lat3 * (180 / Math.PI), lng3 * (180 / Math.PI)];
+
+}
+
+
+
+const getDateSpots = async (userInterests, matchInterests, userLat, userLon,
+                            matchLat, matchLon) => {
     let dateSpots = [];
     const config = {
         headers: { Authorization: `Bearer ETLfinv9BVg1mjN7Afn4VCXWjFruJIHItswAdyRJEEHhyCvEFoD5ghgr016hD0FpZ3Gpm0R-HiOY64MFbOOFlnye0yTfRXPHfUGNii7RwhY8iHAhaih-n4v_YMBtY3Yx` }
     };
 
     const mutualInterests = getMutualInterests(userInterests, matchInterests);
-    maxDistance = maxDistance * 1608.344; // convert miles to meters for radius parameter
-    maxDistance = parseInt(maxDistance); // convert radius to whole number bc yelp requires whole # for radius
+    const midpoint = getMidpoint(userLat, userLon, matchLat, matchLon);
+    // console.log(midpoint);
+    const lat = midpoint[0];
+    const lon = midpoint[1];
+
     for (let mutualInterest in mutualInterests) {
-        const {data} = await axios.get(`https://api.yelp.com/v3/businesses/search?categories=${mutualInterests[mutualInterest]}&latitude=${latitude}&longitude=${longitude}&radius=${maxDistance}`, config);
+        const {data} = await axios.get(`https://api.yelp.com/v3/businesses/search?categories=${mutualInterests[mutualInterest]}&latitude=${lat}&longitude=${lon}`, config);
         dateSpots.push({interestCategory: mutualInterest, businesses: data});
     }
 
