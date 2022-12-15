@@ -83,6 +83,8 @@ Click the button labeled "SUBMIT". You will be taken to another page to continue
 Upload a profile picture.
 
 Click the button labeled "SUBMIT". Onboarding is now complete and you will be brought to the dashboard.
+
+Warning: Depending on the the settings you choose during onboarding, you might not have any compatible users on the dashboard page.
 ** **
 **LOGGING IN AND SIGNING OUT**
 
