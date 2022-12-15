@@ -10,12 +10,12 @@
             <div class="swiper-wrapper">
                 <!-- Add a div for each image in the slider -->
                 <div class="swiper-slide">
-                    <img src={{match.images.profilePic}} class="swiperImg">
+                    <img alt="" src={{match.images.profilePic}} class="swiperImg">
                 </div>
                 {{#each match.images.otherPics}}
                     {{#if this}}
                         <div class="swiper-slide">
-                            <img src={{this}} class="swiperImg">
+                            <img alt="" src={{this}} class="swiperImg">
                         </div>
                     {{/if}}
                 {{/each}}
@@ -78,6 +78,7 @@
                             </div>
                         </div>
                         <br>
+                        <label for="textarea">Enter message here</label>
                         <textarea id="textarea" class="form-control" placeholder="Enter message..."></textarea>
                     </div>
                 </div>
@@ -97,9 +98,9 @@
                                 {{#each businesses.businesses}}
                                     <div class="businessDiv">
                                         {{#if image_url}}
-                                            <img src={{image_url}}>
+                                            <img alt="" src={{image_url}}>
                                         {{else}}
-                                            <img src='../../public/images/no_preview.jpeg'>
+                                            <img alt="" src='../../public/images/no_preview.jpeg'>
                                         {{/if}}
                                         <div class="businessInfo">
                                             <a href="{{url}}">{{name}}</a>
