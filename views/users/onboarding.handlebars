@@ -2,6 +2,7 @@
     <h2 class="neon">CREATE ACCOUNT</h2>
     <form id="onboardingForm" action="/users/onboarding" method="post">
         <section>
+            <h3 hidden>Basic Info</h3>
             <label for="firstName">
                 First Name
                 <input id="firstName" type="text" name="firstName" placeholder="First Name" value="{{user.firstName}}" required>
@@ -66,6 +67,7 @@
             </div>
         </section>
         <section>
+            <h3 hidden>Interests</h3>
             <div class="multi-select-container">
                 <label for="interests">Interests<br>(Select 3-10)</label>
                 <select multiple id="interests" name="interests" size="32" required>
