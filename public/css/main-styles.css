@@ -144,10 +144,11 @@ nav {
     color: white;
     font-size: 2rem;
     font-weight: bold;
-    margin-top: 10%;
+    margin: 10% auto;
     /*margin-left: 20%;*/
     /*margin-right: 20%;*/
     text-align: center;
+    width: 50%;
 }
 
 /* Login Page */
@@ -171,6 +172,11 @@ nav {
     margin-top: 10px;
 }
 
+#signupForm  {
+    width: 70%;
+    margin: auto;
+}
+
 .redirect-to-login {
     margin-top: 15px;
     color: white;
@@ -188,7 +194,7 @@ nav {
 .password-information {
     position: absolute;
     top: 225px;
-    left: 70%;
+    left: 65%;
     width: 50px;
     height: 50px;
     color: white;
