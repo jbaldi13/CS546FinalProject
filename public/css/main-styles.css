@@ -195,7 +195,7 @@ nav {
     position: absolute;
     top: 225px;
     left: 65%;
-    width: 50px;
+    width: 20%;
     height: 50px;
     color: white;
     font-size: 1.50rem;
@@ -227,6 +227,10 @@ h2 {
     padding: 20px;
     margin: 20px;
     width: 40%;
+}
+
+#onboardingSection1 {
+    width: 25%;
 }
 
 .onboarding label{
