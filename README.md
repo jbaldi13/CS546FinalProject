@@ -6,7 +6,9 @@
 
 **Description:** A dating website that initially prompts users to select their dating preferences in which they will choose 3-10 interest categories that they enjoy going to or doing. Then, the website recommends people with compatible dating preferences to the user. Finally, after a match between users, it uses the Yelp Fusion API to recommend places nearby or upcoming events that fall under the mutually specified interest category selections for date ideas. For example, if both users like pop music, it could recommend upcoming pop concerts. Or if they both like coffee, it could recommend local coffee shops.
 
-**Features:** Homepage, Onboarding Page, Dashboard, Instant Chat, Date Recommendation Section
+**Core Features:** Homepage, Onboarding Page, Dashboard, Instant Chat, Date Recommendation Section
+
+**Extra Features:** Add and View Additional Photos, Ability to Unmatch with Users
 
 **Services:** MongoDB, Google Cloud Platform
 
