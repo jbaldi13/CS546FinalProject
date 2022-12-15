@@ -14,8 +14,10 @@
     <div class="popup">
         <h2 id="popupH2"></h2>
         <div id="popupInnerDiv">
+            {{#if user.images.profilePic}}
             <img id="popupMatchImg1" alt="" src="{{user.images.profilePic}}">
             <img id="popupMatchImg2" alt="" src="">
+            {{/if}}
         </div>
         <b class="close">x</b>
     </div>
