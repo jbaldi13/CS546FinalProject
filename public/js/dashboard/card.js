@@ -39,6 +39,7 @@ class Card {
         const img = document.createElement('img');
         img.src = this.imageUrl;
         img.draggable = false;
+        img.alt = "";
         card.append(img);
 
         this.element = card;

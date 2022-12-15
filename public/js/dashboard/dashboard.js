@@ -61,9 +61,11 @@ async function cards () {
         const matchImg = document.createElement('img');
         matchImg.src = match.images.profilePic;
         matchImg.draggable = false;
+        matchImg.alt = "";
         let unmatchButton = document.createElement('button');
         unmatchButton.innerHTML = 'Unmatch';
         unmatchButton.style.display = 'none';
+        unmatchButton.style.backgroundColor = '#ee0000';
         matchContainer.appendChild(matchId);
         matchContainer.appendChild(a);
         matchContainer.appendChild(matchImg);
