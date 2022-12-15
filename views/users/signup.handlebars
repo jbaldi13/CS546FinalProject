@@ -1,18 +1,18 @@
 <div class="onboarding">
-    <h2 class="neon">CREATE ACCOUNT</h2>
+    <h1 class="neon">CREATE ACCOUNT</h1>
     <form id="signupForm" action="/users/signup" method="post">
-        <section>
+        <div>
             <label for="email">
                 Email
-                <input id="email" type="email" name="userEmail" placeholder="Email" value="" required/>
+                <input id="email" type="email" name="userEmail" placeholder="Email" value="" required>
             </label>
             <label for="password">
                 Password
-                <input id="password" type="password" name="userPassword" placeholder="Password" value="{{userPassword}}" required/>
+                <input id="password" type="password" name="userPassword" placeholder="Password" value="{{userPassword}}" required>
             </label>
             <label for="confirmPassword">
                 Confirm Password
-                <input id="confirmPassword" type="password" name="conUserPassword" placeholder="Confirm Password" value="{{conUserPassword}}" required/>
+                <input id="confirmPassword" type="password" name="conUserPassword" placeholder="Confirm Password" value="{{conUserPassword}}" required>
             </label>
             <div class="form-group hidden" id="error-container">
                 <div class="alert alert-danger text-goes-here">
@@ -22,14 +22,14 @@
                 <button id="signupButton" type="submit" class="homepage-buttons">Submit</button>
             </div>
             <a href="/users/login" class="redirect-to-login">Already have an account? Login here!</a>
-        </section>
-        <section class="password-information">
+        </div>
+        <div class="password-information">
             A valid password has: <br>
             At least 6 characters <br>
             At least 1 uppercase letter <br>
             At least 1 number <br>
             At least 1 special character
-        </section>
+        </div>
     </form>
 </div>
 <p>{{error}}</p>

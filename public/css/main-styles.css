@@ -16,13 +16,7 @@ p {
 
 }
 
-h1 {
-    color: white;
-    margin-top: 0;
-    font-size: 60px;
-}
-
-h3 {
+h2 {
     color: white;
 }
 
@@ -32,6 +26,8 @@ label {
 
 #homepageH1 {
     color: #fff;
+    margin-top: 0;
+    font-size: 60px;
     text-shadow:
             0 0 7px #fff,
             0 0 10px #fff,
@@ -124,7 +120,7 @@ nav {
 
  /*Home Page*/
 
-#dashH2 {
+#dashH1 {
     font-size: 50px;
     margin: 0;
 }
@@ -198,7 +194,7 @@ nav {
     margin-top: 10px;
 }
 
-h2 {
+h1 {
     color: white;
 }
 
@@ -209,7 +205,7 @@ h2 {
 }
 
 
-.onboarding form section {
+.onboarding form div {
     display: flex;
     flex-direction: column;
     vertical-align: middle;
@@ -435,7 +431,7 @@ h2 {
     /*width: max-content;*/
 }
 
-#imagesContainer h3 {
+#imagesContainer h2 {
     margin-bottom: 0;
 }
 
@@ -456,7 +452,7 @@ h2 {
 }
 
 /* Dashboard Page */
-.dashboard h3 {
+.dashboard h2 {
     font-size: 30px;
     font-weight: bold;
 }
@@ -757,7 +753,7 @@ h2 {
 
 }
 
-.popup h2 {
+.popup h1 {
     color: black;
 }
 
@@ -879,7 +875,7 @@ h2 {
     margin-top: 30px;
 }
 
-.profileCard h2 {
+.profileCard h1 {
     font-size: 35px;
 }
 
@@ -930,7 +926,7 @@ h2 {
     margin-top: 50px;
 }
 
-.chatContainer h3 {
+.chatContainer h2 {
     margin: 0;
 }
 
@@ -974,7 +970,7 @@ h2 {
     overflow-y: auto;
 }
 
-#dateSpotsContainer h3 {
+#dateSpotsContainer h2 {
     margin-top: 30px;
     margin-bottom: 3px;
 }

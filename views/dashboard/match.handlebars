@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 
-<h2 class="neon" id="dashH2">DateSpot</h2>
+<h1 class="neon" id="dashH1">DateSpot</h1>
 <p id="matchId" hidden>{{match._id}}</p>
 <div class="wrapper">
     <div class="profileCard">
@@ -23,7 +23,7 @@
             <!-- If we need pagination -->
             <div class="swiper-pagination"></div>
         </div>
-        <h2 id="matchName">{{match.firstName}}</h2>
+        <h1 id="matchName">{{match.firstName}}</h1>
         <div class="profile-card-info">
             <dl class="dl">
                 <div class="dlDiv">
@@ -67,7 +67,7 @@
                 <div>
                     <div class="backContainer">
                         <span class="back">&larr;</span>
-                        <h3 class="text-center">Chat</h3>
+                        <h2 class="text-center">Chat</h2>
                         <div class="right"></div>
                     </div>
                     <div id="status"></div>
@@ -86,12 +86,12 @@
         </div>
     </div>
     <div id="dateSpotsContainer" class="profileCard">
-        <h2>Date Ideas for You and {{match.firstName}}:</h2>
+        <h1>Date Ideas for You and {{match.firstName}}:</h1>
         <div id="dateSpotsContainer2">
             {{#if dateSpots}}
                 {{#each dateSpots}}
                     <li>
-                        <h3>Because you both like {{interestCategory}}...</h3>
+                        <h2>Because you both like {{interestCategory}}...</h2>
                         <div>
                             <i class="arrow right"></i>
                             <div class="businessDivDiv" style="display: none">

@@ -1,14 +1,14 @@
 <div class="onboarding">
-    <h2 class="neon">LOG IN</h2>
+    <h1 class="neon">LOG IN</h1>
     <form id="loginForm" action="/users/login" method="post">
         <section>
             <label for="email">
                 Email
-                <input id="email" name="userEmail" placeholder="Email" value="" required/>
+                <input id="email" name="userEmail" placeholder="Email" value="" required>
             </label>
             <label for="password">
                 Password
-                <input id="password" type="password" name="userPassword" placeholder="Password" value="{{userPassword}}" required/>
+                <input id="password" type="password" name="userPassword" placeholder="Password" value="{{userPassword}}" required>
             </label>
             <div class="form-group hidden" id="error-container">
                 <div class="alert alert-danger text-goes-here">

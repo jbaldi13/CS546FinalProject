@@ -13,8 +13,10 @@
         <div class="sub-menu-wrap" id="subMenu">
             <div class="sub-menu">
                 <div class="sub-menu-link">
+                    {{#if user.images.profilePic}}
                     <img id="profileImg" alt="Your profile picture" src={{user.images.profilePic}}>
                     <p id="profileP">{{user.firstName}}</p>
+                    {{/if}}
                 </div>
                 <hr>
                 <a href="/users/dashboard" class="sub-menu-link">
@@ -46,11 +48,10 @@
         </div>
         <img alt="Menu Button" src="/public/images/Hamburger_menu_icon.jpg" class="hamburgerMenu" onclick="toggleMenu();" hidden>
     </nav>
-    <h1>{{h1}}</h1>
     <main>
         {{{body}}}
     </main>
 </div>
+<script src="/public/js/mainLayout.js"></script>
 </body>
 </html>
-<script src="/public/js/mainLayout.js"></script>

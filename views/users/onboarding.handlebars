@@ -1,26 +1,26 @@
 <div class="onboarding">
-    <h2 class="neon">CREATE ACCOUNT</h2>
+    <h1 class="neon">CREATE ACCOUNT</h1>
     <form id="onboardingForm" action="/users/onboarding" method="post">
         <section>
             <label for="firstName">
                 First Name
-                <input id="firstName" type="text" name="firstName" placeholder="First Name" value="{{user.firstName}}" required/>
+                <input id="firstName" type="text" name="firstName" placeholder="First Name" value="{{user.firstName}}" required>
             </label>
 
             <label for="birthday">
                 Birthday (mm/dd/yyyy)
-                <input id="birthday" type="text" name="birthday" placeholder="mm/dd/yyyy" value="{{user.birthday}}" required/>
+                <input id="birthday" type="text" name="birthday" placeholder="mm/dd/yyyy" value="{{user.birthday}}" required>
             </label>
 
             <div id="borderContainer">
                 <div class="borderInput">
                     <label id="genderLabel">Gender</label>
                     <div class="multipleInputContainer">
-                        <input id="genderMan" type="radio" name="gender" value="man" {{radioChecked 'man' user.gender}}/>
+                        <input id="genderMan" type="radio" name="gender" value="man" {{radioChecked 'man' user.gender}}>
                         <label for="genderMan">Man</label>
-                        <input id="genderWoman" type="radio" name="gender" value="woman" {{radioChecked 'woman' user.gender}} required/>
+                        <input id="genderWoman" type="radio" name="gender" value="woman" {{radioChecked 'woman' user.gender}} required>
                         <label for="genderWoman">Woman</label>
-                        <input id="genderOther" type="radio" name="gender" value="other" {{radioChecked 'other' user.gender}}/>
+                        <input id="genderOther" type="radio" name="gender" value="other" {{radioChecked 'other' user.gender}}>
                         <label for="genderOther">Other</label>
                     </div>
                 </div>
@@ -36,11 +36,11 @@
                 <div class="borderInput">
                     <label id="pronounsLabel">Pronouns</label>
                     <div class="multipleInputContainer">
-                        <input id="pronounsMan" type="radio" name="pronouns" value="he/him" {{radioChecked 'he/him' user.pronouns}}/>
+                        <input id="pronounsMan" type="radio" name="pronouns" value="he/him" {{radioChecked 'he/him' user.pronouns}}>
                         <label for="pronounsMan">He/Him</label>
-                        <input id="pronounsWoman" type="radio" name="pronouns" value="she/her" {{radioChecked 'she/her' user.pronouns}} required/>
+                        <input id="pronounsWoman" type="radio" name="pronouns" value="she/her" {{radioChecked 'she/her' user.pronouns}} required>
                         <label for="pronounsWoman">She/Her</label>
-                        <input id="pronounsOther" type="radio" name="pronouns" value="other" {{radioChecked 'other' user.pronouns}}/>
+                        <input id="pronounsOther" type="radio" name="pronouns" value="other" {{radioChecked 'other' user.pronouns}}>
                         <label for="pronounsOther">Other</label>
                     </div>
                 </div>
@@ -151,7 +151,7 @@
                 <button id="onboardingButton" type="submit" class="homepage-buttons">Submit</button>
             </div>
         </section>
-        <input name= '_method' value="patch" type="hidden"/>
+        <input name= '_method' value="patch" type="hidden">
     </form>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"
