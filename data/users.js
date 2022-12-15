@@ -316,35 +316,8 @@ const validateOtherUserData = async(email) => {
     }
 };
 
-function toRadians(degrees) {
-    return degrees * (Math.PI / 180);
-}
-
-function toDegrees(radians) {
-    return radians * (180 / Math.PI);
-}
-
 
 function getMidpoint(lat1, lng1, lat2, lng2) {
-    // // Calculate the great-circle distance between the two coordinates
-    // // using the Haversine formula
-    // const distance = haversine({latitude: lat1, longitude: lng1}, {latitude: lat2, longitude: lng2});
-    // console.log(distance);
-    //
-    // // Calculate the bearing between the two coordinates
-    // const y = Math.sin(lng2 - lng1) * Math.cos(lat2);
-    // const x = Math.cos(lat1) * Math.sin(lat2) -
-    //     Math.sin(lat1) * Math.cos(lat2) * Math.cos(lng2 - lng1);
-    // const bearing = Math.atan2(y, x);
-    //
-    // // Calculate the midpoint using the distance and bearing
-    // const lat3 = Math.asin(Math.sin(lat1) * Math.cos(distance / 2) +
-    //     Math.cos(lat1) * Math.sin(distance / 2) * Math.cos(bearing));
-    // const lng3 = lng1 + Math.atan2(Math.sin(bearing) * Math.sin(distance / 2) * Math.cos(lat1),
-    //     Math.cos(distance / 2) - Math.sin(lat1) * Math.sin(lat3));
-    //
-    // return [lat3, lng3];
-    // Convert latitude and longitude to radians
     lat1 = lat1 * (Math.PI / 180);
     lng1 = lng1 * (Math.PI / 180);
     lat2 = lat2 * (Math.PI / 180);
