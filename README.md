@@ -36,7 +36,7 @@ Navigate to this folder on the command line.
 
 The application should now be running and ready for use on your browser.
 
-If you want to explore the features without creating an account, seed the database as shown above and login with the following credentials:
+If you create an account, you might do so in a way in which none of the pre-seeded users will be compatible with you, so to explore all the features, seed the database as shown above and login with the following credentials:
 
 username: stevensstudent@gmail.com
 
