@@ -998,8 +998,8 @@ h2 {
 
 .businessDiv {
     display: flex;
-    justify-content: flex-start;
-    width: 50%;
+    text-align: center;
+    width: 60%;
     margin: 35px auto;
 }
 
