@@ -1,7 +1,8 @@
 <div class="onboarding">
     <h2 class="neon">CREATE ACCOUNT</h2>
     <form id="signupForm" action="/users/signup" method="post">
-        <div>
+        <section>
+            <h3 hidden>Sections should have headers, but changing this section to a div messes with formatting, so here we go again</h3>
             <label for="email">
                 Email
                 <input id="email" type="email" name="userEmail" placeholder="Email" value="" required>
@@ -22,7 +23,7 @@
                 <button id="signupButton" type="submit" class="homepage-buttons">Submit</button>
             </div>
             <a href="/users/login" class="redirect-to-login">Already have an account? Login here!</a>
-        </div>
+        </section>
         <div class="password-information">
             A valid password has: <br>
             At least 6 characters <br>
