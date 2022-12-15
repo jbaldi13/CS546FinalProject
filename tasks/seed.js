@@ -63,7 +63,8 @@ async function main() {
             },
             interests: {"Lakes": "lakes", "Rock Climbing": "rock_climbing",
                 "Italian": "italian", "Coffee & Tea": "coffee", "Bars": "bars",
-                "Comedy Clubs": "comedyclubs", "Brazilian": "brazilian"},
+                "Comedy Clubs": "comedyclubs", "Brazilian": "brazilian", "Museums": "museums",
+                "Aquariums": "aquariums", "Music Venues": "musicvenues"},
             matches: [],
             usersSeen: {}
         };
@@ -99,7 +100,7 @@ async function main() {
                     "https://storage.googleapis.com/datespot_image_storage/IMG_5366.jpg",
                 ]
             },
-            interests: {"Lakes": "lakes", "Bars": "bars", "Rock Climbing": "rock_climbing", "Italian": "italian"},
+            interests: {"Lakes": "lakes", "Bars": "bars", "Rock Climbing": "rock_climbing", "Italian": "italian", "Museums": "museums"},
             matches: [],
             usersSeen: {}
         };
@@ -140,7 +141,7 @@ async function main() {
                     "https://storage.googleapis.com/datespot_image_storage/Jessica_4.jpg"
                 ]
             },
-            interests: {"Coffee & Tea": "coffee", "Lakes": "lakes", "Bars": "bars", "Italian": "italian"},
+            interests: {"Coffee & Tea": "coffee", "Aquariums": "aquariums", "Bars": "bars", "Music Venues": "musicvenues"},
             matches: [],
             usersSeen: {}
         };
