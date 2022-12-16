@@ -203,7 +203,7 @@ router
         userId = userId._id;
         userId = checkId(userId, 'User ID');
         if (requestBody.firstName) {
-            requestBody.firstname = xss(requestBody.firstName); 
+            requestBody.firstName = xss(requestBody.firstName); 
             requestBody.firstName = checkFirstName(requestBody.firstName);
         }
         if (requestBody.birthday) {
@@ -583,7 +583,7 @@ router.get('/dashboard/:id', async(req,res) =>{
             match.location.longitude);
 
 
-        res.render('dashboard/match', {
+        res.render('dashboard/match', {title: match.firstName,
             match: match, user: user,
             dateSpots: dateSpots});
     }

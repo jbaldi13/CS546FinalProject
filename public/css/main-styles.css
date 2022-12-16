@@ -446,7 +446,7 @@ h2 {
     font-weight: 600;
 }
 
-.grid .form-element div span {
+.grid .form-element span {
     font-size: 30px;
     /*width: max-content;*/
 }
