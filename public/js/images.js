@@ -39,7 +39,7 @@ function previewBeforeUpload(id) {
         }
         let file = e.target.files[0];
         let url = URL.createObjectURL(file);
-        document.querySelector('#' + id + '-preview div').innerText = file.name;
+        document.querySelector('#' + id + '-preview span').textContent = file.name;
         document.querySelector('#' + id + '-preview img').src = url;
     });
 }

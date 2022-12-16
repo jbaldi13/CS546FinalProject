@@ -34,24 +34,24 @@
                     <dt>Age</dt>
                     <dd>{{match.age}}</dd>
                 </div>
+                {{#if (showOnProfile match.showGender)}}
                 <div class="dlDiv">
-                    {{#if (showOnProfile match.showGender)}}
                         <dt>Gender</dt>
                         <dd>{{match.gender}}</dd>
-                    {{/if}}
                 </div>
+                {{/if}}
+                {{#if (showOnProfile match.showPronouns)}}
                 <div class="dlDiv">
-                    {{#if (showOnProfile match.showPronouns)}}
                         <dt>Pronouns</dt>
                         <dd>{{match.pronouns}}</dd>
-                    {{/if}}
                 </div>
+                {{/if}}
+                {{#if (aboutExists match.about)}}
                 <div class="dlDiv">
-                    {{#if (aboutExists match.about)}}
                         <dt>About</dt>
                         <dd>{{match.about}}</dd>
-                    {{/if}}
                 </div>
+                {{/if}}
                 <div class="dlDiv">
                     <dt>Interests</dt>
                     <dd>{{stringifyObject match.interests}}</dd>
@@ -90,31 +90,29 @@
         <div id="dateSpotsContainer2">
             {{#if dateSpots}}
                 {{#each dateSpots}}
-                    <li>
-                        <h3>Because you both like {{interestCategory}}...</h3>
-                        <div>
-                            <i class="arrow right"></i>
-                            <div class="businessDivDiv" style="display: none">
-                                {{#each businesses.businesses}}
-                                    <div class="businessDiv">
-                                        {{#if image_url}}
-                                            <img alt="" src={{image_url}}>
-                                        {{else}}
-                                            <img alt="" src='../../public/images/no_preview.jpeg'>
+                    <h3>Because you both like {{interestCategory}}...</h3>
+                    <div>
+                        <i class="arrow right"></i>
+                        <div class="businessDivDiv" style="display: none">
+                            {{#each businesses.businesses}}
+                                <div class="businessDiv">
+                                    {{#if image_url}}
+                                        <img alt="" src={{image_url}}>
+                                    {{else}}
+                                        <img alt="" src='../../public/images/no_preview.jpeg'>
+                                    {{/if}}
+                                    <div class="businessInfo">
+                                        <a href="{{url}}">{{name}}</a>
+                                        {{#if price}}
+                                            <p>Price: <span class="price">{{price}}</span></p>
                                         {{/if}}
-                                        <div class="businessInfo">
-                                            <a href="{{url}}">{{name}}</a>
-                                            {{#if price}}
-                                                <p>Price: <span class="price">{{price}}</span></p>
-                                            {{/if}}
-                                            <p>{{location.address1}}</p>
-                                            <p>{{location.city}}, {{location.state}} {{location.zip_code}}</p>
-                                        </div>
+                                        <p>{{location.address1}}</p>
+                                        <p>{{location.city}}, {{location.state}} {{location.zip_code}}</p>
                                     </div>
-                                {{/each}}
-                            </div>
+                                </div>
+                            {{/each}}
                         </div>
-                    </li>
+                    </div>
                 {{/each}}
             {{else}}
                 <p>There are no date ideas to show because either you or {{match.firstName}} changed their interests since matching</p>
