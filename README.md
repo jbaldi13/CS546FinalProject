@@ -64,7 +64,7 @@ Select your pronouns and choose if you want your pronouns to be shown on your pr
 
 Enter information about yourself.
 
-Select 3-10 interests of yours. You must hold down the control button on your keyboard while clicking on each selection.
+Select 3-10 interests of yours.
 
 Click the button labeled "SUBMIT". You will be taken to another page to continue onboarding.
 
