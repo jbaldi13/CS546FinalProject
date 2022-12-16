@@ -37,7 +37,7 @@ async function main() {
         );
 
         let updatedUser = {
-            firstName: "Michael",
+            firstName: "Kyle",
             birthday: "07/10/1997",
             age: 25,
             gender: "man",
