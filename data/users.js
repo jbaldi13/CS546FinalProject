@@ -45,7 +45,8 @@ const createUser = async (email, password) => {
         images: {profilePic: null, otherPics: []},
         interests: {},
         matches: [],
-        usersSeen: {}
+        usersSeen: {},
+        onboardingStage: 1
     };
 
     const usersCollection = await users();
@@ -262,7 +263,7 @@ const updateUser = async (userId, updatedUser) => {
 
 
     const userCollection = await users();
-    const updatedInfo = await userCollection.updateOne(
+    updatedInfo = await userCollection.updateOne(
         {_id: ObjectId(userId)},
         {$set: updatedUser}
     );
@@ -270,6 +271,26 @@ const updateUser = async (userId, updatedUser) => {
 
     if (updatedInfo.modifiedCount === 0) {
         throw {errorMessage: 'Error: Could not update any information about the user', status: 500};
+    }
+
+    //Automatically update user's onboarding stage after the new info has been added if they aren't finished
+    let user = await getUserById(userId);
+    if(user.onboardingStage<5){
+
+        try{
+            await validateOtherUserData(user.email)
+            updatedUser.onboardingStage = 5;
+        }catch(e){
+            updatedUser.onboardingStage = e.onboardingStage;
+        }
+
+        updatedInfo = await userCollection.updateOne(
+            {_id: ObjectId(userId)},
+            {$set: updatedUser}
+        );
+        if (updatedInfo.modifiedCount === 0) {
+            throw {errorMessage: 'Error: Could not update any information about the user', status: 500};
+        }
     }
 
     return await getUserById(userId);
@@ -291,28 +312,28 @@ const validateOtherUserData = async(email) => {
         checkShowOnProfile(userInDB.showGender, "Show gender");
         checkShowOnProfile(userInDB.showPronouns, "Show pronouns");
     }catch(e){
-        throw {errorMessage: "Error: General info for the user is invalid or undefined", status: 400};
+        throw {errorMessage: "Error: General info for the user is invalid or undefined", status: 400, onboardingStage:1};
     }
     if(userInDB.age === null || userInDB.showGender === null || userInDB.showPronouns === null){
-        throw {errorMessage: "Error: General info for the user is invalid or undefined", status: 400};
+        throw {errorMessage: "Error: General info for the user is invalid or undefined", status: 400, onboardingStage:1};
     }
     try{
         checkLocation(userInDB.location);
     }catch(e){
-        throw {errorMessage: "Error: Location is invalid or undefined", status: 400};
+        throw {errorMessage: "Error: Location is invalid or undefined", status: 400, onboardingStage:2};
     }
     try{
         checkFilters(userInDB.filters);
     }catch(e){
-        throw {errorMessage: "Error: Filters for the user are invalid or undefined", status: 400};
+        throw {errorMessage: "Error: Filters for the user are invalid or undefined", status: 400, onboardingStage:3};
     }
     if(typeof userInDB.filters.minAge !== "number" || typeof userInDB.filters.maxAge !== "number" || typeof userInDB.filters.maxDistance !== "number"){
-        throw {errorMessage: "Error: Filters for the user are invalid or undefined", status: 400};
+        throw {errorMessage: "Error: Filters for the user are invalid or undefined", status: 400, onboardingStage:3};
     }
     try{
         checkImages(userInDB.images);
     }catch(e){
-        throw {errorMessage: "Error: Images for the user are invalid or undefined", status: 400};
+        throw {errorMessage: "Error: Images for the user are invalid or undefined", status: 400, onboardingStage:4};
     }
 };
 

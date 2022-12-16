@@ -329,7 +329,13 @@ router.get('/onboarding/location', async (req, res) => {
     try {
         //req.session.user isn't directly used here, but it's to check if there's user data in AuthCookie & therefore if a user should have access to the page
         if(req.session.user){
-            res.render('users/location', {title : "Location"});
+            user = await getUserByEmail(req.session.user.email);
+            if(user.onboardingStage===1){
+                res.redirect("/users/onboarding");
+            }
+            else{
+                res.render('users/location', {title : "Location"});
+            }
         }
         else{
             res.redirect("/");
@@ -345,7 +351,15 @@ router.get('/onboarding/filters', async (req, res) => {
     try {
         if(req.session.user){
             let user = await userData.getUserByEmail(req.session.user.email);
-            res.render('users/filters', {title : "Filters", user: user});
+            if(user.onboardingStage===1){
+                res.redirect("/users/onboarding");
+            }
+            else if(user.onboardingStage===2){
+                res.redirect("/users/onboarding/location");
+            }
+            else{
+                res.render('users/filters', {title : "Filters", user: user});
+            }
         }
         else{
             res.redirect("/");
@@ -369,7 +383,18 @@ router.get('/onboarding/images', async (req, res) => {
     try {
         if(req.session.user){
             let user = await userData.getUserByEmail(req.session.user.email);
-            res.render('users/images', {title : "Images", user: user});
+            if(user.onboardingStage===1){
+                res.redirect("/users/onboarding");
+            }
+            else if(user.onboardingStage===2){
+                res.redirect("/users/onboarding/location");
+            }
+            else if(user.onboardingStage===3){
+                res.redirect("/users/onboarding/filters");
+            }
+            else{
+                res.render('users/images', {title : "Images", user: user});
+            }
         }
         else{
             res.redirect("/");
