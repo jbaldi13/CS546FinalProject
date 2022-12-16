@@ -39,7 +39,6 @@ function previewBeforeUpload(id) {
         }
         let file = e.target.files[0];
         let url = URL.createObjectURL(file);
-        document.querySelector('#' + id + '-upload').innerText = file.name;
         document.querySelector('#' + id + '-preview img').src = url;
     });
 }
