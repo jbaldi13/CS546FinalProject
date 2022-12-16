@@ -63,7 +63,10 @@ router
             req.session.user = {email: email};
             let updatedLocationData = await getLocation();
             updatedLocationData.sessionData = req.session;
-            let response = await axios.patch('http://localhost:3000/users/onboarding', updatedLocationData);
+            //If the user hasn't completed the onboarding process, we don't care about them
+            if(req.session.user.onboardingStage===5){
+                let response = await axios.patch('http://localhost:3000/users/onboarding', updatedLocationData);
+            }
             res.redirect("/users/dashboard");
 
         }
