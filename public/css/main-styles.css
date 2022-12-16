@@ -433,7 +433,7 @@ h2 {
     display: none;
 }
 
-.grid .form-element span {
+.grid .form-element div {
     position: relative;
     height: 40px;
     width: 250px;
@@ -447,7 +447,7 @@ h2 {
 }
 
 .grid .form-element span {
-    font-size: 13px;
+    font-size: 30px;
     /*width: max-content;*/
 }
 
