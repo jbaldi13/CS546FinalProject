@@ -4,19 +4,18 @@ let h2 = document.querySelector('.neon');
 let user;
 
 async function onboarding () {
-    $('option').mousedown(function(e) {
+    $("select").mousedown(function(e){
         e.preventDefault();
-        let originalScrollTop = $(this).parent().scrollTop();
-        console.log(originalScrollTop);
-        $(this).prop('selected', $(this).prop('selected') ? false : true);
-        let self = this;
-        $(this).parent().focus();
-        setTimeout(function() {
-            $(self).parent().scrollTop(originalScrollTop);
-        }, 0);
 
-        return false;
-    });
+        var select = this;
+        var scroll = select .scrollTop;
+
+        e.target.selected = !e.target.selected;
+
+        setTimeout(function(){select.scrollTop = scroll;}, 0);
+
+        $(select ).focus();
+    }).mousemove(function(e){e.preventDefault()});
 
     try {
         user = await axios.get('/users/user');
