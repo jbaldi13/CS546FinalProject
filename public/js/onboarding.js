@@ -4,6 +4,20 @@ let h2 = document.querySelector('.neon');
 let user;
 
 async function onboarding () {
+    $('option').mousedown(function(e) {
+        e.preventDefault();
+        let originalScrollTop = $(this).parent().scrollTop();
+        console.log(originalScrollTop);
+        $(this).prop('selected', $(this).prop('selected') ? false : true);
+        let self = this;
+        $(this).parent().focus();
+        setTimeout(function() {
+            $(self).parent().scrollTop(originalScrollTop);
+        }, 0);
+
+        return false;
+    });
+
     try {
         user = await axios.get('/users/user');
         user = user.data;
@@ -253,7 +267,6 @@ async function onboarding () {
                 errorTextElement.textContent = `Error: ${message}`;
                 errorContainer.classList.remove('hidden');
                 interests.focus();
-                interests.value = interests.defaultValue;
             }
         });
     }
