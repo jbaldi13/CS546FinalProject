@@ -152,14 +152,14 @@ const getAllCompatibleUsers = async (user) => {
     const userCollection = await users();
     let userList;
     if (genderInterest === "everyone") {
-        userList = await userCollection.find({}).toArray();
+        userList = await userCollection.find({onboardingStage: 5}).toArray();
     }
     else {
         if (genderInterest === "women") gender = "woman";
         else {
             gender = "man";
         }
-        userList = await userCollection.find({gender: gender}).toArray();
+        userList = await userCollection.find({gender: gender, onboardingStage: 5}).toArray();
     }
 
 
