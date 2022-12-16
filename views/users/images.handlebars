@@ -6,41 +6,34 @@
         <form id="form1" class="grid" enctype="multipart/form-data">
             <div id="proPicContainer" class="form-element">
                 <input name="proPicFile" type="file" id="file-0" accept="image/*"  tabindex="0">
-                <label for="file-0" id="file-0-preview">
-                    <img id="proPicPreview" alt="Place to upload your profile picture" src="../../../public/images/image-placeholder.png">
+                <label for="file-0" id="file-0-preview" class="preview">
+                    <img id="proPicPreview" alt="Place to upload your profile picture"
+                         src="../../../public/images/image-placeholder.png">
+                    +
                 </label>
-                <div id="file-0-upload">
-                    <span>+</span>
-                </div>
             </div>
             <h3 id="addPhotos">Additional Photos<br>(optional)</h3>
             <div class="otherPicsContainer">
                 <div class="form-element">
                     <input type="file" id="file-1" accept="image/*">
-                    <label for="file-1" id="file-1-preview">
+                    <label for="file-1" id="file-1-preview" class="preview">
                         <img alt="Place to upload an additional picture (1)" src="../../../public/images/image-placeholder.png">
+                        +
                     </label>
-                    <div id="file-1-upload">
-                        <span>+</span>
-                    </div>
                 </div>
                 <div class="form-element">
                     <input type="file" id="file-2" accept="image/*">
-                    <label for="file-2" id="file-2-preview">
+                    <label for="file-2" id="file-2-preview" class="preview">
                         <img alt="Place to upload an additional picture (2)" src="../../../public/images/image-placeholder.png">
+                        +
                     </label>
-                    <div id="file-2-upload">
-                        <span>+</span>
-                    </div>
                 </div>
                 <div class="form-element">
                     <input type="file" id="file-3" accept="image/*">
-                    <label for="file-3" id="file-3-preview">
+                    <label for="file-3" id="file-3-preview" class="preview">
                         <img alt="Place to upload an additional picture (3)" src="../../../public/images/image-placeholder.png">
+                        +
                     </label>
-                    <div id="file-3-upload">
-                        <span>+</span>
-                    </div>
                 </div>
             </div>
             <div class="form-group hidden" id="error-container">
